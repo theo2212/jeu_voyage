@@ -6,16 +6,18 @@
     <title>Jeu de Voyage - Humour Noir</title>
     <style>
         :root {
-            --bg-color: #0d0d0d;
-            --card-bg: #1a1a1a;
-            --text-color: #f5f5f5;
-            --btn-radius: 20px;
-            
             --c-tribunal: #ff3b30;
+            --c-tribunal-glow: rgba(255, 59, 48, 0.4);
             --c-draft: #007aff;
+            --c-draft-glow: rgba(0, 122, 255, 0.4);
             --c-prefere: #af52de;
+            --c-prefere-glow: rgba(175, 82, 222, 0.4);
             --c-daube: #34c759;
+            --c-daube-glow: rgba(52, 199, 89, 0.4);
             --c-redflag: #ff9500;
+            --c-redflag-glow: rgba(255, 149, 0, 0.4);
+            
+            --bg-dark: #07070a;
         }
 
         * {
@@ -26,154 +28,226 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             height: 100vh;
             width: 100vw;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        h1 {
-            text-align: center;
-            font-size: 2.2rem;
-            margin: 30px 0;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            background: linear-gradient(90deg, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Fond animé façon premium */
+        .bg-shapes {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            overflow: hidden;
+            z-index: -1;
+            background: #000;
+        }
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.5;
+            animation: float 25s infinite ease-in-out alternate;
+        }
+        .shape-1 {
+            width: 400px; height: 400px;
+            background: #2a0845;
+            top: -100px; left: -150px;
+        }
+        .shape-2 {
+            width: 500px; height: 500px;
+            background: #6441a5;
+            bottom: -150px; right: -150px;
+            animation-delay: -5s;
+        }
+        .shape-3 {
+            width: 300px; height: 300px;
+            background: #ff3b30;
+            top: 30%; left: 50%;
+            opacity: 0.15;
+            animation-delay: -10s;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, 60px) scale(1.1); }
+            100% { transform: translate(-30px, 20px) scale(0.9); }
         }
 
-        /* Views */
-        #menu-view, #game-view {
+        /* Conteneur principal */
+        .container {
             display: flex;
             flex-direction: column;
             width: 100%;
             height: 100%;
-            padding: 20px;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            padding: 24px;
+            z-index: 1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.6rem;
+            margin: 30px 0 40px 0;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 0%, #b3b3b3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(255,255,255,0.15);
+        }
+
+        /* Vues */
+        #menu-view, #game-view {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         #game-view {
             display: none;
             opacity: 0;
-            transform: translateX(100%);
+            transform: scale(0.95);
         }
 
-        /* Menu Buttons */
+        /* Boutons Menu */
         .menu-buttons {
             display: flex;
             flex-direction: column;
             flex: 1;
-            gap: 15px;
+            gap: 16px;
             padding-bottom: 20px;
         }
 
         .btn-menu {
             flex: 1;
-            border: none;
-            border-radius: var(--btn-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
             color: white;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            letter-spacing: 0.5px;
             cursor: pointer;
-            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
-        .btn-menu::after {
+        .bg-tribunal { background: linear-gradient(135deg, rgba(255,59,48,0.2) 0%, rgba(255,59,48,0.05) 100%); box-shadow: 0 10px 30px var(--c-tribunal-glow); }
+        .bg-draft { background: linear-gradient(135deg, rgba(0,122,255,0.2) 0%, rgba(0,122,255,0.05) 100%); box-shadow: 0 10px 30px var(--c-draft-glow); }
+        .bg-prefere { background: linear-gradient(135deg, rgba(175,82,222,0.2) 0%, rgba(175,82,222,0.05) 100%); box-shadow: 0 10px 30px var(--c-prefere-glow); }
+        .bg-daube { background: linear-gradient(135deg, rgba(52,199,89,0.2) 0%, rgba(52,199,89,0.05) 100%); box-shadow: 0 10px 30px var(--c-daube-glow); }
+        .bg-redflag { background: linear-gradient(135deg, rgba(255,149,0,0.2) 0%, rgba(255,149,0,0.05) 100%); box-shadow: 0 10px 30px var(--c-redflag-glow); }
+
+        .btn-menu::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
+            border-radius: 24px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
         }
 
         .btn-menu:active {
-            transform: scale(0.95);
-            filter: brightness(0.9);
+            transform: scale(0.96);
+            filter: brightness(1.2);
         }
-
-        .bg-tribunal { background: linear-gradient(135deg, #ff3b30, #ff2d55); box-shadow: 0 8px 25px rgba(255, 59, 48, 0.3); }
-        .bg-draft { background: linear-gradient(135deg, #007aff, #5ac8fa); box-shadow: 0 8px 25px rgba(0, 122, 255, 0.3); }
-        .bg-prefere { background: linear-gradient(135deg, #af52de, #5856d6); box-shadow: 0 8px 25px rgba(175, 82, 222, 0.3); }
-        .bg-daube { background: linear-gradient(135deg, #34c759, #30d158); box-shadow: 0 8px 25px rgba(52, 199, 89, 0.3); }
-        .bg-redflag { background: linear-gradient(135deg, #ff9500, #ffcc00); box-shadow: 0 8px 25px rgba(255, 149, 0, 0.3); }
 
         /* Game View */
         .game-header {
             text-align: center;
             margin-bottom: 20px;
-            margin-top: 10px;
         }
 
         #game-title {
             font-size: 1.4rem;
-            font-weight: 800;
+            font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 2px;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 20px rgba(255,255,255,0.1);
         }
 
-        .txt-tribunal { color: var(--c-tribunal); }
-        .txt-draft { color: var(--c-draft); }
-        .txt-prefere { color: var(--c-prefere); }
-        .txt-daube { color: var(--c-daube); }
-        .txt-redflag { color: var(--c-redflag); }
+        .txt-tribunal { background-image: linear-gradient(135deg, #ff3b30, #ff9500); }
+        .txt-draft { background-image: linear-gradient(135deg, #007aff, #5ac8fa); }
+        .txt-prefere { background-image: linear-gradient(135deg, #af52de, #ff2d55); }
+        .txt-daube { background-image: linear-gradient(135deg, #34c759, #30d158); }
+        .txt-redflag { background-image: linear-gradient(135deg, #ff9500, #ffcc00); }
 
         .card-container {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1000px;
+            perspective: 1200px;
         }
 
         #game-card {
-            background-color: var(--card-bg);
-            border-radius: 24px;
+            background: rgba(30, 30, 35, 0.4);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 32px;
             padding: 40px 30px;
             width: 100%;
-            min-height: 350px;
+            min-height: 380px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #game-text {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             line-height: 1.4;
             font-weight: 700;
             text-align: center;
-            transition: opacity 0.25s ease, transform 0.25s ease;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .controls {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 16px;
             margin-top: 30px;
             margin-bottom: 20px;
         }
 
         .btn-action {
             width: 100%;
-            padding: 22px;
-            border-radius: 18px;
-            font-size: 1.2rem;
+            padding: 24px;
+            border-radius: 24px;
+            font-size: 1.25rem;
             font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 1px;
             border: none;
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-action:active {
@@ -181,45 +255,58 @@
         }
 
         .btn-next {
-            background-color: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
             color: #000000;
-            box-shadow: 0 4px 15px rgba(255,255,255,0.15);
+            box-shadow: 0 15px 30px rgba(255,255,255,0.15), inset 0 2px 0 rgba(255,255,255,0.8);
         }
 
         .btn-back {
-            background-color: transparent;
-            color: #888;
-            border: 2px solid #333;
+            background: rgba(255, 255, 255, 0.08);
+            color: #d1d1d1;
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
+        
+        .text-pop-out { opacity: 0; transform: translateY(-20px) scale(0.95); }
+        .text-pop-in { opacity: 1; transform: translateY(0) scale(1); }
     </style>
 </head>
 <body>
 
-    <div id="menu-view">
-        <h1>Jeu de Voyage</h1>
-        <div class="menu-buttons">
-            <button class="btn-menu bg-tribunal" onclick="startGame('tribunal')">Tribunal des Opinions</button>
-            <button class="btn-menu bg-draft" onclick="startGame('draft')">Draft de l'Absurde</button>
-            <button class="btn-menu bg-prefere" onclick="startGame('prefere')">Tu Préfères de l'Extrême</button>
-            <button class="btn-menu bg-daube" onclick="startGame('daube')">Pitch de Daube</button>
-            <button class="btn-menu bg-redflag" onclick="startGame('redflag')">C'est un 10, MAIS...</button>
-        </div>
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
     </div>
 
-    <div id="game-view">
-        <div class="game-header">
-            <div id="game-title">Titre du jeu</div>
-        </div>
-        
-        <div class="card-container">
-            <div id="game-card">
-                <div id="game-text">Chargement...</div>
+    <div class="container">
+        <div id="menu-view">
+            <h1>Jeu de Voyage</h1>
+            <div class="menu-buttons">
+                <button class="btn-menu bg-tribunal" onclick="startGame('tribunal')">Tribunal des Opinions</button>
+                <button class="btn-menu bg-draft" onclick="startGame('draft')">Draft de l'Absurde</button>
+                <button class="btn-menu bg-prefere" onclick="startGame('prefere')">Tu Préfères de l'Extrême</button>
+                <button class="btn-menu bg-daube" onclick="startGame('daube')">Pitch de Daube</button>
+                <button class="btn-menu bg-redflag" onclick="startGame('redflag')">C'est un 10, MAIS...</button>
             </div>
         </div>
 
-        <div class="controls">
-            <button class="btn-action btn-next" onclick="nextPhrase()">Suivant</button>
-            <button class="btn-action btn-back" onclick="returnMenu()">Retour au menu</button>
+        <div id="game-view">
+            <div class="game-header">
+                <div id="game-title">Titre du jeu</div>
+            </div>
+            
+            <div class="card-container">
+                <div id="game-card">
+                    <div id="game-text">Chargement...</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-action btn-next" onclick="nextPhrase()">Suivant</button>
+                <button class="btn-action btn-back" onclick="returnMenu()">Retour au menu</button>
+            </div>
         </div>
     </div>
 
@@ -523,7 +610,7 @@
                 
                 setTimeout(() => {
                     gameView.style.opacity = '1';
-                    gameView.style.transform = 'translateX(0)';
+                    gameView.style.transform = 'scale(1)';
                     nextPhrase(true);
                 }, 50);
             }, 300);
@@ -541,19 +628,19 @@
             const phraseIndex = list.splice(randomIndexList, 1)[0];
             
             const textElement = document.getElementById('game-text');
+            const cardElement = document.getElementById('game-card');
             
             if (isFirst) {
                 textElement.innerText = phrases[currentGame][phraseIndex];
-                textElement.style.opacity = '1';
-                textElement.style.transform = 'scale(1)';
+                textElement.className = 'text-pop-in';
             } else {
-                textElement.style.opacity = '0';
-                textElement.style.transform = 'scale(0.95)';
+                textElement.className = 'text-pop-out';
+                cardElement.style.transform = 'scale(0.98)';
                 
                 setTimeout(() => {
                     textElement.innerText = phrases[currentGame][phraseIndex];
-                    textElement.style.opacity = '1';
-                    textElement.style.transform = 'scale(1)';
+                    textElement.className = 'text-pop-in';
+                    cardElement.style.transform = 'scale(1)';
                 }, 250);
             }
         }
@@ -563,7 +650,7 @@
             const gameView = document.getElementById('game-view');
             
             gameView.style.opacity = '0';
-            gameView.style.transform = 'translateX(100%)';
+            gameView.style.transform = 'scale(0.9)';
             
             setTimeout(() => {
                 gameView.style.display = 'none';
