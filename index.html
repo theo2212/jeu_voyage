@@ -126,14 +126,29 @@
             flex: 1;
             gap: 16px;
             padding-bottom: 20px;
+            overflow-y: auto;
+            padding-right: 5px; /* Pour la scrollbar */
+        }
+
+        .menu-section-title {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 10px 0 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
         }
 
         .btn-menu {
-            flex: 1;
+            flex: none;
+            min-height: 60px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             color: white;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -153,6 +168,10 @@
         .bg-prefere { background: linear-gradient(135deg, rgba(175,82,222,0.2) 0%, rgba(175,82,222,0.05) 100%); box-shadow: 0 10px 30px var(--c-prefere-glow); }
         .bg-daube { background: linear-gradient(135deg, rgba(52,199,89,0.2) 0%, rgba(52,199,89,0.05) 100%); box-shadow: 0 10px 30px var(--c-daube-glow); }
         .bg-redflag { background: linear-gradient(135deg, rgba(255,149,0,0.2) 0%, rgba(255,149,0,0.05) 100%); box-shadow: 0 10px 30px var(--c-redflag-glow); }
+        
+        .bg-drink { background: linear-gradient(135deg, rgba(255,45,85,0.2) 0%, rgba(255,45,85,0.05) 100%); box-shadow: 0 5px 20px rgba(255,45,85,0.3); border-color: rgba(255,45,85,0.3); }
+        .bg-drink2 { background: linear-gradient(135deg, rgba(88,86,214,0.2) 0%, rgba(88,86,214,0.05) 100%); box-shadow: 0 5px 20px rgba(88,86,214,0.3); border-color: rgba(88,86,214,0.3); }
+        .bg-drink3 { background: linear-gradient(135deg, rgba(255,204,0,0.2) 0%, rgba(255,204,0,0.05) 100%); box-shadow: 0 5px 20px rgba(255,204,0,0.3); border-color: rgba(255,204,0,0.3); color:#ffcc00; }
 
         .btn-menu::before {
             content: '';
@@ -284,6 +303,8 @@
         .txt-prefere { background-image: linear-gradient(135deg, #af52de, #ff2d55); }
         .txt-daube { background-image: linear-gradient(135deg, #34c759, #30d158); }
         .txt-redflag { background-image: linear-gradient(135deg, #ff9500, #ffcc00); }
+        .txt-boire { background-image: linear-gradient(135deg, #ff2d55, #ff9500); }
+        .txt-boire2 { background-image: linear-gradient(135deg, #5856d6, #5ac8fa); }
 
         /* Scoreboard */
         #scoreboard {
@@ -542,11 +563,24 @@
             <h1>Jeu de Voyage</h1>
             <button class="btn-menu btn-shop" onclick="openShop()">🛒 Boutique (BussCoins)</button>
             <div class="menu-buttons">
+                <div class="menu-section-title">🗣️ Jeux de Débats</div>
                 <button class="btn-menu bg-tribunal" onclick="startGame('tribunal')">Tribunal des Opinions</button>
                 <button class="btn-menu bg-draft" onclick="startGame('draft')">Draft de l'Absurde</button>
                 <button class="btn-menu bg-prefere" onclick="startGame('prefere')">Tu Préfères de l'Extrême</button>
                 <button class="btn-menu bg-daube" onclick="startGame('daube')">Pitch de Daube</button>
                 <button class="btn-menu bg-redflag" onclick="startGame('redflag')">C'est un 10, MAIS...</button>
+
+                <div class="menu-section-title" style="margin-top:20px;">🍻 Jeux à Boire</div>
+                <button class="btn-menu bg-drink" onclick="startGame('boire_susceptible')">🎯 Le Tribunal</button>
+                <button class="btn-menu bg-drink2" onclick="startGame('boire_jamais')">🤫 Je n'ai jamais...</button>
+                <button class="btn-menu bg-drink" onclick="startGame('boire_action')">⚖️ Action ou Cul Sec</button>
+                <button class="btn-menu bg-drink3" onclick="startGame('boire_dictateur')">👑 Le Dictateur</button>
+                <button class="btn-menu bg-drink" onclick="startGame('boire_serieux')">😶 Garde ton sérieux</button>
+                <button class="btn-menu bg-drink2" onclick="startGame('boire_7sec')">⏱️ Les 7 Secondes</button>
+                <button class="btn-menu bg-drink" onclick="startGame('boire_roulette')">🎲 La Roulette Russe</button>
+                <button class="btn-menu bg-drink2" onclick="startGame('boire_menteur')">🧠 Menteur ou Psycho</button>
+                <button class="btn-menu bg-drink" onclick="startGame('boire_kamikaze')">💥 Le Kamikaze</button>
+                <button class="btn-menu bg-drink2" onclick="startGame('boire_dilemme')">☠️ Dilemme Mortel</button>
             </div>
             <button class="btn-action btn-back" style="margin-top:20px; font-size:1rem;" onclick="resetMemory()">🔄 Réinitialiser la mémoire</button>
         </div>
@@ -868,6 +902,176 @@
                 "C'est un 10, mais il/elle trouve les blagues de tonton beaufs hilarantes.",
                 "C'est un 10, mais il/elle n'a pas de lit, juste un matelas au sol sans drap.",
                 "C'est un 10, mais il/elle croit que le clitoris est un type de dinosaure."
+            ],
+            boire_susceptible: [
+                "Qui est le plus susceptible de vendre ses amis pour survivre à une apocalypse zombie ?",
+                "Qui est le plus susceptible de cacher une morsure de zombie au groupe ?",
+                "Qui est le plus susceptible de pleurer pendant l'acte ?",
+                "Qui est le plus susceptible de se faire arnaquer par un brouteur sur internet ?",
+                "Qui est le plus susceptible d'avoir un faux profil Tinder pour espionner ?",
+                "Qui est le plus susceptible de gâcher un enterrement en rigolant ?",
+                "Qui est le plus susceptible de manger la nourriture des autres dans le frigo commun ?",
+                "Qui est le plus susceptible de mourir en premier dans un film d'horreur parce qu'il a trébuché ?",
+                "Qui est le plus susceptible de rejoindre une secte sans s'en rendre compte ?",
+                "Qui est le plus susceptible de mentir sur son CV et de se faire griller le premier jour ?",
+                "Qui est le plus susceptible de fouiller dans le téléphone de son partenaire ?",
+                "Qui est le plus susceptible d'oublier le prénom de la personne avec qui il/elle couche ?",
+                "Qui est le plus susceptible de péter en public et d'accuser quelqu'un d'autre ?",
+                "Qui est le plus susceptible de survivre en prison ?",
+                "Qui est le plus susceptible de se marier pour l'argent ?"
+            ],
+            boire_jamais: [
+                "Je n'ai jamais fouillé dans le téléphone de mon partenaire en cachette.",
+                "Je n'ai jamais fantasmé sur un(e) ex pendant que j'étais avec quelqu'un d'autre.",
+                "Je n'ai jamais simulé un orgasme pour en finir plus vite.",
+                "Je n'ai jamais menti sur le nombre de personnes avec qui j'ai couché.",
+                "Je n'ai jamais eu de pensées inappropriées pour le/la partenaire d'un ami.",
+                "Je n'ai jamais ghosté quelqu'un après avoir obtenu ce que je voulais.",
+                "Je n'ai jamais fait semblant d'être au téléphone pour éviter quelqu'un dans la rue.",
+                "Je n'ai jamais stalké un(e) ex avec un faux compte.",
+                "Je n'ai jamais volé un truc inutile juste pour voir si j'en étais capable.",
+                "Je n'ai jamais pleuré pour manipuler une situation à mon avantage.",
+                "Je n'ai jamais jugé secrètement les choix de vie de mes amis présents ce soir.",
+                "Je n'ai jamais pris une photo de quelqu'un à son insu.",
+                "Je n'ai jamais eu envie de pousser quelqu'un sur les rails quand le métro arrivait.",
+                "Je n'ai jamais ri à une blague très raciste/noire sans oser l'assumer.",
+                "Je n'ai jamais fait pipi dans une piscine municipale étant adulte."
+            ],
+            boire_action: [
+                "Action : Envoie 'Je sais tout, on a un problème' à ta mère, ou bois cul sec.",
+                "Action : Laisse le groupe regarder tes 5 dernières recherches Google, ou bois 4 gorgées.",
+                "Action : Appelle un contact au hasard et dis-lui 'J'ai caché le corps', ou bois cul sec.",
+                "Action : Bois une gorgée dans le verre de ton voisin de gauche.",
+                "Action : Mime un orgasme pendant 5 secondes, ou bois 3 gorgées.",
+                "Action : Fais un compliment extrêmement gênant à la personne en face de toi, ou bois 2 gorgées.",
+                "Action : Laisse le joueur de ton choix écrire un statut sur tes réseaux sociaux, ou bois cul sec.",
+                "Action : Lèche le doigt d'un autre joueur, ou bois 4 gorgées.",
+                "Action : Raconte ton pire râteau, ou bois 3 gorgées.",
+                "Action : Montre la dernière photo de ta pellicule, ou bois 2 gorgées.",
+                "Action : Parle avec un accent belge pendant 3 tours, ou bois 3 gorgées.",
+                "Action : Laisse le groupe choisir ta prochaine photo de profil pendant 24h, ou bois cul sec.",
+                "Action : Fais une déclaration d'amour à un objet dans la pièce, ou bois 2 gorgées.",
+                "Action : Avoue le pire mensonge que tu as dit à quelqu'un dans cette pièce, ou bois 5 gorgées.",
+                "Action : Mange un truc qui traîne par terre, ou bois 3 gorgées."
+            ],
+            boire_dictateur: [
+                "Le joueur qui a lu cette carte devient le Dictateur. Règle : Interdiction de dire 'OUI' ou 'NON'. Le premier qui le dit boit 2 gorgées.",
+                "Le joueur qui a lu cette carte devient le Dictateur. Règle : Avant de boire, il faut dire 'Santé chef !'. Sinon, on re-boit.",
+                "Le Dictateur décide : Choisissez un mot interdit. Celui qui le prononce boit 3 gorgées.",
+                "Le Dictateur décide : Tu ne peux plus utiliser tes mains pour boire. Quelqu'un doit te donner à boire.",
+                "Le Dictateur décide : Chaque fois qu'on te pose une question, tu dois répondre par une autre question, sinon tu bois.",
+                "Le Dictateur décide : Interdiction de regarder le Dictateur dans les yeux, sinon 1 gorgée.",
+                "Le Dictateur décide : Tu dois vouvoyer tout le monde. Si tu tutoies, tu bois.",
+                "Le Dictateur décide : À chaque fois qu'un joueur rit, il doit boire 1 gorgée.",
+                "Le Dictateur décide : Tu dois parler avec la bouche fermée (les dents serrées) jusqu'à la fin de la partie.",
+                "Le Dictateur décide : Les prénoms sont interdits. Si tu appelles quelqu'un par son prénom, tu bois.",
+                "Le Dictateur décide : Celui qui touche son téléphone boit son verre cul sec.",
+                "Le Dictateur décide : À chaque fois qu'on boit, il faut lever le petit doigt comme un aristocrate.",
+                "Le Dictateur décide : La personne à ta gauche devient ton esclave. Elle doit boire tes gorgées si tu le décides.",
+                "Le Dictateur décide : Tu as le pouvoir d'annuler une règle précédente.",
+                "Le Dictateur décide : Invente une règle totalement injuste pour cibler une personne en particulier."
+            ],
+            boire_serieux: [
+                "Lis ceci en regardant quelqu'un : 'Pourquoi les plongeurs plongent toujours en arrière ? Parce que sinon ils tombent dans le bateau.' (Si tu ris, tu bois)",
+                "Lis ceci : 'Quelle est la différence entre un thermomètre oral et rectal ? Le goût.'",
+                "Lis ceci : 'Que dit un aveugle quand on lui donne du papier de verre ? Putain, c'est écrit petit.'",
+                "Lis ceci : 'Pourquoi les Mexicains mangent-ils des haricots ? Pour faire des bulles dans leur bain.'",
+                "Lis ceci : 'Quel est le point commun entre un parachute et l'humour ? Quand tu n'en as pas, tu t'écrases.'",
+                "Lis ceci : 'Qu'est-ce qui est pire qu'un bébé dans une poubelle ? Un bébé dans deux poubelles.'",
+                "Lis ceci : 'Comment appelle-t-on un boomerang qui ne revient pas ? Un bout de bois.'",
+                "Lis ceci : 'Que font deux brosses à dents le 14 juillet ? Elles font un feu d'artifrice.'",
+                "Lis ceci : 'C'est l'histoire d'un pingouin qui respire par le cul. Un jour il s'assoit, et il meurt.'",
+                "Lis ceci : 'Qu'est-ce qui a 4 pattes et qui ne bouge pas ? Une chaise.'",
+                "Lis ceci : 'Quel est le comble pour un électricien ? De ne pas être au courant.'",
+                "Lis ceci en fixant intensément ton voisin : 'Je sais ce que tu as fait l'été dernier.'",
+                "Lis ceci : 'C'est un mec qui rentre dans un café... et plouf.'",
+                "Lis ceci : 'Que dit une imprimante dans l'eau ? J'ai papier !'",
+                "Lis ceci : 'Quel est le point commun entre les spermatozoïdes et les avocats ? Un sur un million a la chance de devenir un être humain.'"
+            ],
+            boire_7sec: [
+                "Tu as 7 secondes pour citer 3 pires endroits pour rompre. Si tu échoues, bois 2 gorgées.",
+                "Tu as 7 secondes pour citer 3 choses qu'on peut dire au lit et au supermarché.",
+                "Tu as 7 secondes pour citer 3 raisons d'aller en prison.",
+                "Tu as 7 secondes pour citer 3 objets pour cacher un cadavre.",
+                "Tu as 7 secondes pour citer 3 pires prénoms à donner à son enfant.",
+                "Tu as 7 secondes pour citer 3 animaux qui ont l'air cons.",
+                "Tu as 7 secondes pour citer 3 choses à faire avec des excréments.",
+                "Tu as 7 secondes pour citer 3 mots qui commencent par 'Z' et finissent par 'E'.",
+                "Tu as 7 secondes pour citer 3 synonymes vulgaires de l'acte sexuel.",
+                "Tu as 7 secondes pour citer 3 maladies vénériennes.",
+                "Tu as 7 secondes pour citer 3 raisons de pleurer aux toilettes.",
+                "Tu as 7 secondes pour citer 3 armes de fortune avec des objets de bureau.",
+                "Tu as 7 secondes pour citer 3 phrases de drague vraiment claquées.",
+                "Tu as 7 secondes pour citer 3 pires cadeaux d'anniversaire.",
+                "Tu as 7 secondes pour citer 3 choses qu'il ne faut pas mettre au micro-ondes."
+            ],
+            boire_roulette: [
+                "Roulette : Le joueur le plus jeune boit 2 gorgées.",
+                "Roulette : Tous ceux qui ont un vêtement noir boivent 1 gorgée.",
+                "Roulette : Le joueur avec le plus de batterie distribue 3 gorgées.",
+                "Roulette : Tous les célibataires boivent 2 gorgées. S'il n'y en a pas, tout le monde boit.",
+                "Roulette : Le joueur qui a le téléphone le plus cassé boit 3 gorgées.",
+                "Roulette : Le dernier à toucher le sol avec sa main boit 2 gorgées.",
+                "Roulette : Tous ceux qui portent des lunettes boivent 1 gorgée.",
+                "Roulette : Le joueur le plus vieux distribue 2 gorgées.",
+                "Roulette : Tous ceux qui ont déjà trompé boivent 4 gorgées (soyez honnêtes).",
+                "Roulette : Le joueur avec les cheveux les plus longs boit 2 gorgées.",
+                "Roulette : Tous ceux qui ont un iPhone boivent 1 gorgée.",
+                "Roulette : Le premier joueur à crier 'POULET' distribue 3 gorgées.",
+                "Roulette : La personne qui a lu cette carte boit 2 gorgées, c'est le karma.",
+                "Roulette : Tout le monde boit 1 gorgée. C'est la tournée de l'appli.",
+                "Roulette : Le joueur avec les plus grands pieds boit 3 gorgées."
+            ],
+            boire_menteur: [
+                "Vrai ou Faux : Les cochons peuvent manger un corps humain entier (os compris). (Vrai : en quelques jours, il ne reste rien). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : On avale en moyenne 8 araignées par an en dormant. (Faux : c'est une légende urbaine). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Les loutres de mer se tiennent la main en dormant pour ne pas dériver. (Vrai). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Hitler avait été nominé pour le prix Nobel de la paix. (Vrai : en 1939, ironiquement). Perdant boit 3 gorgées.",
+                "Vrai ou Faux : La sueur des hippopotames est rose. (Vrai : elle contient un pigment rouge qui agit comme crème solaire). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Un cafard peut vivre plusieurs semaines sans tête. (Vrai : il meurt de faim à la fin). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Il pleut des diamants sur Jupiter. (Vrai : la pression transforme le carbone en diamant). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Cléopâtre a vécu plus près de l'invention de l'iPhone que de la construction des Pyramides. (Vrai). Perdant boit 3 gorgées.",
+                "Vrai ou Faux : Les canards ont un pénis en forme de tire-bouchon. (Vrai). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Einstein a coulé en mathématiques au lycée. (Faux : il était un génie dès son plus jeune âge). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : L'œil de l'autruche est plus grand que son cerveau. (Vrai). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Les poils poussent plus vite après la mort. (Faux : c'est la peau qui se rétracte). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Le miel est du vomi d'abeille. (Vrai : elles régurgitent le nectar). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Napoléon était très petit (moins de 1m60). (Faux : il mesurait 1m69, la moyenne de l'époque). Perdant boit 2 gorgées.",
+                "Vrai ou Faux : Les dauphins dorment avec un seul œil fermé. (Vrai : une moitié de leur cerveau reste éveillée). Perdant boit 2 gorgées."
+            ],
+            boire_kamikaze: [
+                "Kamikaze : Thème 'Animaux'. Le 1er dit un animal, le 2ème répète et ajoute, etc. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Insultes'. Le 1er dit une insulte, le 2ème répète et ajoute. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Marques de voitures'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Positions sexuelles'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Légumes'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Prénoms de beaufs'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Objets dans la pièce'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Célébrités mortes'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Maladies'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Parties du corps'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Vêtements'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Mots finissant par -TION'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Choses qui puent'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Candidats de télé-réalité'. Le 1er qui se trompe boit 3 gorgées.",
+                "Kamikaze : Thème 'Choses qu'on trouve au McDo'. Le 1er qui se trompe boit 3 gorgées."
+            ],
+            boire_dilemme: [
+                "Tu préfères : Boire 5 gorgées de la boisson de quelqu'un d'autre OU enlever un vêtement ?",
+                "Tu préfères : Ne plus avoir de dents OU ne plus avoir de nez ? La minorité boit 3 gorgées.",
+                "Tu préfères : Savoir QUAND tu vas mourir OU COMMENT tu vas mourir ? La minorité boit 2 gorgées.",
+                "Tu préfères : Te battre contre un ours de la taille d'un chien OU 10 chiens de la taille d'un ours ? La minorité boit 2 gorgées.",
+                "Tu préfères : Ne plus jamais faire l'amour OU ne plus jamais manger de trucs bons ? La minorité boit 3 gorgées.",
+                "Tu préfères : Coucher avec ta cousine au premier degré sans que personne ne le sache OU que tout le monde croit que tu as couché avec elle, mais c'est faux ? La minorité boit 4 gorgées.",
+                "Tu préfères : Avoir des doigts de la taille de tes jambes OU des jambes de la taille de tes doigts ? La minorité boit 2 gorgées.",
+                "Tu préfères : Manger une cuillère de caca goût chocolat OU une cuillère de chocolat goût caca ? La minorité boit 3 gorgées.",
+                "Tu préfères : Toujours dire ce que tu penses à voix haute OU ne plus jamais parler ? La minorité boit 2 gorgées.",
+                "Tu préfères : Revivre le pire jour de ta vie 100 fois OU perdre 10 ans de ta vie ? La minorité boit 3 gorgées.",
+                "Tu préfères : Avoir la voix de Mickey à vie OU devoir crier pour parler ? La minorité boit 2 gorgées.",
+                "Tu préfères : Trouver un poil dans tous tes plats OU toujours boire de l'eau tiède ? La minorité boit 2 gorgées.",
+                "Tu préfères : Pisser un peu dans ton pantalon à chaque fois que tu ris OU péter bruyamment à chaque fois que tu pleures ? La minorité boit 3 gorgées.",
+                "Tu préfères : Avoir un bouton énorme au milieu du front tous les jours OU avoir un rhume de cerveau éternel ? La minorité boit 2 gorgées.",
+                "Tu préfères : Mourir noyé OU mourir brûlé vif ? La minorité boit 4 gorgées."
             ]
         };
 
@@ -876,7 +1080,17 @@
             draft: "Draft de l'Absurde",
             prefere: "Tu Préfères... de l'Extrême",
             daube: "Pitch de Daube",
-            redflag: "C'est un 10, MAIS..."
+            redflag: "C'est un 10, MAIS...",
+            boire_susceptible: "Qui est le plus susceptible",
+            boire_jamais: "Je n'ai jamais (Sombre)",
+            boire_action: "Action ou Cul Sec",
+            boire_dictateur: "Le Dictateur",
+            boire_serieux: "Garde ton sérieux",
+            boire_7sec: "7 Secondes de l'Enfer",
+            boire_roulette: "La Roulette Russe",
+            boire_menteur: "Menteur ou Psychopathe",
+            boire_kamikaze: "Le Kamikaze",
+            boire_dilemme: "Dilemme Mortel"
         };
 
         const shopItems = [
@@ -924,6 +1138,12 @@
             const savedIndices = localStorage.getItem('voyage_availableIndices');
             if (savedIndices) {
                 availableIndices = JSON.parse(savedIndices);
+                // Vérifier s'il y a de nouveaux jeux ajoutés depuis la dernière sauvegarde
+                for (let key in phrases) {
+                    if (!availableIndices[key]) {
+                        availableIndices[key] = Array.from({length: phrases[key].length}, (_, i) => i);
+                    }
+                }
             } else {
                 initIndices();
             }
