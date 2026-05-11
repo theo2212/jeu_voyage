@@ -109,7 +109,7 @@
         }
 
         /* Vues */
-        #menu-view, #players-setup-view, #game-view, #shop-view {
+        #menu-view, #theme-setup-view, #players-setup-view, #game-view, #shop-view {
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -122,7 +122,7 @@
             padding-right: 5px; /* Pour la scrollbar */
         }
 
-        #players-setup-view, #game-view, #shop-view {
+        #theme-setup-view, #players-setup-view, #game-view, #shop-view {
             display: none;
             opacity: 0;
             transform: scale(0.95);
@@ -452,6 +452,46 @@
             grid-column: 1 / -1;
         }
 
+        /* Timer Styles */
+        #timer-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        #timer-display {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #ff2d55;
+            text-shadow: 0 0 20px rgba(255, 45, 85, 0.5);
+            margin: 10px 0;
+            font-variant-numeric: tabular-nums;
+        }
+        .btn-timer-start {
+            background: linear-gradient(135deg, #ff9500, #ff2d55);
+            border: none;
+            border-radius: 20px;
+            padding: 15px 30px;
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(255, 45, 85, 0.4);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .btn-timer-start:active {
+            transform: scale(0.9);
+        }
+        .timer-flash {
+            animation: flash-red 0.5s infinite alternate;
+        }
+        @keyframes flash-red {
+            0% { background-color: var(--bg-dark); }
+            100% { background-color: rgba(255, 45, 85, 0.4); }
+        }
+
         .btn-action {
             width: 100%;
             padding: 20px;
@@ -612,6 +652,24 @@
             <button class="btn-action btn-back" style="margin-top:20px; font-size:1rem;" onclick="resetMemory()">🔄 Réinitialiser la mémoire</button>
         </div>
 
+
+
+        <!-- Vue : Choix du Thème -->
+        <div id="theme-setup-view">
+            <h1>Niveau de Jeu</h1>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 20px; justify-content: center;">
+                <button class="btn-action" style="background: linear-gradient(135deg, #34c759, #30d158); color: white; height: 120px; font-size: 1.5rem; flex-direction: column; gap: 10px;" onclick="selectTheme('soft')">
+                    🟢 MODE SOFT
+                    <span style="font-size: 0.9rem; opacity: 0.8; font-weight: normal; text-transform: none;">Humour Noir, Absurde, Cynisme</span>
+                </button>
+                <button class="btn-action" style="background: linear-gradient(135deg, #ff2d55, #ff9500); color: white; height: 120px; font-size: 1.5rem; flex-direction: column; gap: 10px;" onclick="selectTheme('hard')">
+                    🌶️ MODE HARD
+                    <span style="font-size: 0.9rem; opacity: 0.8; font-weight: normal; text-transform: none;">+18, Sexe, Très Spicy</span>
+                </button>
+            </div>
+            <button class="btn-action btn-back" style="margin-top: 20px;" onclick="returnToMenu('theme-setup-view')">Retour</button>
+        </div>
+
         <!-- Vue : Configuration Joueurs -->
         <div id="players-setup-view">
             <h1>Joueurs</h1>
@@ -642,6 +700,12 @@
                 </div>
             </div>
 
+            <!-- Timer pour le jeu des 7 Secondes -->
+            <div id="timer-container">
+                <div id="timer-display">7</div>
+                <button class="btn-timer-start" id="btn-timer-start" onclick="startTimer()">Lancer le Chrono ⏱️</button>
+            </div>
+
             <div class="controls">
                 <div id="vote-controls" class="vote-grid">
                     <!-- Boutons de vote injectés ici -->
@@ -670,437 +734,313 @@
 
     <script>
         const phrases = {
-            tribunal: [
-                "L'ananas sur la pizza est le sommet de la gastronomie.",
-                "Shrek 2 est meilleur que Le Parrain.",
-                "Les notes vocales de plus d'une minute sont une insulte au respect humain.",
-                "Mettre des chaussettes avec des sandales est un choix stylistique audacieux et valable.",
-                "L'eau gazeuse a le goût de l'eau qui a été électrocutée, c'est dégueulasse.",
-                "Dire \"je dis ça, je dis rien\" mérite la prison ferme.",
-                "Les bébés sont tous moches à la naissance, sans exception.",
-                "Astérix Mission Cléopâtre est le seul bon film comique français.",
-                "Les gens qui applaudissent à l'atterrissage de l'avion devraient être fichés S.",
-                "S'endormir devant un film est la meilleure partie du film.",
-                "Les vocaux WhatsApp devraient pouvoir être écoutés en x4.",
-                "Le Nutella est surcoté et a juste le goût de sucre gras.",
-                "Ceux qui écrivent \"sa va\" ne méritent pas le droit de vote.",
-                "L'astrologie est juste du racisme spatial.",
-                "Avoir un chat, c'est comme vivre avec un colocataire toxique qui ne paie pas le loyer.",
-                "Manger son burger avec des couverts est une preuve de psychopathie.",
-                "Les voice notes sont pires que les appels téléphoniques.",
-                "Le lundi est une meilleure journée que le dimanche (le dimanche soir est dépressif).",
-                "Titanic aurait été un bien meilleur film si l'iceberg avait frappé plus tôt.",
-                "Les influenceurs ne sont que des panneaux publicitaires ambulants.",
-                "Breaking Bad est beaucoup trop long pour ce que c'est.",
-                "Le vin rouge, c'est du jus de raisin qui a mal tourné.",
-                "Les mariages coûtent trop cher pour une fête où la moitié des gens s'ennuient.",
-                "Mettre du lait avant les céréales est la seule vraie méthode logique.",
-                "Friends est la série la moins drôle des années 90.",
-                "Les gens qui courent pour le plaisir sont des menteurs.",
-                "Les sushis, c'est juste du riz froid qui coûte cher.",
-                "Le fromage bleu, c'est littéralement de la moisissure, arrêtez de faire genre c'est bon.",
-                "Aller au cinéma pour le premier rencard est la pire idée possible.",
-                "L'été est la pire des saisons : on transpire et il y a des moustiques.",
-                "Les frites molles sont meilleures que les frites croustillantes.",
-                "Mettre un point à la fin d'un SMS est une agression passive.",
-                "Les gens qui mettent leur téléphone en haut-parleur dans le bus sont l'incarnation du mal.",
-                "Dormir avec la porte de la chambre ouverte est une invitation pour les démons.",
-                "Boire du café sans sucre, c'est juste aimer la souffrance.",
-                "Le Seigneur des Anneaux, c'est juste 9 heures de gens qui marchent.",
-                "Répondre \"ok\" à un message long mérite un blocage définitif.",
-                "Les voice notes en marchant dans la rue te font passer pour un agent secret raté.",
-                "Les parcs d'attractions, c'est juste payer cher pour faire la queue.",
-                "Les Crocs sont les chaussures les plus confortables jamais inventées.",
-                "Être végétarien pour sauver les animaux, c'est bien, mais le bacon c'est mieux.",
-                "La coriandre a le goût de punaise écrasée et de savon.",
-                "Les messages \"Joyeux anniversaire\" sur Facebook ne comptent pas.",
-                "Les films de super-héros sont tous les mêmes depuis 10 ans.",
-                "Aimer la bière, c'est juste un syndrome de Stockholm gustatif.",
-                "Les enfants dans les restaurants chics devraient être interdits.",
-                "Parler à son chien comme à un bébé est ridicule.",
-                "La pizza hawaïenne devrait être remboursée par la sécurité sociale.",
-                "Les gens qui se lèvent à 5h du matin sans obligation sont dangereux.",
-                "Ne pas finir son verre en soirée devrait être puni par la loi."
-            ],
-            draft: [
-                "Draft : Les pires célébrités avec qui être bloqué dans un ascenseur.",
-                "Draft : Le menu de fast-food ultime avec un budget illimité.",
-                "Draft : Ton équipe de survie zombie (que des personnages de dessins animés).",
-                "Draft : Les pires objets à offrir à un mariage.",
-                "Draft : Les phrases à ne surtout pas dire lors d'un entretien d'embauche.",
-                "Draft : Les super-pouvoirs les plus inutiles au quotidien.",
-                "Draft : Les animaux les plus nuls si on devait faire une guerre avec.",
-                "Draft : Ton braquage de banque (que des mascottes de marques).",
-                "Draft : Les pires choses à trouver sous son lit.",
-                "Draft : Les objets du quotidien qui mériteraient de disparaître.",
-                "Draft : Tes 5 ministres si tu étais Président (que des acteurs français).",
-                "Draft : Les pires bruits pour te réveiller le matin.",
-                "Draft : Les aliments impossibles à manger proprement en public.",
-                "Draft : Les personnages historiques avec qui faire la pire coloc.",
-                "Draft : Les choses les plus angoissantes dans un hôpital.",
-                "Draft : Les pires costumes pour Halloween quand tu as 30 ans.",
-                "Draft : Tes 5 gardes du corps (que des méchants Disney).",
-                "Draft : Les meilleures excuses de merde pour annuler une soirée.",
-                "Draft : Les pires endroits pour demander quelqu'un en mariage.",
-                "Draft : Les objets à emmener sur une île déserte pour se suicider plus vite.",
-                "Draft : Ton équipe pour un escape game (que des politiciens).",
-                "Draft : Les mots de passe les plus claqués au sol.",
-                "Draft : Les pires odeurs dans les transports en commun.",
-                "Draft : Les phobies qui n'ont aucun sens.",
-                "Draft : Les pires cadeaux de Noël reçus de ta grand-mère.",
-                "Draft : Les sports qui ne devraient pas exister.",
-                "Draft : Les pires moyens de mourir dans un jeu vidéo.",
-                "Draft : Tes 5 avocats de la défense (que des personnages de séries Netflix).",
-                "Draft : Les pires métiers du Moyen Âge.",
-                "Draft : Les pires chansons pour un enterrement.",
-                "Draft : Les pires choses à entendre juste avant l'anesthésie.",
-                "Draft : Les pires noms pour un chien de garde.",
-                "Draft : Ton équipage pour aller sur Mars (que des influenceurs).",
-                "Draft : Les pires mensonges de parents.",
-                "Draft : Les objets les plus dangereux dans une cuisine pour un maladroit.",
-                "Draft : Les pires choses à crier dans une bibliothèque.",
-                "Draft : Les pires thèmes pour une soirée d'anniversaire.",
-                "Draft : Les pires prénoms à donner à son enfant en 2024.",
-                "Draft : Les aliments qui n'ont rien à faire dans une raclette.",
-                "Draft : Les pires complots qui pourraient être vrais.",
-                "Draft : Ton équipe de football (que des personnages de Star Wars).",
-                "Draft : Les pires métiers pour un asocial.",
-                "Draft : Les choses que tu ne veux jamais entendre de la part du pilote de l'avion.",
-                "Draft : Les pires façons de se faire larguer.",
-                "Draft : Les insultes du 18ème siècle à remettre au goût du jour.",
-                "Draft : Ton boys band (que des tueurs en série).",
-                "Draft : Les pires questions à poser au premier date.",
-                "Draft : Les objets magiques d'Harry Potter les plus claqués.",
-                "Draft : Les pires idées d'inventions jamais brevetées.",
-                "Draft : Ton groupe de musique de la fin du monde (que des présentateurs télé)."
-            ],
-            prefere: [
-                "Tu préfères avoir des dents en mousse ou des cheveux en fil de fer ?",
-                "Tu préfères avoir la voix de Donald Duck à vie ou devoir crier pour parler ?",
-                "Tu préfères avoir des bras à la place des jambes ou des jambes à la place des bras ?",
-                "Tu préfères vomir des limaces chaque matin ou pleurer du sang chaque soir ?",
-                "Tu préfères ne plus jamais pouvoir te laver les dents ou ne plus jamais te laver les fesses ?",
-                "Tu préfères que tes parents voient ton historique internet complet ou ta sextape ?",
-                "Tu préfères manger une cuillère de caca goût chocolat ou une cuillère de chocolat goût caca ?",
-                "Tu préfères avoir toujours l'impression d'avoir un caillou dans ta chaussure ou une poussière dans l'œil ?",
-                "Tu préfères transpirer de la mayonnaise ou avoir l'haleine qui sent le camembert au soleil ?",
-                "Tu préfères être obligé de dire toutes tes pensées à voix haute ou ne plus jamais pouvoir parler ?",
-                "Tu préfères revivre le pire jour de ta vie 100 fois ou perdre 10 ans de ta vie ?",
-                "Tu préfères avoir des doigts de la taille de tes jambes ou des jambes de la taille de tes doigts ?",
-                "Tu préfères avoir le hoquet non-stop pendant 1 an ou éternuer toutes les 2 minutes pendant 5 ans ?",
-                "Tu préfères trouver un poil dans tous tes plats ou toujours boire de l'eau tiède ?",
-                "Tu préfères te battre contre 1 canard de la taille d'un cheval ou 100 chevaux de la taille d'un canard ?",
-                "Tu préfères porter des vêtements toujours légèrement humides ou ne jamais porter de sous-vêtements ?",
-                "Tu préfères mourir noyé ou mourir brûlé vif ?",
-                "Tu préfères avoir les ongles qui poussent de 5 cm par jour ou ne pas avoir de nez ?",
-                "Tu préfères lécher la barre du métro tous les matins ou embrasser un lépreux une fois par an ?",
-                "Tu préfères être riche mais tous tes amis te détestent, ou pauvre mais tout le monde t'adore ?",
-                "Tu préfères que ton/ta partenaire te trompe avec ton/ta meilleur(e) ami(e) ou avec un de tes parents ?",
-                "Tu préfères ne plus jamais manger de viande ou ne plus jamais avoir d'orgasme ?",
-                "Tu préfères manger ton plat préféré mixé tous les jours ou manger des croquettes pour chien en public ?",
-                "Tu préfères être toujours le premier à mourir dans un film d'horreur ou survivre mais perdre tous tes proches ?",
-                "Tu préfères toujours devoir te déplacer en moonwalk ou ne pouvoir tourner qu'à gauche ?",
-                "Tu préfères pisser un peu dans ton pantalon à chaque fois que tu ris ou péter bruyamment à chaque fois que tu pleures ?",
-                "Tu préfères éternuer des confettis ou tousser des paillettes ?",
-                "Tu préfères avoir le goût des toilettes publiques en bouche pour toujours ou l'odeur du vomi en permanence ?",
-                "Tu préfères coucher avec le cousin de ton partenaire ou que ton partenaire couche avec ton cousin ?",
-                "Tu préfères devoir tuer une personne innocente ou laisser mourir 5 criminels endurcis ?",
-                "Tu préfères avoir la peau transparente ou ne pas avoir de paupières ?",
-                "Tu préfères ne manger que des choses extrêmement piquantes ou manger tout sans aucun sel ni épice ?",
-                "Tu préfères avoir une voix extrêmement aigüe ou extrêmement grave et monocorde ?",
-                "Tu préfères éternuer chaque fois que tu es excité(e) ou bailler chaque fois que tu es en colère ?",
-                "Tu préfères avoir le visage de ton père/ta mère ou avoir le corps de ton père/ta mère ?",
-                "Tu préfères avoir un bébé qui pleure en boucle chez toi ou un chien qui aboie à chaque fois que tu parles ?",
-                "Tu préfères que tout ce que tu manges ait le goût du sang ou que tout ce que tu bois ait le goût d'urine ?",
-                "Tu préfères avoir toujours la braguette ouverte ou une tache marron suspecte sur tes pantalons ?",
-                "Tu préfères devoir te raser la tête tous les jours ou avoir des poils qui te sortent des oreilles en permanence ?",
-                "Tu préfères avoir un bouton énorme au milieu du front tous les jours ou avoir un rhume de cerveau éternel ?",
-                "Tu préfères être célèbre pour avoir commis un crime ridicule ou être inconnu pour avoir sauvé le monde ?",
-                "Tu préfères pouvoir parler aux animaux mais ils te détestent, ou lire dans les pensées mais entendre que des insultes ?",
-                "Tu préfères devoir courir partout au lieu de marcher, ou devoir ramper au lieu de courir ?",
-                "Tu préfères te faire opérer sans anesthésie ou faire l'amour en public devant ta famille ?",
-                "Tu préfères ne plus jamais ressentir le chaud ou ne plus jamais ressentir le froid (jusqu'à en mourir) ?",
-                "Tu préfères que tout le monde puisse voir ton temps d'écran quotidien ou tes recherches Google ?",
-                "Tu préfères avoir une seule fesse géante ou 3 petites fesses ?",
-                "Tu préfères avoir des mamelons en forme de yeux ou un œil à la place de chaque mamelon ?",
-                "Tu préfères être poursuivi par un escargot immortel qui te tuera s'il te touche, ou mourir dans 10 ans ?",
-                "Tu préfères manger un rat vivant ou un chat mort ?"
-            ],
-            daube: [
-                "Mots : Curé / Tronçonneuse / Tacos",
-                "Mots : Gynécologue / Espace / Pingouin",
-                "Mots : Chômeur / Dinosaure / Mayonnaise",
-                "Mots : Naine / Trampoline / KGB",
-                "Mots : EHPAD / Extraterrestre / Clou",
-                "Mots : Banquier / Vampire / Trotinette",
-                "Mots : Pédophile / Disney / Choucroute",
-                "Mots : Prêtre / Partouze / Aspirateur",
-                "Mots : Facteur / Apocalypse / Gode",
-                "Mots : Hitler / Poney / Discothèque",
-                "Mots : Macron / Nudiste / Camembert",
-                "Mots : Somnambule / Sniper / Litière",
-                "Mots : Bébé / MMA / Cassoulet",
-                "Mots : SDF / Téléportation / Banane",
-                "Mots : Nonne / Cyborg / Godemiché",
-                "Mots : Dentiste / Tueur à gages / Toboggan",
-                "Mots : Vegan / Cannibale / Tondeuse",
-                "Mots : Influenceuse / Goulag / Pamplemousse",
-                "Mots : Chien aveugle / Casino / Mafieux",
-                "Mots : Prof de maths / Crack / Orphelinat",
-                "Mots : Pompier / Pôle Emploi / Vagin",
-                "Mots : Plombier / Ninja / Diarrhée",
-                "Mots : Astrologue / Kamikaze / Pédalo",
-                "Mots : Castor / Fétichiste / Micro-ondes",
-                "Mots : Grand-mère / Cartel / Trottinette",
-                "Mots : Vierge / Satan / Kebab",
-                "Mots : Avocat / Ours bipolaire / Parachute",
-                "Mots : Flic / Pute / Moteur",
-                "Mots : Éboueur / Président / String",
-                "Mots : Chauffeur de bus / Zombies / Tampax",
-                "Mots : Berger / Soucoupe volante / Bidet",
-                "Mots : Chirurgien / Clou / Télétubbies",
-                "Mots : Sorcière / Péripatéticienne / Raclette",
-                "Mots : Nécromancien / Boulanger / Suppositoire",
-                "Mots : Clodo / Ferrari / Pigeons",
-                "Mots : Mime / Psychopathe / Cuillère",
-                "Mots : Escort / Vatican / Saucisse",
-                "Mots : Bûcheron / Sirène / Tronçonneuse",
-                "Mots : Depardieu / Vin / Piste cyclable",
-                "Mots : Moniteur d'auto-école / Al-Qaïda / Twingo",
-                "Mots : Cuisinier / Poisons / Orgasme",
-                "Mots : Acteur porno / Garderie / Smic",
-                "Mots : Espion / Chaussette / Ogre",
-                "Mots : Proctologue / Laser / Dinosaure",
-                "Mots : Pèlerin / Moto / LSD",
-                "Mots : Reine d'Angleterre / Strip-tease / Hachoir",
-                "Mots : Hobbit / Drogue / Aspirine",
-                "Mots : Pélican / Terroriste / Baignoire",
-                "Mots : Inspecteur des impôts / Gang bang / Tracteur",
-                "Mots : Clown / Gynécologie / Parapluie"
-            ],
-            redflag: [
-                "C'est un 10, mais il/elle applaudit quand l'avion atterrit.",
-                "C'est un 10, mais il/elle met le lait avant les céréales.",
-                "C'est un 10, mais il/elle écrit \"sa va\" au lieu de \"ça va\".",
-                "C'est un 10, mais il/elle renifle très fort ses propres pets.",
-                "C'est un 10, mais son haleine sent la mort le matin et il/elle veut te rouler des pelles.",
-                "C'est un 10, mais il/elle parle à sa mère en bébé.",
-                "C'est un 10, mais il/elle mâche la bouche ouverte en faisant du bruit.",
-                "C'est un 10, mais il/elle te demande \"T'es fâché(e) ?\" toutes les 5 minutes.",
-                "C'est un 10, mais il/elle a un portrait de Johnny Hallyday tatoué sur le mollet.",
-                "C'est un 10, mais il/elle collectionne les ongles coupés.",
-                "C'est un 10, mais il/elle ne tire jamais la chasse d'eau.",
-                "C'est un 10, mais il/elle met du ketchup sur les pâtes à la truffe.",
-                "C'est un 10, mais il/elle cligne d'un œil à chaque fois qu'il/elle ment.",
-                "C'est un 10, mais il/elle refuse de laver ses draps plus d'une fois par an.",
-                "C'est un 10, mais son rire ressemble à celui d'une mouette sous cocaïne.",
-                "C'est un 10, mais il/elle porte des Crocs avec des chaussettes au premier date.",
-                "C'est un 10, mais il/elle croit dur comme fer que la Terre est plate.",
-                "C'est un 10, mais il/elle parle de son ex au lit.",
-                "C'est un 10, mais il/elle fait des TikTok dans la rue en dansant.",
-                "C'est un 10, mais il/elle ne se lave jamais les dents le soir.",
-                "C'est un 10, mais il/elle rote à table sans s'excuser.",
-                "C'est un 10, mais il/elle est un fan hardcore de Cyril Hanouna.",
-                "C'est un 10, mais il/elle suce son pouce en dormant.",
-                "C'est un 10, mais il/elle compte l'argent que tu lui dois au centime près.",
-                "C'est un 10, mais il/elle a 4 chats et l'appartement sent la litière.",
-                "C'est un 10, mais il/elle refuse de payer l'addition par principe.",
-                "C'est un 10, mais il/elle mange ses crottes de nez au feu rouge.",
-                "C'est un 10, mais il/elle te critique sur ton poids.",
-                "C'est un 10, mais il/elle ne jure que par l'astrologie pour prendre des décisions.",
-                "C'est un 10, mais il/elle écoute du Jul à fond dans sa Twingo.",
-                "C'est un 10, mais il/elle a une voix ultra nasillarde.",
-                "C'est un 10, mais il/elle se ronge les ongles de pied.",
-                "C'est un 10, mais il/elle te spoil toutes les séries.",
-                "C'est un 10, mais il/elle pète au lit et met la couette sur ta tête.",
-                "C'est un 10, mais il/elle ne dit jamais \"merci\" au serveur.",
-                "C'est un 10, mais il/elle porte toujours un slip kangourou jauni.",
-                "C'est un 10, mais il/elle a 30 ans et demande encore de l'argent de poche.",
-                "C'est un 10, mais il/elle lèche le couteau avant de le remettre dans le beurre.",
-                "C'est un 10, mais il/elle a un fétiche bizarre pour les coudes.",
-                "C'est un 10, mais il/elle dort avec un doudou troué qui pue.",
-                "C'est un 10, mais il/elle fait pipi sous la douche pendant que tu t'y laves.",
-                "C'est un 10, mais il/elle t'appelle \"mamounette\" ou \"papounet\".",
-                "C'est un 10, mais il/elle prend 3 heures pour répondre à un message de 2 mots.",
-                "C'est un 10, mais il/elle ne met pas de déodorant par \"choix de vie\".",
-                "C'est un 10, mais il/elle pleure à chaque fois qu'on tue un insecte.",
-                "C'est un 10, mais il/elle se prend en selfie pendant qu'il/elle conduit.",
-                "C'est un 10, mais il/elle prononce \"les z'haricots\".",
-                "C'est un 10, mais il/elle trouve les blagues de tonton beaufs hilarantes.",
-                "C'est un 10, mais il/elle n'a pas de lit, juste un matelas au sol sans drap.",
-                "C'est un 10, mais il/elle croit que le clitoris est un type de dinosaure."
-            ],
-            boire_susceptible: [
-                "Qui est le plus susceptible de vendre ses amis pour survivre à une apocalypse zombie ?",
-                "Qui est le plus susceptible de cacher une morsure de zombie au groupe ?",
-                "Qui est le plus susceptible de pleurer pendant l'acte ?",
-                "Qui est le plus susceptible de se faire arnaquer par un brouteur sur internet ?",
-                "Qui est le plus susceptible d'avoir un faux profil Tinder pour espionner ?",
-                "Qui est le plus susceptible de gâcher un enterrement en rigolant ?",
-                "Qui est le plus susceptible de manger la nourriture des autres dans le frigo commun ?",
-                "Qui est le plus susceptible de mourir en premier dans un film d'horreur parce qu'il a trébuché ?",
-                "Qui est le plus susceptible de rejoindre une secte sans s'en rendre compte ?",
-                "Qui est le plus susceptible de mentir sur son CV et de se faire griller le premier jour ?",
-                "Qui est le plus susceptible de fouiller dans le téléphone de son partenaire ?",
-                "Qui est le plus susceptible d'oublier le prénom de la personne avec qui il/elle couche ?",
-                "Qui est le plus susceptible de péter en public et d'accuser quelqu'un d'autre ?",
-                "Qui est le plus susceptible de survivre en prison ?",
-                "Qui est le plus susceptible de se marier pour l'argent ?"
-            ],
-            boire_jamais: [
-                "Je n'ai jamais fouillé dans le téléphone de mon partenaire en cachette.",
-                "Je n'ai jamais fantasmé sur un(e) ex pendant que j'étais avec quelqu'un d'autre.",
-                "Je n'ai jamais simulé un orgasme pour en finir plus vite.",
-                "Je n'ai jamais menti sur le nombre de personnes avec qui j'ai couché.",
-                "Je n'ai jamais eu de pensées inappropriées pour le/la partenaire d'un ami.",
-                "Je n'ai jamais ghosté quelqu'un après avoir obtenu ce que je voulais.",
-                "Je n'ai jamais fait semblant d'être au téléphone pour éviter quelqu'un dans la rue.",
-                "Je n'ai jamais stalké un(e) ex avec un faux compte.",
-                "Je n'ai jamais volé un truc inutile juste pour voir si j'en étais capable.",
-                "Je n'ai jamais pleuré pour manipuler une situation à mon avantage.",
-                "Je n'ai jamais jugé secrètement les choix de vie de mes amis présents ce soir.",
-                "Je n'ai jamais pris une photo de quelqu'un à son insu.",
-                "Je n'ai jamais eu envie de pousser quelqu'un sur les rails quand le métro arrivait.",
-                "Je n'ai jamais ri à une blague très raciste/noire sans oser l'assumer.",
-                "Je n'ai jamais fait pipi dans une piscine municipale étant adulte."
-            ],
-            boire_action: [
-                "Action : Envoie 'Je sais tout, on a un problème' à ta mère, ou bois cul sec.",
-                "Action : Laisse le groupe regarder tes 5 dernières recherches Google, ou bois 4 gorgées.",
-                "Action : Appelle un contact au hasard et dis-lui 'J'ai caché le corps', ou bois cul sec.",
-                "Action : Bois une gorgée dans le verre de ton voisin de gauche.",
-                "Action : Mime un orgasme pendant 5 secondes, ou bois 3 gorgées.",
-                "Action : Fais un compliment extrêmement gênant à la personne en face de toi, ou bois 2 gorgées.",
-                "Action : Laisse le joueur de ton choix écrire un statut sur tes réseaux sociaux, ou bois cul sec.",
-                "Action : Lèche le doigt d'un autre joueur, ou bois 4 gorgées.",
-                "Action : Raconte ton pire râteau, ou bois 3 gorgées.",
-                "Action : Montre la dernière photo de ta pellicule, ou bois 2 gorgées.",
-                "Action : Parle avec un accent belge pendant 3 tours, ou bois 3 gorgées.",
-                "Action : Laisse le groupe choisir ta prochaine photo de profil pendant 24h, ou bois cul sec.",
-                "Action : Fais une déclaration d'amour à un objet dans la pièce, ou bois 2 gorgées.",
-                "Action : Avoue le pire mensonge que tu as dit à quelqu'un dans cette pièce, ou bois 5 gorgées.",
-                "Action : Mange un truc qui traîne par terre, ou bois 3 gorgées."
-            ],
-            boire_dictateur: [
-                "Le joueur qui a lu cette carte devient le Dictateur. Règle : Interdiction de dire 'OUI' ou 'NON'. Le premier qui le dit boit 2 gorgées.",
-                "Le joueur qui a lu cette carte devient le Dictateur. Règle : Avant de boire, il faut dire 'Santé chef !'. Sinon, on re-boit.",
-                "Le Dictateur décide : Choisissez un mot interdit. Celui qui le prononce boit 3 gorgées.",
-                "Le Dictateur décide : Tu ne peux plus utiliser tes mains pour boire. Quelqu'un doit te donner à boire.",
-                "Le Dictateur décide : Chaque fois qu'on te pose une question, tu dois répondre par une autre question, sinon tu bois.",
-                "Le Dictateur décide : Interdiction de regarder le Dictateur dans les yeux, sinon 1 gorgée.",
-                "Le Dictateur décide : Tu dois vouvoyer tout le monde. Si tu tutoies, tu bois.",
-                "Le Dictateur décide : À chaque fois qu'un joueur rit, il doit boire 1 gorgée.",
-                "Le Dictateur décide : Tu dois parler avec la bouche fermée (les dents serrées) jusqu'à la fin de la partie.",
-                "Le Dictateur décide : Les prénoms sont interdits. Si tu appelles quelqu'un par son prénom, tu bois.",
-                "Le Dictateur décide : Celui qui touche son téléphone boit son verre cul sec.",
-                "Le Dictateur décide : À chaque fois qu'on boit, il faut lever le petit doigt comme un aristocrate.",
-                "Le Dictateur décide : La personne à ta gauche devient ton esclave. Elle doit boire tes gorgées si tu le décides.",
-                "Le Dictateur décide : Tu as le pouvoir d'annuler une règle précédente.",
-                "Le Dictateur décide : Invente une règle totalement injuste pour cibler une personne en particulier."
-            ],
-            boire_serieux: [
-                "Lis ceci en regardant quelqu'un : 'Pourquoi les plongeurs plongent toujours en arrière ? Parce que sinon ils tombent dans le bateau.' (Si tu ris, tu bois)",
-                "Lis ceci : 'Quelle est la différence entre un thermomètre oral et rectal ? Le goût.'",
-                "Lis ceci : 'Que dit un aveugle quand on lui donne du papier de verre ? Putain, c'est écrit petit.'",
-                "Lis ceci : 'Pourquoi les Mexicains mangent-ils des haricots ? Pour faire des bulles dans leur bain.'",
-                "Lis ceci : 'Quel est le point commun entre un parachute et l'humour ? Quand tu n'en as pas, tu t'écrases.'",
-                "Lis ceci : 'Qu'est-ce qui est pire qu'un bébé dans une poubelle ? Un bébé dans deux poubelles.'",
-                "Lis ceci : 'Comment appelle-t-on un boomerang qui ne revient pas ? Un bout de bois.'",
-                "Lis ceci : 'Que font deux brosses à dents le 14 juillet ? Elles font un feu d'artifrice.'",
-                "Lis ceci : 'C'est l'histoire d'un pingouin qui respire par le cul. Un jour il s'assoit, et il meurt.'",
-                "Lis ceci : 'Qu'est-ce qui a 4 pattes et qui ne bouge pas ? Une chaise.'",
-                "Lis ceci : 'Quel est le comble pour un électricien ? De ne pas être au courant.'",
-                "Lis ceci en fixant intensément ton voisin : 'Je sais ce que tu as fait l'été dernier.'",
-                "Lis ceci : 'C'est un mec qui rentre dans un café... et plouf.'",
-                "Lis ceci : 'Que dit une imprimante dans l'eau ? J'ai papier !'",
-                "Lis ceci : 'Quel est le point commun entre les spermatozoïdes et les avocats ? Un sur un million a la chance de devenir un être humain.'"
-            ],
-            boire_7sec: [
-                "Tu as 7 secondes pour citer 3 pires endroits pour rompre. Si tu échoues, bois 2 gorgées.",
-                "Tu as 7 secondes pour citer 3 choses qu'on peut dire au lit et au supermarché.",
-                "Tu as 7 secondes pour citer 3 raisons d'aller en prison.",
-                "Tu as 7 secondes pour citer 3 objets pour cacher un cadavre.",
-                "Tu as 7 secondes pour citer 3 pires prénoms à donner à son enfant.",
-                "Tu as 7 secondes pour citer 3 animaux qui ont l'air cons.",
-                "Tu as 7 secondes pour citer 3 choses à faire avec des excréments.",
-                "Tu as 7 secondes pour citer 3 mots qui commencent par 'Z' et finissent par 'E'.",
-                "Tu as 7 secondes pour citer 3 synonymes vulgaires de l'acte sexuel.",
-                "Tu as 7 secondes pour citer 3 maladies vénériennes.",
-                "Tu as 7 secondes pour citer 3 raisons de pleurer aux toilettes.",
-                "Tu as 7 secondes pour citer 3 armes de fortune avec des objets de bureau.",
-                "Tu as 7 secondes pour citer 3 phrases de drague vraiment claquées.",
-                "Tu as 7 secondes pour citer 3 pires cadeaux d'anniversaire.",
-                "Tu as 7 secondes pour citer 3 choses qu'il ne faut pas mettre au micro-ondes."
-            ],
-            boire_roulette: [
-                "Roulette : Le joueur le plus jeune boit 2 gorgées.",
-                "Roulette : Tous ceux qui ont un vêtement noir boivent 1 gorgée.",
-                "Roulette : Le joueur avec le plus de batterie distribue 3 gorgées.",
-                "Roulette : Tous les célibataires boivent 2 gorgées. S'il n'y en a pas, tout le monde boit.",
-                "Roulette : Le joueur qui a le téléphone le plus cassé boit 3 gorgées.",
-                "Roulette : Le dernier à toucher le sol avec sa main boit 2 gorgées.",
-                "Roulette : Tous ceux qui portent des lunettes boivent 1 gorgée.",
-                "Roulette : Le joueur le plus vieux distribue 2 gorgées.",
-                "Roulette : Tous ceux qui ont déjà trompé boivent 4 gorgées (soyez honnêtes).",
-                "Roulette : Le joueur avec les cheveux les plus longs boit 2 gorgées.",
-                "Roulette : Tous ceux qui ont un iPhone boivent 1 gorgée.",
-                "Roulette : Le premier joueur à crier 'POULET' distribue 3 gorgées.",
-                "Roulette : La personne qui a lu cette carte boit 2 gorgées, c'est le karma.",
-                "Roulette : Tout le monde boit 1 gorgée. C'est la tournée de l'appli.",
-                "Roulette : Le joueur avec les plus grands pieds boit 3 gorgées."
-            ],
-            boire_menteur: [
-                "Vrai ou Faux : Les cochons peuvent manger un corps humain entier (os compris). (Vrai : en quelques jours, il ne reste rien). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : On avale en moyenne 8 araignées par an en dormant. (Faux : c'est une légende urbaine). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Les loutres de mer se tiennent la main en dormant pour ne pas dériver. (Vrai). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Hitler avait été nominé pour le prix Nobel de la paix. (Vrai : en 1939, ironiquement). Perdant boit 3 gorgées.",
-                "Vrai ou Faux : La sueur des hippopotames est rose. (Vrai : elle contient un pigment rouge qui agit comme crème solaire). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Un cafard peut vivre plusieurs semaines sans tête. (Vrai : il meurt de faim à la fin). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Il pleut des diamants sur Jupiter. (Vrai : la pression transforme le carbone en diamant). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Cléopâtre a vécu plus près de l'invention de l'iPhone que de la construction des Pyramides. (Vrai). Perdant boit 3 gorgées.",
-                "Vrai ou Faux : Les canards ont un pénis en forme de tire-bouchon. (Vrai). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Einstein a coulé en mathématiques au lycée. (Faux : il était un génie dès son plus jeune âge). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : L'œil de l'autruche est plus grand que son cerveau. (Vrai). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Les poils poussent plus vite après la mort. (Faux : c'est la peau qui se rétracte). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Le miel est du vomi d'abeille. (Vrai : elles régurgitent le nectar). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Napoléon était très petit (moins de 1m60). (Faux : il mesurait 1m69, la moyenne de l'époque). Perdant boit 2 gorgées.",
-                "Vrai ou Faux : Les dauphins dorment avec un seul œil fermé. (Vrai : une moitié de leur cerveau reste éveillée). Perdant boit 2 gorgées."
-            ],
-            boire_kamikaze: [
-                "Kamikaze : Thème 'Animaux'. Le 1er dit un animal, le 2ème répète et ajoute, etc. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Insultes'. Le 1er dit une insulte, le 2ème répète et ajoute. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Marques de voitures'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Positions sexuelles'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Légumes'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Prénoms de beaufs'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Objets dans la pièce'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Célébrités mortes'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Maladies'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Parties du corps'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Vêtements'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Mots finissant par -TION'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Choses qui puent'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Candidats de télé-réalité'. Le 1er qui se trompe boit 3 gorgées.",
-                "Kamikaze : Thème 'Choses qu'on trouve au McDo'. Le 1er qui se trompe boit 3 gorgées."
-            ],
-            boire_dilemme: [
-                "Tu préfères : Boire 5 gorgées de la boisson de quelqu'un d'autre OU enlever un vêtement ?",
-                "Tu préfères : Ne plus avoir de dents OU ne plus avoir de nez ? La minorité boit 3 gorgées.",
-                "Tu préfères : Savoir QUAND tu vas mourir OU COMMENT tu vas mourir ? La minorité boit 2 gorgées.",
-                "Tu préfères : Te battre contre un ours de la taille d'un chien OU 10 chiens de la taille d'un ours ? La minorité boit 2 gorgées.",
-                "Tu préfères : Ne plus jamais faire l'amour OU ne plus jamais manger de trucs bons ? La minorité boit 3 gorgées.",
-                "Tu préfères : Coucher avec ta cousine au premier degré sans que personne ne le sache OU que tout le monde croit que tu as couché avec elle, mais c'est faux ? La minorité boit 4 gorgées.",
-                "Tu préfères : Avoir des doigts de la taille de tes jambes OU des jambes de la taille de tes doigts ? La minorité boit 2 gorgées.",
-                "Tu préfères : Manger une cuillère de caca goût chocolat OU une cuillère de chocolat goût caca ? La minorité boit 3 gorgées.",
-                "Tu préfères : Toujours dire ce que tu penses à voix haute OU ne plus jamais parler ? La minorité boit 2 gorgées.",
-                "Tu préfères : Revivre le pire jour de ta vie 100 fois OU perdre 10 ans de ta vie ? La minorité boit 3 gorgées.",
-                "Tu préfères : Avoir la voix de Mickey à vie OU devoir crier pour parler ? La minorité boit 2 gorgées.",
-                "Tu préfères : Trouver un poil dans tous tes plats OU toujours boire de l'eau tiède ? La minorité boit 2 gorgées.",
-                "Tu préfères : Pisser un peu dans ton pantalon à chaque fois que tu ris OU péter bruyamment à chaque fois que tu pleures ? La minorité boit 3 gorgées.",
-                "Tu préfères : Avoir un bouton énorme au milieu du front tous les jours OU avoir un rhume de cerveau éternel ? La minorité boit 2 gorgées.",
-                "Tu préfères : Mourir noyé OU mourir brûlé vif ? La minorité boit 4 gorgées."
-            ]
-        };
+            "soft": {
+                        "tribunal": [
+                                    "L'ananas sur la pizza est le sommet de la gastronomie.",
+                                    "Shrek 2 est meilleur que Le Parrain.",
+                                    "Les notes vocales de plus d'une minute sont une insulte au respect humain.",
+                                    "Mettre des chaussettes avec des sandales est un choix stylistique audacieux et valable.",
+                                    "L'eau gazeuse a le goût de l'eau qui a été électrocutée, c'est dégueulasse.",
+                                    "Dire 'je dis ça, je dis rien' mérite la prison ferme.",
+                                    "Les bébés sont tous moches à la naissance, sans exception.",
+                                    "Astérix Mission Cléopâtre est le seul bon film comique français.",
+                                    "Les influenceurs ne sont que des panneaux publicitaires ambulants.",
+                                    "Le vin rouge, c'est du jus de raisin qui a mal tourné.",
+                                    "Le fromage bleu, c'est littéralement de la moisissure, arrêtez de faire genre c'est bon.",
+                                    "Mettre un point à la fin d'un SMS est une agression passive."
+                        ],
+                        "draft": [
+                                    "Pire phrase à dire lors d'un enterrement.",
+                                    "Pire chose à trouver dans son hamburger.",
+                                    "Pire super-pouvoir à avoir au quotidien.",
+                                    "Pire endroit pour avoir une crise de diarrhée.",
+                                    "Pire costume d'Halloween pour aller au bureau.",
+                                    "Pire nom pour un chien de garde.",
+                                    "Pire chose à dire juste après un baiser.",
+                                    "Pire objet à utiliser comme arme de poing dans la rue.",
+                                    "Pire talent inutile à montrer à Incroyable Talent.",
+                                    "Pire excuse pour annuler un rencard à la dernière minute."
+                        ],
+                        "prefere": [
+                                    "Tu préfères transpirer de la mayonnaise OU pleurer des larmes en sauce piquante ?",
+                                    "Tu préfères avoir des bras à la place des jambes OU des jambes à la place des bras ?",
+                                    "Tu préfères parler toutes les langues du monde mais bégayer constamment OU parler seulement ta langue mais avec une voix de robot ?",
+                                    "Tu préfères avoir un nez en forme de pénis OU des oreilles en forme de vagin ?",
+                                    "Tu préfères éternuer des confettis OU tousser des paillettes ?",
+                                    "Tu préfères devoir manger un cafard vivant par jour OU manger une poignée de cheveux à chaque repas ?",
+                                    "Tu préfères ne plus jamais utiliser de papier toilette OU ne plus jamais utiliser de brosse à dents ?",
+                                    "Tu préfères avoir toujours la sensation qu'un insecte rampe sur toi OU toujours entendre un bourdonnement dans ton oreille ?",
+                                    "Tu préfères être constamment humide OU être constamment collant ?",
+                                    "Tu préfères revivre la pire journée de ta vie tous les lundis OU ne plus jamais ressentir de joie le week-end ?"
+                        ],
+                        "daube": [
+                                    "Un homme découvre que son chat est la réincarnation de sa belle-mère.",
+                                    "Une application de rencontre où tu ne matches qu'avec des gens qui ont les mêmes maladies que toi.",
+                                    "Un télé-crochet pour trouver le pire cuisinier du monde, le gagnant doit manger son plat.",
+                                    "Un film d'horreur où le tueur attaque avec une cuillère, mais très lentement.",
+                                    "Un super-héros dont le seul pouvoir est de rendre les gens légèrement inconfortables.",
+                                    "Une télé-réalité où des politiciens doivent survivre au SMIC pendant 1 an.",
+                                    "Un documentaire animalier sur les pigeons de Paris narré par un dépressif.",
+                                    "Une série policière où l'inspecteur résout les crimes en goûtant la scène de crime.",
+                                    "Un parc d'attractions sur le thème de la bureaucratie et de l'administration française.",
+                                    "Un film d'action où le héros est asthmatique et oublie toujours sa ventoline."
+                        ],
+                        "redflag": [
+                                    "C'est un 10, mais il/elle tape avec deux doigts sur son clavier.",
+                                    "C'est un 10, mais il/elle claque des lèvres en mangeant.",
+                                    "C'est un 10, mais il/elle est incapable de lire l'heure sur une horloge à aiguilles.",
+                                    "C'est un 10, mais il/elle porte des lunettes de soleil en boîte de nuit.",
+                                    "C'est un 10, mais il/elle met du ketchup dans ses pâtes.",
+                                    "C'est un 10, mais il/elle renifle tout le temps au lieu de se moucher.",
+                                    "C'est un 10, mais il/elle ne sait pas nager.",
+                                    "C'est un 10, mais il/elle a 30 ans et utilise encore le mot 'swag'.",
+                                    "C'est un 10, mais il/elle croit dur comme fer que la Terre est plate.",
+                                    "C'est un 10, mais il/elle fait des fautes d'orthographe à chaque phrase ('sa va')."
+                        ],
+                        "boire_susceptible": [
+                                    "Qui est le plus susceptible de survivre à une apocalypse zombie ?",
+                                    "Qui est le plus susceptible de rater son propre mariage ?",
+                                    "Qui est le plus susceptible de devenir fou en premier sur une île déserte ?",
+                                    "Qui est le plus susceptible de se faire arnaquer sur Internet ?",
+                                    "Qui est le plus susceptible de manger la nourriture d'un collègue dans le frigo ?",
+                                    "Qui est le plus susceptible de s'endormir ivre dans les toilettes d'un bar ?",
+                                    "Qui est le plus susceptible d'oublier l'anniversaire de son partenaire ?",
+                                    "Qui est le plus susceptible de péter en public et d'accuser quelqu'un d'autre ?",
+                                    "Qui est le plus susceptible de mourir bêtement en prenant un selfie ?",
+                                    "Qui est le plus susceptible de mentir sur son CV et de se faire griller ?"
+                        ],
+                        "boire_jamais": [
+                                    "Je n'ai jamais fouillé le téléphone de mon partenaire.",
+                                    "Je n'ai jamais menti pour éviter une soirée.",
+                                    "Je n'ai jamais volé un petit objet dans un magasin.",
+                                    "Je n'ai jamais vomi en public.",
+                                    "Je n'ai jamais stalké un ex avec un faux compte.",
+                                    "Je n'ai jamais fait pipi dans une piscine municipale.",
+                                    "Je n'ai jamais utilisé la brosse à dents de quelqu'un d'autre sans lui dire.",
+                                    "Je n'ai jamais renvoyé un plat au restaurant juste pour embêter le serveur.",
+                                    "Je n'ai jamais pleuré pour manipuler une situation.",
+                                    "Je n'ai jamais fait semblant d'être au téléphone pour ignorer quelqu'un."
+                        ],
+                        "boire_action": [
+                                    "Action : Laisse le groupe regarder tes 5 dernières recherches Google, ou bois 3 gorgées.",
+                                    "Action : Mime un singe enragé pendant 10 secondes, ou bois 2 gorgées.",
+                                    "Action : Laisse un joueur envoyer un message au hasard à ton dernier contact, ou bois cul sec.",
+                                    "Action : Fais un compliment gênant à ton voisin de droite, ou bois 2 gorgées.",
+                                    "Action : Raconte la pire honte de ta vie, ou bois 4 gorgées.",
+                                    "Action : Parle avec un accent québécois jusqu'à ton prochain tour, ou bois 3 gorgées.",
+                                    "Action : Laisse le groupe choisir ta prochaine photo de profil pour 24h, ou bois cul sec.",
+                                    "Action : Mange un bout de papier, ou bois 2 gorgées.",
+                                    "Action : Fais 10 pompes, ou bois 3 gorgées.",
+                                    "Action : Ne cligne pas des yeux pendant 30 secondes. Si tu perds, bois 2 gorgées."
+                        ],
+                        "boire_dictateur": [
+                                    "Le Dictateur décide : Interdiction de dire 'Oui' ou 'Non'. Le premier qui le fait boit 2 gorgées.",
+                                    "Le Dictateur décide : Tu dois vouvoyer tout le monde. Si tu tutoies, tu bois.",
+                                    "Le Dictateur décide : Choisis un mot interdit. Celui qui le dit boit 2 gorgées.",
+                                    "Le Dictateur décide : Interdiction de toucher son téléphone, sinon cul sec.",
+                                    "Le Dictateur décide : À chaque fois qu'on te pose une question, réponds par une question, sinon bois.",
+                                    "Le Dictateur décide : Interdiction de croiser les bras ou les jambes. Si pris en flag, 1 gorgée.",
+                                    "Le Dictateur décide : Le joueur à ta gauche est ton esclave, il doit te servir tes verres.",
+                                    "Le Dictateur décide : Tu ne peux plus pointer du doigt. Si tu le fais, tu bois.",
+                                    "Le Dictateur décide : Interdiction d'utiliser des prénoms. Si tu le fais, tu bois.",
+                                    "Le Dictateur décide : À chaque fois qu'un joueur rit, il boit 1 gorgée."
+                        ],
+                        "boire_serieux": [
+                                    "Blague : 'Quelle est la différence entre les oiseaux et les banquiers ? Les oiseaux plumés ne volent plus.' (Ne ris pas)",
+                                    "Blague : 'Que dit un aveugle quand on lui donne du papier de verre ? Putain c'est écrit petit.' (Ne ris pas)",
+                                    "Blague : 'C'est l'histoire d'un pingouin qui respire par le cul. Un jour il s'assoit, et il meurt.' (Ne ris pas)",
+                                    "Blague : 'Comment appelle-t-on un chien sans patte ? On ne l'appelle pas, on va le chercher.' (Ne ris pas)",
+                                    "Blague : 'Quel est le point commun entre un parachute et l'humour ? Quand tu n'en as pas, tu t'écrases.' (Ne ris pas)"
+                        ],
+                        "boire_7sec": [
+                                    "Tu as 7 secondes pour citer 3 pires endroits pour rompre.",
+                                    "Tu as 7 secondes pour citer 3 animaux qui ont l'air cons.",
+                                    "Tu as 7 secondes pour citer 3 choses à faire avec un cadavre.",
+                                    "Tu as 7 secondes pour citer 3 mots qui commencent par 'Z'.",
+                                    "Tu as 7 secondes pour citer 3 choses qu'il ne faut pas mettre au micro-ondes."
+                        ],
+                        "boire_roulette": [
+                                    "Roulette : Le joueur le plus jeune boit 2 gorgées.",
+                                    "Roulette : Tous ceux qui ont un vêtement noir boivent 1 gorgée.",
+                                    "Roulette : Le joueur avec le plus de batterie distribue 3 gorgées.",
+                                    "Roulette : Tous les célibataires boivent 2 gorgées. S'il n'y en a pas, tout le monde boit.",
+                                    "Roulette : Le dernier à toucher le sol avec sa main boit 2 gorgées."
+                        ],
+                        "boire_menteur": [
+                                    "Vrai ou Faux : Les cochons peuvent manger un corps humain entier (os compris). (Vrai)",
+                                    "Vrai ou Faux : On avale en moyenne 8 araignées par an en dormant. (Faux, légende)",
+                                    "Vrai ou Faux : Les loutres de mer se tiennent la main en dormant. (Vrai)",
+                                    "Vrai ou Faux : Hitler a été nominé pour le prix Nobel de la paix. (Vrai)",
+                                    "Vrai ou Faux : Le miel est du vomi d'abeille. (Vrai)"
+                        ],
+                        "boire_kamikaze": [
+                                    "Kamikaze : Thème 'Animaux'. Le 1er qui se trompe boit 3 gorgées.",
+                                    "Kamikaze : Thème 'Insultes douces'. Le 1er qui se trompe boit 3 gorgées.",
+                                    "Kamikaze : Thème 'Légumes'. Le 1er qui se trompe boit 3 gorgées.",
+                                    "Kamikaze : Thème 'Maladies mortelles'. Le 1er qui se trompe boit 3 gorgées.",
+                                    "Kamikaze : Thème 'Prénoms de beaufs'. Le 1er qui se trompe boit 3 gorgées."
+                        ],
+                        "boire_dilemme": [
+                                    "Tu préfères : Ne plus avoir de dents OU ne plus avoir de nez ?",
+                                    "Tu préfères : Savoir QUAND tu vas mourir OU COMMENT tu vas mourir ?",
+                                    "Tu préfères : Manger du caca goût chocolat OU du chocolat goût caca ?",
+                                    "Tu préfères : Toujours dire à voix haute ce que tu penses OU devenir muet ?",
+                                    "Tu préfères : Trouver un poil dans tous tes plats OU boire toujours de l'eau tiède ?"
+                        ]
+            },
+            "hard": {
+                        "tribunal": [
+                                    "La taille compte, et ceux qui disent le contraire se mentent à eux-mêmes.",
+                                    "Tromper son/sa partenaire une seule fois en soirée, c'est pas si grave si personne ne l'apprend.",
+                                    "Faire l'amour dans le noir complet, c'est pour les coincés.",
+                                    "Les plans à 3 finissent toujours par détruire la relation.",
+                                    "Simuler au lit est parfois nécessaire pour sauver l'ego de l'autre.",
+                                    "Avoir des fantasmes sur le/la partenaire d'un ami est totalement normal.",
+                                    "Coucher le premier soir est la meilleure façon de savoir si ça vaut le coup de continuer.",
+                                    "Payer pour du contenu sur OnlyFans est pathétique.",
+                                    "Le porno déforme complètement la réalité et ruine la sexualité.",
+                                    "Fouiller dans le téléphone de son partenaire, c'est légitime si on a un doute."
+                        ],
+                        "draft": [
+                                    "Pire phrase à dire juste avant de jouir.",
+                                    "Pire endroit du corps où retrouver un poil inconnu.",
+                                    "Pire objet à utiliser comme sex-toy improvisé.",
+                                    "Pire prénom à hurler par erreur au lit.",
+                                    "Pire chose à découvrir dans l'historique internet de son/sa partenaire.",
+                                    "Pire endroit public pour essayer de faire l'amour discrètement.",
+                                    "Pire chose à dire à ses beaux-parents en parlant de leur fille/fils.",
+                                    "Pire excuse pour justifier une panne au lit.",
+                                    "Pire message envoyé par erreur au mauvais groupe (famille/travail).",
+                                    "Pire fétiche inavouable à découvrir chez quelqu'un d'autre."
+                        ],
+                        "prefere": [
+                                    "Tu préfères surprendre tes parents en train de faire l'amour OU qu'ils te surprennent en train de faire l'amour ?",
+                                    "Tu préfères coucher une fois avec ton/ta cousin(e) pour 100 000€ OU ne jamais le faire mais tout le monde croit que tu l'as fait ?",
+                                    "Tu préfères ne plus jamais ressentir d'orgasme de ta vie OU ne plus jamais pouvoir te masturber ?",
+                                    "Tu préfères avoir une sex-tape qui fuite au travail OU devant toute ta famille ?",
+                                    "Tu préfères que ton historique internet soit lu à ton enterrement OU devoir le lire à voix haute devant tes parents demain ?",
+                                    "Tu préfères coucher avec la personne la plus moche du monde mais tout le monde pense que c'était le/la plus beau/belle, OU l'inverse ?",
+                                    "Tu préfères crier le nom de ton/ta pire ex au lit à chaque fois, OU que ton partenaire crie le nom de son ex ?",
+                                    "Tu préfères n'avoir que des rapports qui durent 1 minute maximum OU des rapports qui durent minimum 3 heures sans pouvoir t'arrêter ?",
+                                    "Tu préfères devoir toujours filmer tes ébats OU devoir toujours avoir un spectateur muet dans la pièce ?",
+                                    "Tu préfères sucer un orteil sale OU te faire lécher l'aisselle quand tu as transpiré ?"
+                        ],
+                        "daube": [
+                                    "Un documentaire en caméra cachée sur les fétiches les plus dégoûtants des gens normaux.",
+                                    "Une télé-réalité où 10 célibataires doivent deviner qui parmi eux a la plus petite taille.",
+                                    "Un thriller érotique où l'arme du crime est toujours un sex-toy insolite.",
+                                    "Une comédie romantique où les deux protagonistes ont le syndrome de la Tourette, mais seulement pour des insultes sexuelles.",
+                                    "Un film d'horreur où un esprit maléfique te force à envoyer des nudes à ta mère si tu t'endors.",
+                                    "Une série dramatique sur le quotidien du modérateur qui doit vérifier tout le porno illégal du net.",
+                                    "Un jeu télévisé où tu gagnes de l'argent seulement si tu arrives à simuler un orgasme convaincant devant tes beaux-parents.",
+                                    "Une application de rencontre qui ne matche que les gens ayant le même MST.",
+                                    "Un biopic sur l'inventeur de la première poupée gonflable réaliste.",
+                                    "Un film post-apocalyptique où la monnaie d'échange n'est plus l'eau, mais les faveurs sexuelles."
+                        ],
+                        "redflag": [
+                                    "C'est un 10, mais au lit, il/elle veut toujours que tu l'appelles 'papa' ou 'maman'.",
+                                    "C'est un 10, mais il/elle refuse de te toucher si tu n'as pas pris 2 douches juste avant.",
+                                    "C'est un 10, mais il/elle ne fait aucun bruit ni mouvement pendant l'acte, comme un cadavre.",
+                                    "C'est un 10, mais il/elle a un album photo caché avec des photos de ses exs nus.",
+                                    "C'est un 10, mais il/elle veut absolument filmer la première fois sans te demander.",
+                                    "C'est un 10, mais il/elle refuse tout préliminaire, c'est directement l'action.",
+                                    "C'est un 10, mais il/elle demande toujours de noter sa performance sur 10 juste après.",
+                                    "C'est un 10, mais il/elle a un fétiche inavouable avec les pieds sales.",
+                                    "C'est un 10, mais il/elle pleure systématiquement à la fin du rapport.",
+                                    "C'est un 10, mais il/elle veut que tu portes un masque de politicien célèbre pendant."
+                        ],
+                        "boire_susceptible": [
+                                    "Qui est le plus susceptible de tromper son/sa partenaire sans aucun scrupule ?",
+                                    "Qui est le plus susceptible d'envoyer des nudes à la mauvaise personne ?",
+                                    "Qui est le plus susceptible de coucher avec l'ex d'un ami présent dans la pièce ?",
+                                    "Qui est le plus susceptible d'avoir un compte caché sur un site X ?",
+                                    "Qui est le plus susceptible de proposer un plan à 3 et d'être jaloux pendant ?",
+                                    "Qui est le plus susceptible de coucher pour une promotion au travail ?",
+                                    "Qui est le plus susceptible de fétichiser quelque chose de très bizarre ?",
+                                    "Qui est le plus susceptible de contracter une MST lors de ces vacances ?",
+                                    "Qui est le plus susceptible de simuler au lit régulièrement ?",
+                                    "Qui est le plus susceptible de faire une sextape et de la 'perdre' volontairement ?"
+                        ],
+                        "boire_jamais": [
+                                    "Je n'ai jamais fantasmé sur quelqu'un dans cette pièce.",
+                                    "Je n'ai jamais eu de rapport sexuel dans un lieu public risqué.",
+                                    "Je n'ai jamais simulé un orgasme pour que ça se termine plus vite.",
+                                    "Je n'ai jamais eu envie d'essayer le bondage ou le BDSM.",
+                                    "Je n'ai jamais couché le premier soir avec un inconnu total.",
+                                    "Je n'ai jamais regretté amèrement la personne avec qui je me suis réveillé(e).",
+                                    "Je n'ai jamais utilisé d'objet insolite (non prévu pour) comme sex-toy.",
+                                    "Je n'ai jamais envoyé une photo de moi nu(e).",
+                                    "Je n'ai jamais pensé à un(e) ex pendant que je faisais l'amour avec quelqu'un d'autre.",
+                                    "Je n'ai jamais fait l'amour dans la chambre de mes parents."
+                        ],
+                        "boire_action": [
+                                    "Action : Embrasse dans le cou la personne à ta gauche, ou bois 4 gorgées.",
+                                    "Action : Laisse le groupe regarder tes photos 'Masquées' ou 'Privées', ou bois cul sec.",
+                                    "Action : Mime ta position sexuelle préférée, ou bois 3 gorgées.",
+                                    "Action : Lèche sensuellement l'oreille de ton voisin de droite, ou bois 4 gorgées.",
+                                    "Action : Avoue quel est ton fantasme inavouable, ou bois 5 gorgées.",
+                                    "Action : Fais un lap-dance à la personne en face de toi pendant 30 sec, ou bois cul sec.",
+                                    "Action : Simule un orgasme très bruyant pendant 5 secondes, ou bois 4 gorgées.",
+                                    "Action : Laisse un joueur écrire 'J'ai envie de toi' à un contact au hasard, ou bois cul sec.",
+                                    "Action : Montre ton historique de navigation privée, ou bois 5 gorgées.",
+                                    "Action : Enlève un vêtement (pas les chaussures), ou bois 3 gorgées."
+                        ],
+                        "boire_dictateur": [
+                                    "Le Dictateur décide : Chaque joueur doit boire son verre en gardant un contact visuel intense avec son voisin.",
+                                    "Le Dictateur décide : Interdiction de porter des chaussettes. Tout le monde doit montrer ses pieds.",
+                                    "Le Dictateur décide : Le joueur de ton choix devient ton soumis sexuel (virtuel). Il doit t'appeler 'Maître/Maîtresse'.",
+                                    "Le Dictateur décide : À chaque gorgée bue, on doit lâcher un petit gémissement de plaisir.",
+                                    "Le Dictateur décide : Tous ceux qui portent des sous-vêtements noirs boivent 2 gorgées.",
+                                    "Le Dictateur décide : La personne à ta droite doit masser tes épaules pendant 2 minutes.",
+                                    "Le Dictateur décide : Pose une question indiscrète au joueur de ton choix, il doit répondre ou boire cul sec.",
+                                    "Le Dictateur décide : Deux joueurs de ton choix doivent s'échanger un vêtement.",
+                                    "Le Dictateur décide : Choisis deux personnes qui ont l'interdiction de se parler. S'ils communiquent, ils boivent.",
+                                    "Le Dictateur décide : Tu peux palper le torse/les pecs du joueur de ton choix pour 'vérifier' sa musculature."
+                        ],
+                        "boire_serieux": [
+                                    "Blague : 'Quelle est la différence entre le sexe anal et le sexe oral ? Le goût.' (Ne ris pas, sinon bois 2 gorgées)",
+                                    "Blague : 'Quel est le point commun entre un gynécologue et un livreur de pizza ? Ils peuvent le sentir, mais pas le manger.'",
+                                    "Blague : 'Comment s'appelle le bout de peau inutile à l'extrémité du pénis ? L'homme.'",
+                                    "Blague : 'Quelle est la différence entre un thermomètre buccal et un thermomètre rectal ? Le goût.'",
+                                    "Blague : 'Que fait un spermatozoïde en costume ? Il va à une érection syndicale.'"
+                        ],
+                        "boire_7sec": [
+                                    "Tu as 7 secondes pour citer 3 synonymes vulgaires de l'acte sexuel.",
+                                    "Tu as 7 secondes pour citer 3 positions sexuelles.",
+                                    "Tu as 7 secondes pour citer 3 objets insolites qu'on peut utiliser comme sex-toy.",
+                                    "Tu as 7 secondes pour citer 3 mots que tu aimes entendre au lit.",
+                                    "Tu as 7 secondes pour citer 3 IST (infections sexuellement transmissibles)."
+                        ],
+                        "boire_roulette": [
+                                    "Roulette : Ceux qui ont déjà envoyé des nudes boivent 2 gorgées.",
+                                    "Roulette : Le/la plus pervers(e) du groupe (désigné à l'unanimité) boit 3 gorgées.",
+                                    "Roulette : Ceux qui n'ont pas eu de rapport sexuel depuis plus d'un mois boivent 3 gorgées.",
+                                    "Roulette : Ceux qui ont déjà trompé boivent cul sec (soyez honnêtes).",
+                                    "Roulette : La personne avec le plus gros 'body count' distribue 4 gorgées."
+                        ],
+                        "boire_menteur": [
+                                    "Vrai ou Faux : Cléopâtre a inventé le premier vibromasseur en utilisant une gourde remplie d'abeilles vivantes. (Vrai)",
+                                    "Vrai ou Faux : Le clitoris contient plus de 8000 terminaisons nerveuses. (Vrai)",
+                                    "Vrai ou Faux : Il est médicalement impossible de se fracturer le pénis. (Faux, c'est possible et horrible)",
+                                    "Vrai ou Faux : Les bonobos résolvent 90% de leurs conflits par des actes sexuels. (Vrai)",
+                                    "Vrai ou Faux : Le sperme est excellent pour la peau car il contient du zinc et des vitamines C. (Vrai)"
+                        ],
+                        "boire_kamikaze": [
+                                    "Kamikaze : Thème 'Positions sexuelles'. Le 1er qui se trompe boit 3 gorgées.",
+                                    "Kamikaze : Thème 'Noms de sex-toys'. Le 1er qui se trompe boit 3 gorgées.",
+                                    "Kamikaze : Thème 'Synonymes de pénis'. Le 1er qui se trompe boit 3 gorgées.",
+                                    "Kamikaze : Thème 'Lieux insolites pour faire l'amour'. Le 1er qui se trompe boit 3 gorgées.",
+                                    "Kamikaze : Thème 'Actrices ou Acteurs X'. Le 1er qui se trompe boit 3 gorgées."
+                        ],
+                        "boire_dilemme": [
+                                    "Tu préfères : Coucher avec le/la partenaire de ton meilleur ami OU que ton meilleur ami couche avec ton/ta partenaire ?",
+                                    "Tu préfères : Avoir des dents à la place des poils pubiens OU des poils pubiens à la place des dents ?",
+                                    "Tu préfères : Ne plus jamais pouvoir jouir de ta vie OU devoir crier à pleins poumons à chaque fois que tu jouis ?",
+                                    "Tu préfères : Être surpris en train de te masturber par tes parents OU surprendre tes parents en train de faire l'amour ?",
+                                    "Tu préfères : Ne pouvoir faire l'amour que dans l'obscurité totale pour le reste de ta vie OU devoir toujours le faire en plein jour en public ?"
+                        ]
+            }
+};
 
         const gameTitles = {
             tribunal: "Tribunal des Opinions",
@@ -1143,12 +1083,17 @@
         ];
 
         let currentGame = '';
+        let currentTheme = 'soft';
         let availableIndices = {};
         let players = [];
+        let timerInterval;
 
         function initIndices() {
-            for (let key in phrases) {
-                availableIndices[key] = Array.from({length: phrases[key].length}, (_, i) => i);
+            availableIndices = {};
+            for (let theme in phrases) {
+                for (let key in phrases[theme]) {
+                    availableIndices[theme + '_' + key] = Array.from({length: phrases[theme][key].length}, (_, i) => i);
+                }
             }
             saveState();
         }
@@ -1159,18 +1104,18 @@
         }
 
         function loadState() {
+            const savedVersion = localStorage.getItem('voyage_version');
+            if (savedVersion !== 'v4_themes') {
+                localStorage.clear();
+                localStorage.setItem('voyage_version', 'v4_themes');
+            }
+
             const savedPlayers = localStorage.getItem('voyage_players');
             if (savedPlayers) players = JSON.parse(savedPlayers);
 
             const savedIndices = localStorage.getItem('voyage_availableIndices');
             if (savedIndices) {
                 availableIndices = JSON.parse(savedIndices);
-                // Vérifier s'il y a de nouveaux jeux ajoutés depuis la dernière sauvegarde
-                for (let key in phrases) {
-                    if (!availableIndices[key]) {
-                        availableIndices[key] = Array.from({length: phrases[key].length}, (_, i) => i);
-                    }
-                }
             } else {
                 initIndices();
             }
@@ -1178,7 +1123,8 @@
 
         function resetMemory() {
             if(confirm("Veux-tu vraiment effacer tous les joueurs, les coins et recommencer les cartes à zéro ?")) {
-                localStorage.clear();
+                localStorage.removeItem('voyage_players');
+                localStorage.removeItem('voyage_availableIndices');
                 players = [];
                 initIndices();
                 alert("Mémoire effacée !");
@@ -1194,7 +1140,6 @@
             const input = document.getElementById('player-input');
             const name = input.value.trim();
             if (name) {
-                // Nouveau joueur : scores à 0, 0 BussCoins
                 players.push({ name: name, score: 0, coins: 0 });
                 input.value = '';
                 saveState();
@@ -1244,27 +1189,66 @@
 
         function startGame(gameKey) {
             currentGame = gameKey;
-            switchView('menu-view', 'players-setup-view', () => {
+            switchView('menu-view', 'theme-setup-view');
+        }
+
+        function selectTheme(theme) {
+            currentTheme = theme;
+            switchView('theme-setup-view', 'players-setup-view', () => {
                 document.getElementById('player-input').focus();
             });
         }
 
         function returnToMenu(currentViewId) {
+            document.body.classList.remove('timer-flash');
+            clearInterval(timerInterval);
             switchView(currentViewId, 'menu-view');
         }
 
         function beginGame() {
-            players.forEach(p => p.score = 0); // Reset des points (pas des coins)
+            players.forEach(p => p.score = 0); 
             
             switchView('players-setup-view', 'game-view', () => {
                 const gameTitle = document.getElementById('game-title');
-                gameTitle.innerText = gameTitles[currentGame];
-                gameTitle.className = 'txt-' + currentGame;
+                gameTitle.innerText = gameTitles[currentGame] + (currentTheme === 'hard' ? ' 🌶️' : '');
+                gameTitle.className = 'txt-' + currentGame.replace('boire_', 'boire'); // Fallback style
+                if (currentGame.includes('boire')) gameTitle.className = 'txt-boire';
+                if (currentGame === 'tribunal') gameTitle.className = 'txt-tribunal';
+                if (currentGame === 'draft') gameTitle.className = 'txt-draft';
+                if (currentGame === 'prefere') gameTitle.className = 'txt-prefere';
+                if (currentGame === 'daube') gameTitle.className = 'txt-daube';
+                if (currentGame === 'redflag') gameTitle.className = 'txt-redflag';
                 
                 updateScoreboard();
                 renderVoteButtons();
                 nextPhrase(true);
             });
+        }
+
+        // --- Chrono 7 Secondes ---
+        function startTimer() {
+            const display = document.getElementById('timer-display');
+            const btn = document.getElementById('btn-timer-start');
+            let timeLeft = 7;
+            
+            btn.style.display = 'none';
+            display.innerText = timeLeft;
+            display.classList.remove('timer-flash');
+            document.body.classList.remove('timer-flash');
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                display.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    display.innerText = "0 ! BOIS !";
+                    document.body.classList.add('timer-flash');
+                    display.classList.add('timer-flash');
+                    btn.innerText = "Relancer ⏱️";
+                    btn.style.display = 'block';
+                }
+            }, 1000);
         }
 
         // --- Boutique (Shop) ---
@@ -1312,7 +1296,7 @@
                 player.coins -= item.cost;
                 saveState();
                 alert(`🎁 ${player.name} vient d'acheter : "${item.name}" ! Préparez-vous !`);
-                renderShopItems(); // Refresh la vue avec le nouveau solde
+                renderShopItems();
             }
         }
 
@@ -1356,18 +1340,19 @@
 
         function votePlayer(index) {
             players[index].score += 1;
-            players[index].coins += 10; // Gagne 10 BussCoins par victoire
+            players[index].coins += 10;
             saveState();
             updateScoreboard();
             nextPhrase();
         }
 
         function nextPhrase(isFirst = false) {
-            let list = availableIndices[currentGame];
+            const memKey = currentTheme + '_' + currentGame;
+            let list = availableIndices[memKey];
             
-            if (list.length === 0) {
-                list = Array.from({length: phrases[currentGame].length}, (_, i) => i);
-                availableIndices[currentGame] = list;
+            if (!list || list.length === 0) {
+                list = Array.from({length: phrases[currentTheme][currentGame].length}, (_, i) => i);
+                availableIndices[memKey] = list;
             }
             
             const randomIndexList = Math.floor(Math.random() * list.length);
@@ -1376,16 +1361,31 @@
             
             const textElement = document.getElementById('game-text');
             const cardElement = document.getElementById('game-card');
+
+            // Timer display logic
+            if (currentGame === 'boire_7sec') {
+                document.getElementById('timer-container').style.display = 'flex';
+                document.getElementById('timer-display').innerText = '7';
+                document.getElementById('timer-display').classList.remove('timer-flash');
+                document.getElementById('btn-timer-start').style.display = 'block';
+                document.getElementById('btn-timer-start').innerText = 'Lancer le Chrono ⏱️';
+                document.body.classList.remove('timer-flash');
+                clearInterval(timerInterval);
+            } else {
+                document.getElementById('timer-container').style.display = 'none';
+                document.body.classList.remove('timer-flash');
+                clearInterval(timerInterval);
+            }
             
             if (isFirst) {
-                textElement.innerText = phrases[currentGame][phraseIndex];
+                textElement.innerText = phrases[currentTheme][currentGame][phraseIndex];
                 textElement.className = 'text-pop-in';
             } else {
                 textElement.className = 'text-pop-out';
                 cardElement.style.transform = 'scale(0.98)';
                 
                 setTimeout(() => {
-                    textElement.innerText = phrases[currentGame][phraseIndex];
+                    textElement.innerText = phrases[currentTheme][currentGame][phraseIndex];
                     textElement.className = 'text-pop-in';
                     cardElement.style.transform = 'scale(1)';
                 }, 250);
