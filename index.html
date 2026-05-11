@@ -92,7 +92,7 @@
         h1 {
             text-align: center;
             font-size: 2.6rem;
-            margin: 30px 0 40px 0;
+            margin: 20px 0 30px 0;
             font-weight: 900;
             letter-spacing: -1px;
             background: linear-gradient(135deg, #ffffff 0%, #b3b3b3 100%);
@@ -102,14 +102,14 @@
         }
 
         /* Vues */
-        #menu-view, #players-setup-view, #game-view {
+        #menu-view, #players-setup-view, #game-view, #shop-view {
             display: flex;
             flex-direction: column;
             flex: 1;
             transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        #players-setup-view, #game-view {
+        #players-setup-view, #game-view, #shop-view {
             display: none;
             opacity: 0;
             transform: scale(0.95);
@@ -166,6 +166,18 @@
         .btn-menu:active {
             transform: scale(0.96);
             filter: brightness(1.2);
+        }
+
+        .btn-shop {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 215, 0, 0.05) 100%);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.3);
+            flex: none;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .btn-shop::before {
+            background: linear-gradient(135deg, rgba(255,215,0,0.5) 0%, rgba(255,215,0,0) 100%);
         }
 
         /* --- Player Setup View --- */
@@ -297,6 +309,10 @@
             border-radius: 12px;
             padding: 2px 8px;
         }
+        .coin-value {
+            color: #ffd700;
+            font-weight: 900;
+        }
 
         .card-container {
             flex: 1;
@@ -363,6 +379,15 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-vote small {
+            color: #ffd700;
+            font-size: 0.8rem;
+            opacity: 0.8;
         }
         .btn-vote:active {
             transform: scale(0.95);
@@ -372,7 +397,7 @@
             background: rgba(255, 59, 48, 0.1);
             border-color: rgba(255, 59, 48, 0.3);
             color: #ff3b30;
-            grid-column: 1 / -1; /* Prend toute la largeur si on veut, ou juste sa place */
+            grid-column: 1 / -1;
         }
 
         .btn-action {
@@ -411,6 +436,92 @@
         
         .text-pop-out { opacity: 0; transform: translateY(-20px) scale(0.95); }
         .text-pop-in { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* --- Shop View --- */
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .shop-header select {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            outline: none;
+            backdrop-filter: blur(10px);
+            appearance: none;
+        }
+        .shop-balance {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+        .shop-grid {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-right: 5px;
+        }
+        .shop-item {
+            background: rgba(25, 25, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        .shop-item.type-soft {
+            border-left: 4px solid #5ac8fa;
+        }
+        .shop-item.type-spicy {
+            border-left: 4px solid #ff2d55;
+            background: linear-gradient(90deg, rgba(255, 45, 85, 0.1) 0%, rgba(25, 25, 30, 0.6) 50%);
+        }
+        .shop-item-info {
+            flex: 1;
+            padding-right: 15px;
+        }
+        .shop-item-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .shop-item-cost {
+            color: #ffd700;
+            font-weight: 900;
+            font-size: 0.9rem;
+        }
+        .btn-buy {
+            background: #ffffff;
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-buy:disabled {
+            background: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.5);
+            cursor: not-allowed;
+        }
+        .btn-buy:active:not(:disabled) {
+            transform: scale(0.9);
+        }
+
     </style>
 </head>
 <body>
@@ -425,6 +536,7 @@
         <!-- Vue : Menu Principal -->
         <div id="menu-view">
             <h1>Jeu de Voyage</h1>
+            <button class="btn-menu btn-shop" onclick="openShop()">🛒 Boutique (BussCoins)</button>
             <div class="menu-buttons">
                 <button class="btn-menu bg-tribunal" onclick="startGame('tribunal')">Tribunal des Opinions</button>
                 <button class="btn-menu bg-draft" onclick="startGame('draft')">Draft de l'Absurde</button>
@@ -445,7 +557,7 @@
                 <!-- Les joueurs s'afficheront ici -->
             </div>
             <button class="btn-action btn-next" onclick="beginGame()" style="margin-bottom: 16px;">Commencer</button>
-            <button class="btn-action btn-back" onclick="returnMenuFromSetup()">Retour</button>
+            <button class="btn-action btn-back" onclick="returnToMenu('players-setup-view')">Retour</button>
         </div>
 
         <!-- Vue : Jeu en cours -->
@@ -468,8 +580,25 @@
                 <div id="vote-controls" class="vote-grid">
                     <!-- Boutons de vote injectés ici -->
                 </div>
-                <button class="btn-action btn-back" onclick="returnMenu()" style="margin-top: 10px;">Quitter la partie</button>
+                <button class="btn-action btn-back" onclick="returnToMenu('game-view')" style="margin-top: 10px;">Quitter la partie</button>
             </div>
+        </div>
+
+        <!-- Vue : Boutique -->
+        <div id="shop-view">
+            <h1>Boutique</h1>
+            <div class="shop-header">
+                <select id="shop-player-select" onchange="renderShopItems()">
+                    <!-- Liste déroulante des joueurs injectée ici -->
+                </select>
+                <div class="shop-balance" id="shop-balance">0 🪙</div>
+            </div>
+            
+            <div class="shop-grid" id="shop-grid">
+                <!-- Objets de la boutique injectés ici -->
+            </div>
+            
+            <button class="btn-action btn-back" onclick="returnToMenu('shop-view')">Retour au menu</button>
         </div>
     </div>
 
@@ -745,6 +874,28 @@
             redflag: "C'est un 10, MAIS..."
         };
 
+        const shopItems = [
+            // Soft / Amusants
+            { name: "Choix de la playlist musicale (30 min)", cost: 10, type: "soft" },
+            { name: "Surnom ridicule pour l'autre", cost: 10, type: "soft" },
+            { name: "Répondre avec un accent au choix (10 min)", cost: 20, type: "soft" },
+            { name: "Droit de veto absolu sur un vote", cost: 30, type: "soft" },
+            { name: "Massage des épaules (10 min)", cost: 40, type: "soft" },
+            { name: "Action Joker : Petite corvée à l'arrivée", cost: 50, type: "soft" },
+            
+            // Epicés (Tirés d'Amiocoin)
+            { name: "Baiser où tu veux, quand tu veux", cost: 20, type: "spicy" },
+            { name: "Manger qqch directement dans la bouche de l'autre", cost: 30, type: "spicy" },
+            { name: "Toucher l'autre en public sans se faire capter", cost: 40, type: "spicy" },
+            { name: "Droit à une sieste collée-serrée", cost: 50, type: "spicy" },
+            { name: "Lancer de dé coquin (6 idées sexy)", cost: 60, type: "spicy" },
+            { name: "Massage érotique à l’huile ce soir", cost: 80, type: "spicy" },
+            { name: "Gage mystère à exécuter sans le savoir", cost: 100, type: "spicy" },
+            { name: "Shooting photo sexy (privé)", cost: 120, type: "spicy" },
+            { name: "Nuit de plaisir avec toutes les envies réalisées", cost: 150, type: "spicy" },
+            { name: "Fantasme surprise réalisé sans tabou", cost: 200, type: "spicy" }
+        ];
+
         let currentGame = '';
         let availableIndices = {};
         let players = [];
@@ -755,18 +906,17 @@
             }
         }
 
-        // Gestion des Joueurs
+        // --- Gestion des Joueurs ---
         function handleEnter(event) {
-            if (event.key === 'Enter') {
-                addPlayer();
-            }
+            if (event.key === 'Enter') addPlayer();
         }
 
         function addPlayer() {
             const input = document.getElementById('player-input');
             const name = input.value.trim();
             if (name) {
-                players.push({ name: name, score: 0 });
+                // Nouveau joueur : scores à 0, 0 BussCoins
+                players.push({ name: name, score: 0, coins: 0 });
                 input.value = '';
                 renderPlayers();
             }
@@ -783,101 +933,108 @@
             players.forEach((p, index) => {
                 list.innerHTML += `
                     <div class="player-item">
-                        <span>${p.name}</span>
+                        <span>${p.name} <small style="color:#ffd700">(${p.coins} 🪙)</small></span>
                         <button class="btn-remove" onclick="removePlayer(${index})">&times;</button>
                     </div>
                 `;
             });
         }
 
-        // Navigation
-        function startGame(gameKey) {
-            currentGame = gameKey;
+        // --- Navigation ---
+        function switchView(fromId, toId, callback) {
+            const fromView = document.getElementById(fromId);
+            const toView = document.getElementById(toId);
             
-            const menuView = document.getElementById('menu-view');
-            const setupView = document.getElementById('players-setup-view');
-            
-            menuView.style.opacity = '0';
-            menuView.style.transform = 'scale(0.9)';
+            fromView.style.opacity = '0';
+            fromView.style.transform = 'scale(0.9)';
             
             setTimeout(() => {
-                menuView.style.display = 'none';
-                setupView.style.display = 'flex';
+                fromView.style.display = 'none';
+                toView.style.display = 'flex';
+                
+                if(callback) callback();
                 
                 setTimeout(() => {
-                    setupView.style.opacity = '1';
-                    setupView.style.transform = 'scale(1)';
-                    document.getElementById('player-input').focus();
+                    toView.style.opacity = '1';
+                    toView.style.transform = 'scale(1)';
                 }, 50);
             }, 300);
         }
 
-        function returnMenuFromSetup() {
-            const setupView = document.getElementById('players-setup-view');
-            const menuView = document.getElementById('menu-view');
-            
-            setupView.style.opacity = '0';
-            setupView.style.transform = 'scale(0.9)';
-            
-            setTimeout(() => {
-                setupView.style.display = 'none';
-                menuView.style.display = 'flex';
-                
-                setTimeout(() => {
-                    menuView.style.opacity = '1';
-                    menuView.style.transform = 'scale(1)';
-                }, 50);
-            }, 300);
+        function startGame(gameKey) {
+            currentGame = gameKey;
+            switchView('menu-view', 'players-setup-view', () => {
+                document.getElementById('player-input').focus();
+            });
+        }
+
+        function returnToMenu(currentViewId) {
+            switchView(currentViewId, 'menu-view');
         }
 
         function beginGame() {
-            // Réinitialise les scores à 0
-            players.forEach(p => p.score = 0);
-
-            const setupView = document.getElementById('players-setup-view');
-            const gameView = document.getElementById('game-view');
-            const gameTitle = document.getElementById('game-title');
+            players.forEach(p => p.score = 0); // Reset des points (pas des coins)
             
-            setupView.style.opacity = '0';
-            setupView.style.transform = 'scale(0.9)';
-            
-            setTimeout(() => {
-                setupView.style.display = 'none';
-                gameView.style.display = 'flex';
-                
+            switchView('players-setup-view', 'game-view', () => {
+                const gameTitle = document.getElementById('game-title');
                 gameTitle.innerText = gameTitles[currentGame];
                 gameTitle.className = 'txt-' + currentGame;
                 
                 updateScoreboard();
                 renderVoteButtons();
-                
-                setTimeout(() => {
-                    gameView.style.opacity = '1';
-                    gameView.style.transform = 'scale(1)';
-                    nextPhrase(true);
-                }, 50);
-            }, 300);
+                nextPhrase(true);
+            });
         }
 
-        function returnMenu() {
-            const menuView = document.getElementById('menu-view');
-            const gameView = document.getElementById('game-view');
-            
-            gameView.style.opacity = '0';
-            gameView.style.transform = 'scale(0.9)';
-            
-            setTimeout(() => {
-                gameView.style.display = 'none';
-                menuView.style.display = 'flex';
-                
-                setTimeout(() => {
-                    menuView.style.opacity = '1';
-                    menuView.style.transform = 'scale(1)';
-                }, 50);
-            }, 300);
+        // --- Boutique (Shop) ---
+        function openShop() {
+            if(players.length === 0) {
+                alert("Ajoutez d'abord des joueurs pour ouvrir la boutique et leur donner une cagnotte !");
+                return;
+            }
+            switchView('menu-view', 'shop-view', () => {
+                const select = document.getElementById('shop-player-select');
+                select.innerHTML = players.map((p, i) => `<option value="${i}">${p.name}</option>`).join('');
+                renderShopItems();
+            });
         }
 
-        // Logique de Jeu
+        function renderShopItems() {
+            const select = document.getElementById('shop-player-select');
+            const playerIndex = select.value;
+            const player = players[playerIndex];
+            
+            document.getElementById('shop-balance').innerText = player.coins + " 🪙";
+            
+            const grid = document.getElementById('shop-grid');
+            grid.innerHTML = shopItems.map((item, index) => {
+                const canAfford = player.coins >= item.cost;
+                return `
+                    <div class="shop-item type-${item.type}">
+                        <div class="shop-item-info">
+                            <div class="shop-item-name">${item.name}</div>
+                            <div class="shop-item-cost">${item.cost} 🪙</div>
+                        </div>
+                        <button class="btn-buy" onclick="buyItem(${index})" ${!canAfford ? 'disabled' : ''}>Acheter</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function buyItem(itemIndex) {
+            const select = document.getElementById('shop-player-select');
+            const playerIndex = select.value;
+            const player = players[playerIndex];
+            const item = shopItems[itemIndex];
+            
+            if (player.coins >= item.cost) {
+                player.coins -= item.cost;
+                alert(`🎁 ${player.name} vient d'acheter : "${item.name}" ! Préparez-vous !`);
+                renderShopItems(); // Refresh la vue avec le nouveau solde
+            }
+        }
+
+        // --- Logique de Jeu ---
         function updateScoreboard() {
             const scoreboard = document.getElementById('scoreboard');
             if (players.length === 0) {
@@ -888,7 +1045,8 @@
             scoreboard.innerHTML = players.map(p => `
                 <div class="score-badge">
                     <span>${p.name}</span>
-                    <span class="score-value">${p.score}</span>
+                    <span class="score-value">${p.score} pts</span>
+                    <span class="coin-value">${p.coins} 🪙</span>
                 </div>
             `).join('');
         }
@@ -896,7 +1054,6 @@
         function renderVoteButtons() {
             const container = document.getElementById('vote-controls');
             if (players.length === 0) {
-                // Si aucun joueur n'a été ajouté, on garde le bouton "Suivant" classique
                 container.innerHTML = `<button class="btn-action btn-next" onclick="nextPhrase()">Suivant</button>`;
                 container.style.display = 'flex';
                 return;
@@ -904,7 +1061,10 @@
             
             container.style.display = 'grid';
             let html = players.map((p, index) => `
-                <button class="btn-vote" onclick="votePlayer(${index})">+1 ${p.name}</button>
+                <button class="btn-vote" onclick="votePlayer(${index})">
+                    <span>+1 Point pour ${p.name}</span>
+                    <small>Gagne 10 🪙</small>
+                </button>
             `).join('');
             
             html += `<button class="btn-vote btn-skip" onclick="nextPhrase()">Passer la manche</button>`;
@@ -913,7 +1073,8 @@
         }
 
         function votePlayer(index) {
-            players[index].score++;
+            players[index].score += 1;
+            players[index].coins += 10; // Gagne 10 BussCoins par victoire
             updateScoreboard();
             nextPhrase();
         }
