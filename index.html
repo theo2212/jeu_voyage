@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Jeu de Voyage - Humour Noir</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
         :root {
             --c-tribunal: #ff3b30;
@@ -544,6 +548,7 @@
                 <button class="btn-menu bg-daube" onclick="startGame('daube')">Pitch de Daube</button>
                 <button class="btn-menu bg-redflag" onclick="startGame('redflag')">C'est un 10, MAIS...</button>
             </div>
+            <button class="btn-action btn-back" style="margin-top:20px; font-size:1rem;" onclick="resetMemory()">🔄 Réinitialiser la mémoire</button>
         </div>
 
         <!-- Vue : Configuration Joueurs -->
@@ -904,6 +909,33 @@
             for (let key in phrases) {
                 availableIndices[key] = Array.from({length: phrases[key].length}, (_, i) => i);
             }
+            saveState();
+        }
+
+        function saveState() {
+            localStorage.setItem('voyage_players', JSON.stringify(players));
+            localStorage.setItem('voyage_availableIndices', JSON.stringify(availableIndices));
+        }
+
+        function loadState() {
+            const savedPlayers = localStorage.getItem('voyage_players');
+            if (savedPlayers) players = JSON.parse(savedPlayers);
+
+            const savedIndices = localStorage.getItem('voyage_availableIndices');
+            if (savedIndices) {
+                availableIndices = JSON.parse(savedIndices);
+            } else {
+                initIndices();
+            }
+        }
+
+        function resetMemory() {
+            if(confirm("Veux-tu vraiment effacer tous les joueurs, les coins et recommencer les cartes à zéro ?")) {
+                localStorage.clear();
+                players = [];
+                initIndices();
+                alert("Mémoire effacée !");
+            }
         }
 
         // --- Gestion des Joueurs ---
@@ -918,12 +950,14 @@
                 // Nouveau joueur : scores à 0, 0 BussCoins
                 players.push({ name: name, score: 0, coins: 0 });
                 input.value = '';
+                saveState();
                 renderPlayers();
             }
         }
 
         function removePlayer(index) {
             players.splice(index, 1);
+            saveState();
             renderPlayers();
         }
 
@@ -1029,6 +1063,7 @@
             
             if (player.coins >= item.cost) {
                 player.coins -= item.cost;
+                saveState();
                 alert(`🎁 ${player.name} vient d'acheter : "${item.name}" ! Préparez-vous !`);
                 renderShopItems(); // Refresh la vue avec le nouveau solde
             }
@@ -1075,6 +1110,7 @@
         function votePlayer(index) {
             players[index].score += 1;
             players[index].coins += 10; // Gagne 10 BussCoins par victoire
+            saveState();
             updateScoreboard();
             nextPhrase();
         }
@@ -1089,6 +1125,7 @@
             
             const randomIndexList = Math.floor(Math.random() * list.length);
             const phraseIndex = list.splice(randomIndexList, 1)[0];
+            saveState();
             
             const textElement = document.getElementById('game-text');
             const cardElement = document.getElementById('game-card');
@@ -1109,7 +1146,12 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            initIndices();
+            loadState();
+            
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker Registered'));
+            }
         });
     </script>
 </body>

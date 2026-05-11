@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="20" fill="#07070a"/>
+  <rect width="90" height="90" x="5" y="5" rx="15" fill="none" stroke="#5ac8fa" stroke-width="2" opacity="0.5"/>
+  <text x="50" y="65" font-size="55" text-anchor="middle">🚌</text>
+</svg>
