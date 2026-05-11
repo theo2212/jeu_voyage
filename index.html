@@ -8,6 +8,9 @@
     <link rel="apple-touch-icon" href="icon.svg">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --c-tribunal: #ff3b30;
@@ -34,7 +37,7 @@
             padding: 0;
             background-color: var(--bg-dark);
             color: #ffffff;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Outfit', system-ui, -apple-system, sans-serif;
             height: 100vh;
             width: 100vw;
             overflow: hidden;
@@ -54,33 +57,33 @@
         .shape {
             position: absolute;
             border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.5;
-            animation: float 25s infinite ease-in-out alternate;
+            filter: blur(100px);
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out alternate;
         }
         .shape-1 {
-            width: 400px; height: 400px;
-            background: #2a0845;
-            top: -100px; left: -150px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #7e1262 0%, rgba(126,18,98,0) 70%);
+            top: -150px; left: -150px;
         }
         .shape-2 {
-            width: 500px; height: 500px;
-            background: #6441a5;
-            bottom: -150px; right: -150px;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, #38198a 0%, rgba(56,25,138,0) 70%);
+            bottom: -200px; right: -200px;
             animation-delay: -5s;
         }
         .shape-3 {
-            width: 300px; height: 300px;
-            background: #ff3b30;
-            top: 30%; left: 50%;
-            opacity: 0.15;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, #ff2d55 0%, rgba(255,45,85,0) 70%);
+            top: 40%; left: 40%;
+            opacity: 0.4;
             animation-delay: -10s;
         }
         
         @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(40px, 60px) scale(1.1); }
-            100% { transform: translate(-30px, 20px) scale(0.9); }
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(60px, 80px) scale(1.2) rotate(10deg); }
+            100% { transform: translate(-40px, 30px) scale(0.9) rotate(-5deg); }
         }
 
         /* Conteneur principal */
@@ -144,23 +147,26 @@
 
         .btn-menu {
             flex: none;
-            min-height: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            min-height: 65px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
             color: white;
             font-size: 1.15rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .bg-tribunal { background: linear-gradient(135deg, rgba(255,59,48,0.2) 0%, rgba(255,59,48,0.05) 100%); box-shadow: 0 10px 30px var(--c-tribunal-glow); }
@@ -198,6 +204,11 @@
             flex: none;
             padding: 20px;
             margin-bottom: 20px;
+            animation: pulse-shop 3s infinite alternate;
+        }
+        @keyframes pulse-shop {
+            0% { box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2); }
+            100% { box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5); }
         }
         .btn-shop::before {
             background: linear-gradient(135deg, rgba(255,215,0,0.5) 0%, rgba(255,215,0,0) 100%);
@@ -231,13 +242,14 @@
         .btn-add {
             background: linear-gradient(135deg, #007aff, #5ac8fa);
             border: none;
+            border-top: 1px solid rgba(255,255,255,0.4);
             border-radius: 16px;
             padding: 0 24px;
             color: #fff;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.4);
             transition: transform 0.1s;
         }
         .btn-add:active {
@@ -348,19 +360,30 @@
         }
 
         #game-card {
-            background: rgba(30, 30, 35, 0.4);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
             border-radius: 32px;
             padding: 40px 30px;
             width: 100%;
-            min-height: 280px;
+            min-height: 320px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 2px 0 rgba(255,255,255,0.2), inset 0 0 20px rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #game-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            border-radius: 32px 32px 0 0;
+            pointer-events: none;
         }
 
         #game-text {
@@ -448,7 +471,7 @@
         .btn-next {
             background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
             color: #000000;
-            box-shadow: 0 15px 30px rgba(255,255,255,0.15), inset 0 2px 0 rgba(255,255,255,0.8);
+            box-shadow: 0 15px 30px rgba(255,255,255,0.2), inset 0 2px 0 rgba(255,255,255,0.8);
         }
 
         .btn-back {
