@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jeu de Voyage - Humour Noir</title>
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --text-color: #f5f5f5;
+            --btn-radius: 20px;
+            
+            --c-tribunal: #ff3b30;
+            --c-draft: #007aff;
+            --c-prefere: #af52de;
+            --c-daube: #34c759;
+            --c-redflag: #ff9500;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin: 30px 0;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            background: linear-gradient(90deg, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Views */
+        #menu-view, #game-view {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #game-view {
+            display: none;
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        /* Menu Buttons */
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 15px;
+            padding-bottom: 20px;
+        }
+
+        .btn-menu {
+            flex: 1;
+            border: none;
+            border-radius: var(--btn-radius);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            cursor: pointer;
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-menu::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
+        }
+
+        .btn-menu:active {
+            transform: scale(0.95);
+            filter: brightness(0.9);
+        }
+
+        .bg-tribunal { background: linear-gradient(135deg, #ff3b30, #ff2d55); box-shadow: 0 8px 25px rgba(255, 59, 48, 0.3); }
+        .bg-draft { background: linear-gradient(135deg, #007aff, #5ac8fa); box-shadow: 0 8px 25px rgba(0, 122, 255, 0.3); }
+        .bg-prefere { background: linear-gradient(135deg, #af52de, #5856d6); box-shadow: 0 8px 25px rgba(175, 82, 222, 0.3); }
+        .bg-daube { background: linear-gradient(135deg, #34c759, #30d158); box-shadow: 0 8px 25px rgba(52, 199, 89, 0.3); }
+        .bg-redflag { background: linear-gradient(135deg, #ff9500, #ffcc00); box-shadow: 0 8px 25px rgba(255, 149, 0, 0.3); }
+
+        /* Game View */
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        #game-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .txt-tribunal { color: var(--c-tribunal); }
+        .txt-draft { color: var(--c-draft); }
+        .txt-prefere { color: var(--c-prefere); }
+        .txt-daube { color: var(--c-daube); }
+        .txt-redflag { color: var(--c-redflag); }
+
+        .card-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        #game-card {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px 30px;
+            width: 100%;
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        #game-text {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 700;
+            text-align: center;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 22px;
+            border-radius: 18px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .btn-action:active {
+            transform: scale(0.96);
+        }
+
+        .btn-next {
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.15);
+        }
+
+        .btn-back {
+            background-color: transparent;
+            color: #888;
+            border: 2px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="menu-view">
+        <h1>Jeu de Voyage</h1>
+        <div class="menu-buttons">
+            <button class="btn-menu bg-tribunal" onclick="startGame('tribunal')">Tribunal des Opinions</button>
+            <button class="btn-menu bg-draft" onclick="startGame('draft')">Draft de l'Absurde</button>
+            <button class="btn-menu bg-prefere" onclick="startGame('prefere')">Tu Préfères de l'Extrême</button>
+            <button class="btn-menu bg-daube" onclick="startGame('daube')">Pitch de Daube</button>
+            <button class="btn-menu bg-redflag" onclick="startGame('redflag')">C'est un 10, MAIS...</button>
+        </div>
+    </div>
+
+    <div id="game-view">
+        <div class="game-header">
+            <div id="game-title">Titre du jeu</div>
+        </div>
+        
+        <div class="card-container">
+            <div id="game-card">
+                <div id="game-text">Chargement...</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-action btn-next" onclick="nextPhrase()">Suivant</button>
+            <button class="btn-action btn-back" onclick="returnMenu()">Retour au menu</button>
+        </div>
+    </div>
+
+    <script>
+        const phrases = {
+            tribunal: [
+                "L'ananas sur la pizza est le sommet de la gastronomie.",
+                "Shrek 2 est meilleur que Le Parrain.",
+                "Les notes vocales de plus d'une minute sont une insulte au respect humain.",
+                "Mettre des chaussettes avec des sandales est un choix stylistique audacieux et valable.",
+                "L'eau gazeuse a le goût de l'eau qui a été électrocutée, c'est dégueulasse.",
+                "Dire \"je dis ça, je dis rien\" mérite la prison ferme.",
+                "Les bébés sont tous moches à la naissance, sans exception.",
+                "Astérix Mission Cléopâtre est le seul bon film comique français.",
+                "Les gens qui applaudissent à l'atterrissage de l'avion devraient être fichés S.",
+                "S'endormir devant un film est la meilleure partie du film.",
+                "Les vocaux WhatsApp devraient pouvoir être écoutés en x4.",
+                "Le Nutella est surcoté et a juste le goût de sucre gras.",
+                "Ceux qui écrivent \"sa va\" ne méritent pas le droit de vote.",
+                "L'astrologie est juste du racisme spatial.",
+                "Avoir un chat, c'est comme vivre avec un colocataire toxique qui ne paie pas le loyer.",
+                "Manger son burger avec des couverts est une preuve de psychopathie.",
+                "Les voice notes sont pires que les appels téléphoniques.",
+                "Le lundi est une meilleure journée que le dimanche (le dimanche soir est dépressif).",
+                "Titanic aurait été un bien meilleur film si l'iceberg avait frappé plus tôt.",
+                "Les influenceurs ne sont que des panneaux publicitaires ambulants.",
+                "Breaking Bad est beaucoup trop long pour ce que c'est.",
+                "Le vin rouge, c'est du jus de raisin qui a mal tourné.",
+                "Les mariages coûtent trop cher pour une fête où la moitié des gens s'ennuient.",
+                "Mettre du lait avant les céréales est la seule vraie méthode logique.",
+                "Friends est la série la moins drôle des années 90.",
+                "Les gens qui courent pour le plaisir sont des menteurs.",
+                "Les sushis, c'est juste du riz froid qui coûte cher.",
+                "Le fromage bleu, c'est littéralement de la moisissure, arrêtez de faire genre c'est bon.",
+                "Aller au cinéma pour le premier rencard est la pire idée possible.",
+                "L'été est la pire des saisons : on transpire et il y a des moustiques.",
+                "Les frites molles sont meilleures que les frites croustillantes.",
+                "Mettre un point à la fin d'un SMS est une agression passive.",
+                "Les gens qui mettent leur téléphone en haut-parleur dans le bus sont l'incarnation du mal.",
+                "Dormir avec la porte de la chambre ouverte est une invitation pour les démons.",
+                "Boire du café sans sucre, c'est juste aimer la souffrance.",
+                "Le Seigneur des Anneaux, c'est juste 9 heures de gens qui marchent.",
+                "Répondre \"ok\" à un message long mérite un blocage définitif.",
+                "Les voice notes en marchant dans la rue te font passer pour un agent secret raté.",
+                "Les parcs d'attractions, c'est juste payer cher pour faire la queue.",
+                "Les Crocs sont les chaussures les plus confortables jamais inventées.",
+                "Être végétarien pour sauver les animaux, c'est bien, mais le bacon c'est mieux.",
+                "La coriandre a le goût de punaise écrasée et de savon.",
+                "Les messages \"Joyeux anniversaire\" sur Facebook ne comptent pas.",
+                "Les films de super-héros sont tous les mêmes depuis 10 ans.",
+                "Aimer la bière, c'est juste un syndrome de Stockholm gustatif.",
+                "Les enfants dans les restaurants chics devraient être interdits.",
+                "Parler à son chien comme à un bébé est ridicule.",
+                "La pizza hawaïenne devrait être remboursée par la sécurité sociale.",
+                "Les gens qui se lèvent à 5h du matin sans obligation sont dangereux.",
+                "Ne pas finir son verre en soirée devrait être puni par la loi."
+            ],
+            draft: [
+                "Draft : Les pires célébrités avec qui être bloqué dans un ascenseur.",
+                "Draft : Le menu de fast-food ultime avec un budget illimité.",
+                "Draft : Ton équipe de survie zombie (que des personnages de dessins animés).",
+                "Draft : Les pires objets à offrir à un mariage.",
+                "Draft : Les phrases à ne surtout pas dire lors d'un entretien d'embauche.",
+                "Draft : Les super-pouvoirs les plus inutiles au quotidien.",
+                "Draft : Les animaux les plus nuls si on devait faire une guerre avec.",
+                "Draft : Ton braquage de banque (que des mascottes de marques).",
+                "Draft : Les pires choses à trouver sous son lit.",
+                "Draft : Les objets du quotidien qui mériteraient de disparaître.",
+                "Draft : Tes 5 ministres si tu étais Président (que des acteurs français).",
+                "Draft : Les pires bruits pour te réveiller le matin.",
+                "Draft : Les aliments impossibles à manger proprement en public.",
+                "Draft : Les personnages historiques avec qui faire la pire coloc.",
+                "Draft : Les choses les plus angoissantes dans un hôpital.",
+                "Draft : Les pires costumes pour Halloween quand tu as 30 ans.",
+                "Draft : Tes 5 gardes du corps (que des méchants Disney).",
+                "Draft : Les meilleures excuses de merde pour annuler une soirée.",
+                "Draft : Les pires endroits pour demander quelqu'un en mariage.",
+                "Draft : Les objets à emmener sur une île déserte pour se suicider plus vite.",
+                "Draft : Ton équipe pour un escape game (que des politiciens).",
+                "Draft : Les mots de passe les plus claqués au sol.",
+                "Draft : Les pires odeurs dans les transports en commun.",
+                "Draft : Les phobies qui n'ont aucun sens.",
+                "Draft : Les pires cadeaux de Noël reçus de ta grand-mère.",
+                "Draft : Les sports qui ne devraient pas exister.",
+                "Draft : Les pires moyens de mourir dans un jeu vidéo.",
+                "Draft : Tes 5 avocats de la défense (que des personnages de séries Netflix).",
+                "Draft : Les pires métiers du Moyen Âge.",
+                "Draft : Les pires chansons pour un enterrement.",
+                "Draft : Les pires choses à entendre juste avant l'anesthésie.",
+                "Draft : Les pires noms pour un chien de garde.",
+                "Draft : Ton équipage pour aller sur Mars (que des influenceurs).",
+                "Draft : Les pires mensonges de parents.",
+                "Draft : Les objets les plus dangereux dans une cuisine pour un maladroit.",
+                "Draft : Les pires choses à crier dans une bibliothèque.",
+                "Draft : Les pires thèmes pour une soirée d'anniversaire.",
+                "Draft : Les pires prénoms à donner à son enfant en 2024.",
+                "Draft : Les aliments qui n'ont rien à faire dans une raclette.",
+                "Draft : Les pires complots qui pourraient être vrais.",
+                "Draft : Ton équipe de football (que des personnages de Star Wars).",
+                "Draft : Les pires métiers pour un asocial.",
+                "Draft : Les choses que tu ne veux jamais entendre de la part du pilote de l'avion.",
+                "Draft : Les pires façons de se faire larguer.",
+                "Draft : Les insultes du 18ème siècle à remettre au goût du jour.",
+                "Draft : Ton boys band (que des tueurs en série).",
+                "Draft : Les pires questions à poser au premier date.",
+                "Draft : Les objets magiques d'Harry Potter les plus claqués.",
+                "Draft : Les pires idées d'inventions jamais brevetées.",
+                "Draft : Ton groupe de musique de la fin du monde (que des présentateurs télé)."
+            ],
+            prefere: [
+                "Tu préfères avoir des dents en mousse ou des cheveux en fil de fer ?",
+                "Tu préfères avoir la voix de Donald Duck à vie ou devoir crier pour parler ?",
+                "Tu préfères avoir des bras à la place des jambes ou des jambes à la place des bras ?",
+                "Tu préfères vomir des limaces chaque matin ou pleurer du sang chaque soir ?",
+                "Tu préfères ne plus jamais pouvoir te laver les dents ou ne plus jamais te laver les fesses ?",
+                "Tu préfères que tes parents voient ton historique internet complet ou ta sextape ?",
+                "Tu préfères manger une cuillère de caca goût chocolat ou une cuillère de chocolat goût caca ?",
+                "Tu préfères avoir toujours l'impression d'avoir un caillou dans ta chaussure ou une poussière dans l'œil ?",
+                "Tu préfères transpirer de la mayonnaise ou avoir l'haleine qui sent le camembert au soleil ?",
+                "Tu préfères être obligé de dire toutes tes pensées à voix haute ou ne plus jamais pouvoir parler ?",
+                "Tu préfères revivre le pire jour de ta vie 100 fois ou perdre 10 ans de ta vie ?",
+                "Tu préfères avoir des doigts de la taille de tes jambes ou des jambes de la taille de tes doigts ?",
+                "Tu préfères avoir le hoquet non-stop pendant 1 an ou éternuer toutes les 2 minutes pendant 5 ans ?",
+                "Tu préfères trouver un poil dans tous tes plats ou toujours boire de l'eau tiède ?",
+                "Tu préfères te battre contre 1 canard de la taille d'un cheval ou 100 chevaux de la taille d'un canard ?",
+                "Tu préfères porter des vêtements toujours légèrement humides ou ne jamais porter de sous-vêtements ?",
+                "Tu préfères mourir noyé ou mourir brûlé vif ?",
+                "Tu préfères avoir les ongles qui poussent de 5 cm par jour ou ne pas avoir de nez ?",
+                "Tu préfères lécher la barre du métro tous les matins ou embrasser un lépreux une fois par an ?",
+                "Tu préfères être riche mais tous tes amis te détestent, ou pauvre mais tout le monde t'adore ?",
+                "Tu préfères que ton/ta partenaire te trompe avec ton/ta meilleur(e) ami(e) ou avec un de tes parents ?",
+                "Tu préfères ne plus jamais manger de viande ou ne plus jamais avoir d'orgasme ?",
+                "Tu préfères manger ton plat préféré mixé tous les jours ou manger des croquettes pour chien en public ?",
+                "Tu préfères être toujours le premier à mourir dans un film d'horreur ou survivre mais perdre tous tes proches ?",
+                "Tu préfères toujours devoir te déplacer en moonwalk ou ne pouvoir tourner qu'à gauche ?",
+                "Tu préfères pisser un peu dans ton pantalon à chaque fois que tu ris ou péter bruyamment à chaque fois que tu pleures ?",
+                "Tu préfères éternuer des confettis ou tousser des paillettes ?",
+                "Tu préfères avoir le goût des toilettes publiques en bouche pour toujours ou l'odeur du vomi en permanence ?",
+                "Tu préfères coucher avec le cousin de ton partenaire ou que ton partenaire couche avec ton cousin ?",
+                "Tu préfères devoir tuer une personne innocente ou laisser mourir 5 criminels endurcis ?",
+                "Tu préfères avoir la peau transparente ou ne pas avoir de paupières ?",
+                "Tu préfères ne manger que des choses extrêmement piquantes ou manger tout sans aucun sel ni épice ?",
+                "Tu préfères avoir une voix extrêmement aigüe ou extrêmement grave et monocorde ?",
+                "Tu préfères éternuer chaque fois que tu es excité(e) ou bailler chaque fois que tu es en colère ?",
+                "Tu préfères avoir le visage de ton père/ta mère ou avoir le corps de ton père/ta mère ?",
+                "Tu préfères avoir un bébé qui pleure en boucle chez toi ou un chien qui aboie à chaque fois que tu parles ?",
+                "Tu préfères que tout ce que tu manges ait le goût du sang ou que tout ce que tu bois ait le goût d'urine ?",
+                "Tu préfères avoir toujours la braguette ouverte ou une tache marron suspecte sur tes pantalons ?",
+                "Tu préfères devoir te raser la tête tous les jours ou avoir des poils qui te sortent des oreilles en permanence ?",
+                "Tu préfères avoir un bouton énorme au milieu du front tous les jours ou avoir un rhume de cerveau éternel ?",
+                "Tu préfères être célèbre pour avoir commis un crime ridicule ou être inconnu pour avoir sauvé le monde ?",
+                "Tu préfères pouvoir parler aux animaux mais ils te détestent, ou lire dans les pensées mais entendre que des insultes ?",
+                "Tu préfères devoir courir partout au lieu de marcher, ou devoir ramper au lieu de courir ?",
+                "Tu préfères te faire opérer sans anesthésie ou faire l'amour en public devant ta famille ?",
+                "Tu préfères ne plus jamais ressentir le chaud ou ne plus jamais ressentir le froid (jusqu'à en mourir) ?",
+                "Tu préfères que tout le monde puisse voir ton temps d'écran quotidien ou tes recherches Google ?",
+                "Tu préfères avoir une seule fesse géante ou 3 petites fesses ?",
+                "Tu préfères avoir des mamelons en forme de yeux ou un œil à la place de chaque mamelon ?",
+                "Tu préfères être poursuivi par un escargot immortel qui te tuera s'il te touche, ou mourir dans 10 ans ?",
+                "Tu préfères manger un rat vivant ou un chat mort ?"
+            ],
+            daube: [
+                "Mots : Curé / Tronçonneuse / Tacos",
+                "Mots : Gynécologue / Espace / Pingouin",
+                "Mots : Chômeur / Dinosaure / Mayonnaise",
+                "Mots : Naine / Trampoline / KGB",
+                "Mots : EHPAD / Extraterrestre / Clou",
+                "Mots : Banquier / Vampire / Trotinette",
+                "Mots : Pédophile / Disney / Choucroute",
+                "Mots : Prêtre / Partouze / Aspirateur",
+                "Mots : Facteur / Apocalypse / Gode",
+                "Mots : Hitler / Poney / Discothèque",
+                "Mots : Macron / Nudiste / Camembert",
+                "Mots : Somnambule / Sniper / Litière",
+                "Mots : Bébé / MMA / Cassoulet",
+                "Mots : SDF / Téléportation / Banane",
+                "Mots : Nonne / Cyborg / Godemiché",
+                "Mots : Dentiste / Tueur à gages / Toboggan",
+                "Mots : Vegan / Cannibale / Tondeuse",
+                "Mots : Influenceuse / Goulag / Pamplemousse",
+                "Mots : Chien aveugle / Casino / Mafieux",
+                "Mots : Prof de maths / Crack / Orphelinat",
+                "Mots : Pompier / Pôle Emploi / Vagin",
+                "Mots : Plombier / Ninja / Diarrhée",
+                "Mots : Astrologue / Kamikaze / Pédalo",
+                "Mots : Castor / Fétichiste / Micro-ondes",
+                "Mots : Grand-mère / Cartel / Trottinette",
+                "Mots : Vierge / Satan / Kebab",
+                "Mots : Avocat / Ours bipolaire / Parachute",
+                "Mots : Flic / Pute / Moteur",
+                "Mots : Éboueur / Président / String",
+                "Mots : Chauffeur de bus / Zombies / Tampax",
+                "Mots : Berger / Soucoupe volante / Bidet",
+                "Mots : Chirurgien / Clou / Télétubbies",
+                "Mots : Sorcière / Péripatéticienne / Raclette",
+                "Mots : Nécromancien / Boulanger / Suppositoire",
+                "Mots : Clodo / Ferrari / Pigeons",
+                "Mots : Mime / Psychopathe / Cuillère",
+                "Mots : Escort / Vatican / Saucisse",
+                "Mots : Bûcheron / Sirène / Tronçonneuse",
+                "Mots : Depardieu / Vin / Piste cyclable",
+                "Mots : Moniteur d'auto-école / Al-Qaïda / Twingo",
+                "Mots : Cuisinier / Poisons / Orgasme",
+                "Mots : Acteur porno / Garderie / Smic",
+                "Mots : Espion / Chaussette / Ogre",
+                "Mots : Proctologue / Laser / Dinosaure",
+                "Mots : Pèlerin / Moto / LSD",
+                "Mots : Reine d'Angleterre / Strip-tease / Hachoir",
+                "Mots : Hobbit / Drogue / Aspirine",
+                "Mots : Pélican / Terroriste / Baignoire",
+                "Mots : Inspecteur des impôts / Gang bang / Tracteur",
+                "Mots : Clown / Gynécologie / Parapluie"
+            ],
+            redflag: [
+                "C'est un 10, mais il/elle applaudit quand l'avion atterrit.",
+                "C'est un 10, mais il/elle met le lait avant les céréales.",
+                "C'est un 10, mais il/elle écrit \"sa va\" au lieu de \"ça va\".",
+                "C'est un 10, mais il/elle renifle très fort ses propres pets.",
+                "C'est un 10, mais son haleine sent la mort le matin et il/elle veut te rouler des pelles.",
+                "C'est un 10, mais il/elle parle à sa mère en bébé.",
+                "C'est un 10, mais il/elle mâche la bouche ouverte en faisant du bruit.",
+                "C'est un 10, mais il/elle te demande \"T'es fâché(e) ?\" toutes les 5 minutes.",
+                "C'est un 10, mais il/elle a un portrait de Johnny Hallyday tatoué sur le mollet.",
+                "C'est un 10, mais il/elle collectionne les ongles coupés.",
+                "C'est un 10, mais il/elle ne tire jamais la chasse d'eau.",
+                "C'est un 10, mais il/elle met du ketchup sur les pâtes à la truffe.",
+                "C'est un 10, mais il/elle cligne d'un œil à chaque fois qu'il/elle ment.",
+                "C'est un 10, mais il/elle refuse de laver ses draps plus d'une fois par an.",
+                "C'est un 10, mais son rire ressemble à celui d'une mouette sous cocaïne.",
+                "C'est un 10, mais il/elle porte des Crocs avec des chaussettes au premier date.",
+                "C'est un 10, mais il/elle croit dur comme fer que la Terre est plate.",
+                "C'est un 10, mais il/elle parle de son ex au lit.",
+                "C'est un 10, mais il/elle fait des TikTok dans la rue en dansant.",
+                "C'est un 10, mais il/elle ne se lave jamais les dents le soir.",
+                "C'est un 10, mais il/elle rote à table sans s'excuser.",
+                "C'est un 10, mais il/elle est un fan hardcore de Cyril Hanouna.",
+                "C'est un 10, mais il/elle suce son pouce en dormant.",
+                "C'est un 10, mais il/elle compte l'argent que tu lui dois au centime près.",
+                "C'est un 10, mais il/elle a 4 chats et l'appartement sent la litière.",
+                "C'est un 10, mais il/elle refuse de payer l'addition par principe.",
+                "C'est un 10, mais il/elle mange ses crottes de nez au feu rouge.",
+                "C'est un 10, mais il/elle te critique sur ton poids.",
+                "C'est un 10, mais il/elle ne jure que par l'astrologie pour prendre des décisions.",
+                "C'est un 10, mais il/elle écoute du Jul à fond dans sa Twingo.",
+                "C'est un 10, mais il/elle a une voix ultra nasillarde.",
+                "C'est un 10, mais il/elle se ronge les ongles de pied.",
+                "C'est un 10, mais il/elle te spoil toutes les séries.",
+                "C'est un 10, mais il/elle pète au lit et met la couette sur ta tête.",
+                "C'est un 10, mais il/elle ne dit jamais \"merci\" au serveur.",
+                "C'est un 10, mais il/elle porte toujours un slip kangourou jauni.",
+                "C'est un 10, mais il/elle a 30 ans et demande encore de l'argent de poche.",
+                "C'est un 10, mais il/elle lèche le couteau avant de le remettre dans le beurre.",
+                "C'est un 10, mais il/elle a un fétiche bizarre pour les coudes.",
+                "C'est un 10, mais il/elle dort avec un doudou troué qui pue.",
+                "C'est un 10, mais il/elle fait pipi sous la douche pendant que tu t'y laves.",
+                "C'est un 10, mais il/elle t'appelle \"mamounette\" ou \"papounet\".",
+                "C'est un 10, mais il/elle prend 3 heures pour répondre à un message de 2 mots.",
+                "C'est un 10, mais il/elle ne met pas de déodorant par \"choix de vie\".",
+                "C'est un 10, mais il/elle pleure à chaque fois qu'on tue un insecte.",
+                "C'est un 10, mais il/elle se prend en selfie pendant qu'il/elle conduit.",
+                "C'est un 10, mais il/elle prononce \"les z'haricots\".",
+                "C'est un 10, mais il/elle trouve les blagues de tonton beaufs hilarantes.",
+                "C'est un 10, mais il/elle n'a pas de lit, juste un matelas au sol sans drap.",
+                "C'est un 10, mais il/elle croit que le clitoris est un type de dinosaure."
+            ]
+        };
+
+        const gameTitles = {
+            tribunal: "Tribunal des Opinions",
+            draft: "Draft de l'Absurde",
+            prefere: "Tu Préfères... de l'Extrême",
+            daube: "Pitch de Daube",
+            redflag: "C'est un 10, MAIS..."
+        };
+
+        let currentGame = '';
+        let availableIndices = {};
+
+        function initIndices() {
+            for (let key in phrases) {
+                availableIndices[key] = Array.from({length: phrases[key].length}, (_, i) => i);
+            }
+        }
+
+        function startGame(gameKey) {
+            currentGame = gameKey;
+            
+            const menuView = document.getElementById('menu-view');
+            const gameView = document.getElementById('game-view');
+            const gameTitle = document.getElementById('game-title');
+            
+            menuView.style.opacity = '0';
+            menuView.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                menuView.style.display = 'none';
+                gameView.style.display = 'flex';
+                
+                gameTitle.innerText = gameTitles[gameKey];
+                gameTitle.className = 'txt-' + gameKey;
+                
+                setTimeout(() => {
+                    gameView.style.opacity = '1';
+                    gameView.style.transform = 'translateX(0)';
+                    nextPhrase(true);
+                }, 50);
+            }, 300);
+        }
+
+        function nextPhrase(isFirst = false) {
+            let list = availableIndices[currentGame];
+            
+            if (list.length === 0) {
+                list = Array.from({length: phrases[currentGame].length}, (_, i) => i);
+                availableIndices[currentGame] = list;
+            }
+            
+            const randomIndexList = Math.floor(Math.random() * list.length);
+            const phraseIndex = list.splice(randomIndexList, 1)[0];
+            
+            const textElement = document.getElementById('game-text');
+            
+            if (isFirst) {
+                textElement.innerText = phrases[currentGame][phraseIndex];
+                textElement.style.opacity = '1';
+                textElement.style.transform = 'scale(1)';
+            } else {
+                textElement.style.opacity = '0';
+                textElement.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    textElement.innerText = phrases[currentGame][phraseIndex];
+                    textElement.style.opacity = '1';
+                    textElement.style.transform = 'scale(1)';
+                }, 250);
+            }
+        }
+
+        function returnMenu() {
+            const menuView = document.getElementById('menu-view');
+            const gameView = document.getElementById('game-view');
+            
+            gameView.style.opacity = '0';
+            gameView.style.transform = 'translateX(100%)';
+            
+            setTimeout(() => {
+                gameView.style.display = 'none';
+                menuView.style.display = 'flex';
+                
+                setTimeout(() => {
+                    menuView.style.opacity = '1';
+                    menuView.style.transform = 'scale(1)';
+                }, 50);
+            }, 300);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initIndices();
+        });
+    </script>
+</body>
+</html>
