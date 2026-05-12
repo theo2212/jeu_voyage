@@ -1,46 +1,6 @@
-let phrases = { soft: {}, hard: {} };
+import re
 
-        const gameTitles = {
-            tribunal: "Tribunal des Opinions",
-            draft: "Draft de l'Absurde",
-            prefere: "Tu Préfères... de l'Extrême",
-            daube: "Pitch de Daube",
-            redflag: "C'est un 10, MAIS...",
-            boire_susceptible: "Qui est le plus susceptible",
-            boire_jamais: "Je n'ai jamais (Sombre)",
-            boire_action: "Action ou Cul Sec",
-            boire_dictateur: "Le Dictateur",
-            boire_serieux: "Garde ton sérieux",
-            boire_7sec: "7 Secondes de l'Enfer",
-            boire_roulette: "La Roulette Russe",
-            boire_menteur: "Menteur ou Psychopathe",
-            boire_kamikaze: "Le Kamikaze",
-            boire_dilemme: "Dilemme Mortel"
-        };
-
-        const shopItems = [
-            // Soft / Amusants
-            { name: "Choix de la playlist musicale (30 min)", cost: 10, type: "soft" },
-            { name: "Surnom ridicule pour l'autre", cost: 10, type: "soft" },
-            { name: "Répondre avec un accent au choix (10 min)", cost: 20, type: "soft" },
-            { name: "Droit de veto absolu sur un vote", cost: 30, type: "soft" },
-            { name: "Massage des épaules (10 min)", cost: 40, type: "soft" },
-            { name: "Action Joker : Petite corvée à l'arrivée", cost: 50, type: "soft" },
-            
-            // Epicés (Tirés d'Amiocoin)
-            { name: "Baiser où tu veux, quand tu veux", cost: 20, type: "spicy" },
-            { name: "Manger qqch directement dans la bouche de l'autre", cost: 30, type: "spicy" },
-            { name: "Toucher l'autre en public sans se faire capter", cost: 40, type: "spicy" },
-            { name: "Droit à une sieste collée-serrée", cost: 50, type: "spicy" },
-            { name: "Lancer de dé coquin (6 idées sexy)", cost: 60, type: "spicy" },
-            { name: "Massage érotique à l’huile ce soir", cost: 80, type: "spicy" },
-            { name: "Gage mystère à exécuter sans le savoir", cost: 100, type: "spicy" },
-            { name: "Shooting photo sexy (privé)", cost: 120, type: "spicy" },
-            { name: "Nuit de plaisir avec toutes les envies réalisées", cost: 150, type: "spicy" },
-            { name: "Fantasme surprise réalisé sans tabou", cost: 200, type: "spicy" }
-        ];
-
-
+new_js = """
         let currentGame = '';
         let currentTheme = 'soft';
         let availableIndices = {};
@@ -56,29 +16,8 @@ let phrases = { soft: {}, hard: {} };
             }
         }
 
-        let audioUnlocked = false;
-        function unlockAudio() {
-            if(audioUnlocked) return;
-            initAudio();
-            if(audioCtx) {
-                const buffer = audioCtx.createBuffer(1, 1, 22050);
-                const source = audioCtx.createBufferSource();
-                source.buffer = buffer;
-                source.connect(audioCtx.destination);
-                source.start(0);
-                audioCtx.resume().then(() => {
-                    audioUnlocked = true;
-                });
-            }
-            document.removeEventListener('touchstart', unlockAudio);
-            document.removeEventListener('click', unlockAudio);
-        }
-        document.addEventListener('touchstart', unlockAudio, {once: true});
-        document.addEventListener('click', unlockAudio, {once: true});
-
         function playSound(type) {
             if (!audioCtx) return;
-            if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
@@ -176,15 +115,11 @@ let phrases = { soft: {}, hard: {} };
                 players.forEach(p => { if(!p.inventory) p.inventory = []; });
             }
 
-            const cached = localStorage.getItem('voyage_cached_phrases');
-            if (cached) {
-                phrases = JSON.parse(cached);
-                const savedIndices = localStorage.getItem('voyage_availableIndices');
-                if (savedIndices) {
-                    availableIndices = JSON.parse(savedIndices);
-                } else {
-                    initIndices();
-                }
+            const savedIndices = localStorage.getItem('voyage_availableIndices');
+            if (savedIndices) {
+                availableIndices = JSON.parse(savedIndices);
+            } else {
+                initIndices();
             }
             checkDailyQuest();
         }
@@ -307,11 +242,6 @@ let phrases = { soft: {}, hard: {} };
                 
                 updateScoreboard();
                 renderVoteButtons();
-                
-                if (syncMode === 'online' && isRoomAdmin && roomChannel) {
-                    roomChannel.send({ type: 'broadcast', event: 'start_game', payload: {} });
-                }
-                
                 nextPhrase(true);
             });
         }
@@ -328,18 +258,12 @@ let phrases = { soft: {}, hard: {} };
             display.classList.remove('timer-flash');
             document.body.classList.remove('timer-flash');
 
-
             clearInterval(timerInterval);
             timerInterval = setInterval(() => {
                 timeLeft--;
                 display.innerText = timeLeft;
                 playSound('tick');
                 if (timeLeft <= 3) triggerVibe(100);
-                
-                if (syncMode === 'online' && isRoomAdmin && roomChannel) {
-                    roomChannel.send({ type: 'broadcast', event: 'sync_timer', payload: { timeLeft: timeLeft } });
-                }
-
                 
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
@@ -579,18 +503,6 @@ let phrases = { soft: {}, hard: {} };
             if (isFirst) {
                 textElement.innerText = phrases[activeTheme][activeGame][phraseIndex];
                 textElement.className = 'text-pop-in';
-            if (syncMode === 'online' && isRoomAdmin && roomChannel) {
-                roomChannel.send({
-                    type: 'broadcast',
-                    event: 'sync_phrase',
-                    payload: {
-                        currentGame: activeGame,
-                        currentTheme: activeTheme,
-                        phraseText: textElement.innerText
-                    }
-                });
-            }
-
             } else {
                 textElement.className = 'text-pop-out';
                 cardElement.style.transform = 'scale(0.98)';
@@ -598,18 +510,6 @@ let phrases = { soft: {}, hard: {} };
                 setTimeout(() => {
                     textElement.innerText = phrases[activeTheme][activeGame][phraseIndex];
                     textElement.className = 'text-pop-in';
-            if (syncMode === 'online' && isRoomAdmin && roomChannel) {
-                roomChannel.send({
-                    type: 'broadcast',
-                    event: 'sync_phrase',
-                    payload: {
-                        currentGame: activeGame,
-                        currentTheme: activeTheme,
-                        phraseText: textElement.innerText
-                    }
-                });
-            }
-
                     cardElement.style.transform = 'scale(1)';
                 }, 250);
             }
@@ -642,345 +542,17 @@ let phrases = { soft: {}, hard: {} };
                 .then(() => console.log('Service Worker Registered'));
             }
         });
+"""
 
-// --- SUPABASE & MULTIJOUEUR ---
-const SUPABASE_URL = 'https://pzdbkegmbxsvabkvffdi.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_esYFZqPxzRx24Wh_VrGFqQ_QybEoy_w';
-let supabaseClient = null;
-let isPremium = localStorage.getItem('voyage_premium') === 'true';
-let syncMode = localStorage.getItem('voyage_sync_mode'); // 'online' ou 'offline'
+with open("index.html", "r", encoding="utf-8") as f:
+    content = f.read()
 
-
-async function fetchPhrasesFromSupabase() {
-    const sb = getSupabase();
-    if (!sb) return;
-
-    try {
-        const { data, error } = await sb.from('phrases').select('*');
-        if (error) throw error;
-        
-        if (data && data.length > 0) {
-            let newPhrases = {
-                soft: { tribunal: [], draft: [], boire_action: [], boire_7sec: [] },
-                hard: { tribunal: [], draft: [], boire_action: [], boire_7sec: [] }
-            };
-            
-            data.forEach(row => {
-                if(newPhrases[row.theme] && newPhrases[row.theme][row.game_mode]) {
-                    newPhrases[row.theme][row.game_mode].push(row.content);
-                }
-            });
-            
-            phrases = newPhrases;
-            localStorage.setItem('voyage_cached_phrases', JSON.stringify(phrases));
-            initIndices();
-            console.log('Phrases telechargees depuis Supabase !');
-        }
-    } catch (e) {
-        console.error('Erreur lors du telechargement des phrases:', e);
-        const cached = localStorage.getItem('voyage_cached_phrases');
-        if (cached) {
-            phrases = JSON.parse(cached);
-            initIndices();
-        }
-    }
-}
-
-
-// --- MULTIJOUEUR VARIABLES ---
-let roomChannel = null;
-let isRoomAdmin = false;
-let myRoomId = null;
-let myPlayerId = Math.random().toString(36).substr(2, 9);
-let roomPlayers = [];
-
-function generateRoomCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let code = '';
-    for(let i=0; i<4; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
-    return code;
-}
-
-function updateLobbyUI() {
-    const list = document.getElementById('room-players-list');
-    list.innerHTML = roomPlayers.map(p => `<div>${p.isAdmin ? '👑 ' : ''}${p.id === myPlayerId ? 'Toi' : 'Joueur ' + p.id}</div>`).join('');
-    
-    if (isRoomAdmin && roomPlayers.length > 1) {
-        document.getElementById('btn-start-room').style.display = 'inline-block';
-    } else {
-        document.getElementById('btn-start-room').style.display = 'none';
-    }
-}
-
-async function createRoom() {
-    triggerVibe(50);
-    myRoomId = generateRoomCode();
-    isRoomAdmin = true;
-    roomPlayers = [{ id: myPlayerId, isAdmin: true }];
-    
-    document.getElementById('lobby-controls').style.display = 'none';
-    document.getElementById('room-waiting-area').style.display = 'block';
-    document.getElementById('room-code-display').innerText = myRoomId;
-    updateLobbyUI();
-    
-    await joinSupabaseChannel(myRoomId);
-}
-
-async function joinRoom() {
-    triggerVibe(50);
-    const input = document.getElementById('room-code-input').value.toUpperCase().trim();
-    if (input.length !== 4) return alert('Code invalide');
-    
-    myRoomId = input;
-    isRoomAdmin = false;
-    
-    document.getElementById('lobby-controls').style.display = 'none';
-    document.getElementById('room-waiting-area').style.display = 'block';
-    document.getElementById('room-code-display').innerText = myRoomId;
-    
-    await joinSupabaseChannel(myRoomId);
-    
-    if (roomChannel) {
-        roomChannel.send({
-            type: 'broadcast',
-            event: 'player_join',
-            payload: { id: myPlayerId }
-        });
-    }
-}
-
-async function joinSupabaseChannel(roomId) {
-    const sb = getSupabase();
-    if (!sb) {
-        alert("Supabase non connecté.");
-        return;
-    }
-    
-    if (roomChannel) {
-        await sb.removeChannel(roomChannel);
-    }
-    
-    roomChannel = sb.channel('room-' + roomId);
-    
-    roomChannel.on('broadcast', { event: 'player_join' }, payload => {
-        if (isRoomAdmin) {
-            const newPlayer = payload.payload;
-            if (!roomPlayers.find(p => p.id === newPlayer.id)) {
-                roomPlayers.push({ id: newPlayer.id, isAdmin: false });
-                updateLobbyUI();
-                roomChannel.send({
-                    type: 'broadcast',
-                    event: 'room_state',
-                    payload: { players: roomPlayers }
-                });
-            }
-        }
-    });
-    
-    roomChannel.on('broadcast', { event: 'room_state' }, payload => {
-        if (!isRoomAdmin) {
-            roomPlayers = payload.payload.players;
-            updateLobbyUI();
-            document.getElementById('btn-start-room').style.display = 'none'; // Only admin can start
-        }
-    });
-
-    roomChannel.on('broadcast', { event: 'start_game' }, payload => {
-        if (!isRoomAdmin) {
-            switchView('lobby-view', 'game-view');
-            // Hide admin buttons
-            const voteGrid = document.getElementById('vote-controls');
-            if(voteGrid) voteGrid.style.display = 'none';
-            document.querySelectorAll('.controls .btn-action').forEach(b => {
-                if(b.innerText.includes('Quitter')) b.style.display = 'inline-block';
-                else b.style.display = 'none';
-            });
-            document.getElementById('btn-timer-start').style.display = 'none';
-        }
-    });
-
-    roomChannel.on('broadcast', { event: 'sync_phrase' }, payload => {
-        if (!isRoomAdmin) {
-            const data = payload.payload;
-            
-            const gameTitle = document.getElementById('game-title');
-            if (data.currentGame === 'chaos') {
-                gameTitle.innerText = "Jeu Surprise ! 🌪️";
-                gameTitle.className = 'txt-boire';
-            } else {
-                gameTitle.innerText = gameTitles[data.currentGame] + (data.currentTheme === 'hard' ? ' 🌶️' : '');
-                gameTitle.className = 'txt-' + data.currentGame.replace('boire_', 'boire'); 
-            }
-            
-            const textElement = document.getElementById('game-text');
-            const cardElement = document.getElementById('game-card');
-            
-            if (data.currentGame === 'boire_7sec') {
-                document.getElementById('timer-container').style.display = 'flex';
-                document.getElementById('timer-display').innerText = '7';
-                document.getElementById('timer-display').classList.remove('timer-flash');
-                document.body.classList.remove('timer-flash');
-            } else {
-                document.getElementById('timer-container').style.display = 'none';
-                document.body.classList.remove('timer-flash');
-            }
-            
-            textElement.className = 'text-pop-out';
-            cardElement.style.transform = 'scale(0.98)';
-            
-            setTimeout(() => {
-                textElement.innerText = data.phraseText;
-                textElement.className = 'text-pop-in';
-                cardElement.style.transform = 'scale(1)';
-            }, 250);
-        }
-    });
-    
-    roomChannel.on('broadcast', { event: 'sync_timer' }, payload => {
-        if (!isRoomAdmin) {
-            const data = payload.payload;
-            const display = document.getElementById('timer-display');
-            display.innerText = data.timeLeft;
-            if (data.timeLeft === 0) {
-                document.body.classList.add('timer-flash');
-                display.classList.add('timer-flash');
-                display.innerText = "0 ! BOIS !";
-                triggerVibe([200, 100, 200]);
-                playSound('alarm');
-            } else {
-                document.body.classList.remove('timer-flash');
-                display.classList.remove('timer-flash');
-                playSound('tick');
-            }
-        }
-    });
-    
-    await roomChannel.subscribe((status) => {
-        if(status === 'SUBSCRIBED') {
-            console.log('Connecté au salon ' + roomId);
-        }
-    });
-}
-
-function startOnlineGame() {
-    triggerVibe(50);
-    alert("✅ Salon prêt ! Les téléphones de tes amis vont se synchroniser. Choisis un jeu dans le menu pour commencer !");
-    switchView('lobby-view', 'menu-view');
-}
-
-function getSupabase() {
-    if (!supabaseClient && window.supabase) {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
-    return supabaseClient;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Le modal s'affiche à chaque lancement d'application comme demandé
-    document.getElementById('sync-modal').style.display = 'flex';
-    fetchPhrasesFromSupabase();
-});
-
-function openSyncModal() {
-    triggerVibe(50);
-    document.getElementById('sync-modal').style.display = 'flex';
-    fetchPhrasesFromSupabase();
-}
-
-function chooseSync(mode) {
-    syncMode = mode;
-    localStorage.setItem('voyage_sync_mode', mode);
-    document.getElementById('sync-modal').style.display = 'none';
-    if(mode === 'online') {
-        switchView('menu-view', 'lobby-view');
-    }
-}
-
-// --- UGC (Proposer une phrase) ---
-function openUGC() {
-    triggerVibe(50);
-    document.getElementById('ugc-modal').style.display = 'flex';
-}
-
-function closeUGC() {
-    triggerVibe(50);
-    document.getElementById('ugc-modal').style.display = 'none';
-}
-
-async function submitUGC() {
-    triggerVibe(50);
-    const theme = document.getElementById('ugc-theme').value;
-    const game = document.getElementById('ugc-game').value;
-    const text = document.getElementById('ugc-text').value.trim();
-    const author = document.getElementById('ugc-author').value.trim() || 'Anonyme';
-
-    if(!text) {
-        alert("La phrase ne peut pas être vide !");
-        return;
-    }
-
-    const sb = getSupabase();
-    if (!sb) {
-        alert("Le système n'est pas encore prêt, veuillez patienter quelques secondes et réessayer.");
-        return;
-    }
-
-    try {
-        const { error } = await sb.from('pending_phrases').insert([
-            { theme: theme, game_mode: game, content: text, submitted_by: author }
-        ]);
-        
-        if (error) throw error;
-        
-        playSound('coin');
-        alert("Merci ! Ta phrase a été envoyée et sera ajoutée après validation. 🚀");
-        document.getElementById('ugc-text').value = '';
-        closeUGC();
-    } catch (e) {
-        alert("Erreur lors de l'envoi. Vérifie ta connexion internet.");
-        console.error(e);
-    }
-}
-
-// --- FREEMIUM ---
-function requirePremium(callback) {
-    if (isPremium) {
-        callback();
-    } else {
-        triggerVibe(50);
-        document.getElementById('paywall-modal').style.display = 'flex';
-    }
-}
-
-function closePaywall() {
-    triggerVibe(50);
-    document.getElementById('paywall-modal').style.display = 'none';
-}
-
-function simulatePurchase() {
-    triggerVibe([50, 100, 50]);
-    playSound('coin');
-    isPremium = true;
-    localStorage.setItem('voyage_premium', 'true');
-    closePaywall();
-    alert("🎉 Achat validé ! Vous avez maintenant accès à tout le contenu Premium.");
-}
-
-// Hook Premium into selectTheme and startGame
-const originalSelectTheme = selectTheme;
-selectTheme = function(theme) {
-    if (theme === 'hard') {
-        requirePremium(() => originalSelectTheme(theme));
-    } else {
-        originalSelectTheme(theme);
-    }
-};
-
-const originalStartGame = startGame;
-startGame = function(gameKey) {
-    if (gameKey === 'chaos') {
-        requirePremium(() => originalStartGame(gameKey));
-    } else {
-        originalStartGame(gameKey);
-    }
-};
+# Replace everything from "let currentGame = '';" to the end of script
+match = re.search(r'        let currentGame = \'\';\n.*?(?=    </script>)', content, flags=re.DOTALL)
+if match:
+    content = content[:match.start()] + new_js + content[match.end():]
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(content)
+    print("Injected logic successfully!")
+else:
+    print("Logic anchor not found.")
