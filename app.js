@@ -1,4 +1,4 @@
-﻿let phrases = {
+let phrases = {
     "soft": {
         "tribunal": [
             "L'ananas sur la pizza est le sommet de la gastronomie.",
@@ -683,11 +683,25 @@
             });
         }
 
-        function returnToMenu(currentViewId) {
+        function returnToMenu(fromId) {
             triggerVibe(50);
             document.body.classList.remove('timer-flash');
             clearInterval(timerInterval);
-            switchView(currentViewId, 'menu-view');
+            
+            // Nettoyage Quiz si on quitte game-view
+            if (fromId === 'game-view') {
+                document.getElementById('game-view').classList.remove('bg-quiz-theme');
+                document.getElementById('quiz-timer-bar').style.display = 'none';
+                document.getElementById('quiz-question-count').style.display = 'none';
+                document.getElementById('quiz-options').style.display = 'none';
+                document.getElementById('quiz-input-zone').style.display = 'none';
+                document.getElementById('quiz-validation-zone').style.display = 'none';
+                document.getElementById('btn-spin-wheel').style.display = 'block';
+                const nextBtn = document.querySelector('.btn-next');
+                if (nextBtn) nextBtn.style.display = 'inline-block';
+            }
+            
+            switchView(fromId, 'menu-view');
         }
 
         function beginGame() {
@@ -1727,6 +1741,9 @@ function loadQuizQuestion() {
     // Texte de la question
     document.getElementById('game-text').innerText = qData.q;
     
+    // Thème Quiz
+    document.getElementById('game-view').classList.add('bg-quiz-theme');
+    
     // Reset Visibility
     document.getElementById('vote-controls').style.display = 'none';
     document.getElementById('quiz-timer-bar').style.display = 'block';
@@ -1745,7 +1762,7 @@ function loadQuizQuestion() {
         const optionsDiv = document.getElementById('quiz-options');
         optionsDiv.style.display = 'flex';
         optionsDiv.innerHTML = qData.a.map((opt, i) => `
-            <button class="btn-vote" style="width: 100%; margin: 0;" onclick="checkQcmAnswer(${i})">${opt}</button>
+            <button class="btn-vote quiz-option-${i}" style="width: 100%; margin: 0; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);" onclick="checkQcmAnswer(${i})">${opt}</button>
         `).join('');
     } else {
         document.getElementById('quiz-input-zone').style.display = 'block';
