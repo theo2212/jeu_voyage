@@ -1,4 +1,4 @@
-﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -416,7 +416,7 @@
             "Tu préfères revivre la pire journée de ta vie tous les lundis OU ne plus jamais ressentir de joie le week-end ?"
         ],
         "daube": [
-            "Un homme découvre que son chat est la réincarnation de sa belle-mère.",
+            "Un homme découvre que son chat est la réincarnation de sa belle_mère.",
             "Une application de rencontre où tu ne matches qu'avec des gens qui ont les mêmes maladies que toi.",
             "Un télé-crochet pour trouver le pire cuisinier du monde, le gagnant doit manger son plat.",
             "Un film d'horreur où le tueur attaque avec une cuillère, mais très lentement.",
@@ -491,7 +491,7 @@
             "Blague : 'Quelle est la différence entre les oiseaux et les banquiers ? Les oiseaux plumés ne volent plus.' (Ne ris pas)",
             "Blague : 'Que dit un aveugle quand on lui donne du papier de verre ? Putain c'est écrit petit.' (Ne ris pas)",
             "Blague : 'C'est l'histoire d'un pingouin qui respire par le cul. Un jour il s'assoit, et il meurt.' (Ne ris pas)",
-            "Blague : 'Comment appelle-t-on un chien sans patte ? On ne l'appelle pas, on va le chercher.' (Ne ris pas)",
+            "Blague : 'Comment appelle_t-on un chien sans patte ? On ne l'appelle pas, on va le chercher.' (Ne ris pas)",
             "Blague : 'Quel est le point commun entre un parachute et l'humour ? Quand tu n'en as pas, tu t'écrases.' (Ne ris pas)"
         ],
         "boire_7sec": [
@@ -878,7 +878,7 @@
                 localStorage.setItem('voyage_quest_index', questIndex);
             }
             document.getElementById('quest-text').innerText = dailyQuests[questIndex];
-            (document.getElementById('quest-banner') ? document.getElementById('quest-banner').style : {}).display = 'flex';
+            const el_quest_banner = document.getElementById('quest-banner'); if(el_quest_banner) el_quest_banner.style.display = 'flex';
         }
         function initIndices() {
             availableIndices = {};
@@ -1165,7 +1165,7 @@
                     </div>
                 `).join('');
             }
-            (document.getElementById('inventory-modal') ? document.getElementById('inventory-modal').style : {}).display = 'flex';
+            const el_inventory_modal = document.getElementById('inventory-modal'); if(el_inventory_modal) el_inventory_modal.style.display = 'flex';
         }
         function useItem(pIndex, itemIdx) {
             triggerVibe(50);
@@ -1177,7 +1177,7 @@
         }
         function closeInventory() {
             triggerVibe(50);
-            (document.getElementById('inventory-modal') ? document.getElementById('inventory-modal').style : {}).display = 'none';
+            const el_inventory_modal = document.getElementById('inventory-modal'); if(el_inventory_modal) el_inventory_modal.style.display = 'none';
         }
         // --- Roue de la Punition ---
         const punishments = [
@@ -1188,13 +1188,13 @@
         ];
         function spinWheel() {
             triggerVibe(50);
-            (document.getElementById('wheel-modal') ? document.getElementById('wheel-modal').style : {}).display = 'flex';
+            const el_wheel_modal = document.getElementById('wheel-modal'); if(el_wheel_modal) el_wheel_modal.style.display = 'flex';
             document.getElementById('wheel-result').innerText = "Prêt à tourner ?";
-            (document.getElementById('btn-spin') ? document.getElementById('btn-spin').style : {}).display = 'inline-block';
+            const el_btn_spin = document.getElementById('btn-spin'); if(el_btn_spin) el_btn_spin.style.display = 'inline-block';
         }
         function closeWheel() {
             triggerVibe(50);
-            (document.getElementById('wheel-modal') ? document.getElementById('wheel-modal').style : {}).display = 'none';
+            const el_wheel_modal = document.getElementById('wheel-modal'); if(el_wheel_modal) el_wheel_modal.style.display = 'none';
         }
         function executeSpin() {
             const btn = document.getElementById('btn-spin');
@@ -1285,15 +1285,15 @@
             const cardElement = document.getElementById('game-card');
             // Timer display logic
             if (activeGame === 'boire_7sec') {
-                (document.getElementById('timer-container') ? document.getElementById('timer-container').style : {}).display = 'flex';
+                const el_timer_container = document.getElementById('timer-container'); if(el_timer_container) el_timer_container.style.display = 'flex';
                 document.getElementById('timer-display').innerText = '7';
                 document.getElementById('timer-display').classList.remove('timer-flash');
-                (document.getElementById('btn-timer-start') ? document.getElementById('btn-timer-start').style : {}).display = 'block';
+                const el_btn_timer_start = document.getElementById('btn-timer-start'); if(el_btn_timer_start) el_btn_timer_start.style.display = 'block';
                 document.getElementById('btn-timer-start').innerText = 'Lancer le Chrono à¢ÂÂ±ïÂ¸Â';
                 document.body.classList.remove('timer-flash');
                 clearInterval(timerInterval);
             } else {
-                (document.getElementById('timer-container') ? document.getElementById('timer-container').style : {}).display = 'none';
+                const el_timer_container = document.getElementById('timer-container'); if(el_timer_container) el_timer_container.style.display = 'none';
                 document.body.classList.remove('timer-flash');
                 clearInterval(timerInterval);
             }
@@ -1415,11 +1415,11 @@ function updateLobbyUI() {
     const list = document.getElementById('room-players-list');
     list.innerHTML = roomPlayers.map(p => `<div>${p.isAdmin ? '👑 ' : ''}${p.name + (p.id === myPlayerId ? ' (Toi)' : '')}</div>`).join('');
     if (isRoomAdmin && roomPlayers.length > 1) {
-        (document.getElementById('btn-start-room') ? document.getElementById('btn-start-room').style : {}).display = 'inline-block';
-        (document.getElementById('btn-gartic-room') ? document.getElementById('btn-gartic-room').style : {}).display = 'inline-block';
+        const el_btn_start_room = document.getElementById('btn-start-room'); if(el_btn_start_room) el_btn_start_room.style.display = 'inline-block';
+        const el_btn_gartic_room = document.getElementById('btn-gartic-room'); if(el_btn_gartic_room) el_btn_gartic_room.style.display = 'inline-block';
     } else {
-        (document.getElementById('btn-start-room') ? document.getElementById('btn-start-room').style : {}).display = 'none';
-        (document.getElementById('btn-gartic-room') ? document.getElementById('btn-gartic-room').style : {}).display = 'none';
+        const el_btn_start_room = document.getElementById('btn-start-room'); if(el_btn_start_room) el_btn_start_room.style.display = 'none';
+        const el_btn_gartic_room = document.getElementById('btn-gartic-room'); if(el_btn_gartic_room) el_btn_gartic_room.style.display = 'none';
     }
 }
 async function createRoom() {
@@ -1433,9 +1433,9 @@ async function createRoom() {
     myRoomId = generateRoomCode();
     isRoomAdmin = true;
     roomPlayers = [{ id: myPlayerId, name: pseudo, isAdmin: true }];
-    (document.getElementById('lobby-setup') ? document.getElementById('lobby-setup').style : {}).display = 'none';
-    (document.getElementById('lobby-controls') ? document.getElementById('lobby-controls').style : {}).display = 'none';
-    (document.getElementById('room-waiting-area') ? document.getElementById('room-waiting-area').style : {}).display = 'block';
+    const el_lobby_setup = document.getElementById('lobby-setup'); if(el_lobby_setup) el_lobby_setup.style.display = 'none';
+    const el_lobby_controls = document.getElementById('lobby-controls'); if(el_lobby_controls) el_lobby_controls.style.display = 'none';
+    const el_room_waiting_area = document.getElementById('room-waiting-area'); if(el_room_waiting_area) el_room_waiting_area.style.display = 'block';
     document.getElementById('room-code-display').innerText = myRoomId;
     updateLobbyUI();
     await joinSupabaseChannel(myRoomId);
@@ -1455,9 +1455,9 @@ async function joinRoom() {
     }
     myRoomId = input;
     isRoomAdmin = false;
-    (document.getElementById('lobby-setup') ? document.getElementById('lobby-setup').style : {}).display = 'none';
-    (document.getElementById('lobby-controls') ? document.getElementById('lobby-controls').style : {}).display = 'none';
-    (document.getElementById('room-waiting-area') ? document.getElementById('room-waiting-area').style : {}).display = 'block';
+    const el_lobby_setup = document.getElementById('lobby-setup'); if(el_lobby_setup) el_lobby_setup.style.display = 'none';
+    const el_lobby_controls = document.getElementById('lobby-controls'); if(el_lobby_controls) el_lobby_controls.style.display = 'none';
+    const el_room_waiting_area = document.getElementById('room-waiting-area'); if(el_room_waiting_area) el_room_waiting_area.style.display = 'block';
     document.getElementById('room-code-display').innerText = myRoomId;
     await joinSupabaseChannel(myRoomId);
     if (roomChannel) {
@@ -1496,7 +1496,7 @@ async function joinSupabaseChannel(roomId) {
         if (!isRoomAdmin) {
             roomPlayers = payload.payload.players;
             updateLobbyUI();
-            (document.getElementById('btn-start-room') ? document.getElementById('btn-start-room').style : {}).display = 'none'; // Only admin can start
+            const el_btn_start_room = document.getElementById('btn-start-room'); if(el_btn_start_room) el_btn_start_room.style.display = 'none'; // Only admin can start
         }
     });
     roomChannel.on('broadcast', { event: 'start_game' }, payload => {
@@ -1509,7 +1509,7 @@ async function joinSupabaseChannel(roomId) {
                 if(b.innerText.includes('Quitter')) b.style.display = 'inline-block';
                 else b.style.display = 'none';
             });
-            (document.getElementById('btn-timer-start') ? document.getElementById('btn-timer-start').style : {}).display = 'none';
+            const el_btn_timer_start = document.getElementById('btn-timer-start'); if(el_btn_timer_start) el_btn_timer_start.style.display = 'none';
         }
     });
     roomChannel.on('broadcast', { event: 'sync_phrase' }, payload => {
@@ -1526,12 +1526,12 @@ async function joinSupabaseChannel(roomId) {
             const textElement = document.getElementById('game-text');
             const cardElement = document.getElementById('game-card');
             if (data.currentGame === 'boire_7sec') {
-                (document.getElementById('timer-container') ? document.getElementById('timer-container').style : {}).display = 'flex';
+                const el_timer_container = document.getElementById('timer-container'); if(el_timer_container) el_timer_container.style.display = 'flex';
                 document.getElementById('timer-display').innerText = '7';
                 document.getElementById('timer-display').classList.remove('timer-flash');
                 document.body.classList.remove('timer-flash');
             } else {
-                (document.getElementById('timer-container') ? document.getElementById('timer-container').style : {}).display = 'none';
+                const el_timer_container = document.getElementById('timer-container'); if(el_timer_container) el_timer_container.style.display = 'none';
                 document.body.classList.remove('timer-flash');
             }
             textElement.className = 'text-pop-out';
@@ -1641,18 +1641,18 @@ function getSupabase() {
 }
 document.addEventListener('DOMContentLoaded', () => {
     // Le modal s'affiche à chaque lancement d'application comme demandé
-    (document.getElementById('sync-modal') ? document.getElementById('sync-modal').style : {}).display = 'flex';
+    const el_sync_modal = document.getElementById('sync-modal'); if(el_sync_modal) el_sync_modal.style.display = 'flex';
     fetchPhrasesFromSupabase();
 });
 function openSyncModal() {
     triggerVibe(50);
-    (document.getElementById('sync-modal') ? document.getElementById('sync-modal').style : {}).display = 'flex';
+    const el_sync_modal = document.getElementById('sync-modal'); if(el_sync_modal) el_sync_modal.style.display = 'flex';
     fetchPhrasesFromSupabase();
 }
 function chooseSync(mode) {
     syncMode = mode;
     localStorage.setItem('voyage_sync_mode', mode);
-    (document.getElementById('sync-modal') ? document.getElementById('sync-modal').style : {}).display = 'none';
+    const el_sync_modal = document.getElementById('sync-modal'); if(el_sync_modal) el_sync_modal.style.display = 'none';
     // Afficher/Masquer Gartic dans le menu
     const garticBtn = document.getElementById('btn-menu-gartic');
     if (garticBtn) {
@@ -1665,11 +1665,11 @@ function chooseSync(mode) {
 // --- UGC (Proposer une phrase) ---
 function openUGC() {
     triggerVibe(50);
-    (document.getElementById('ugc-modal') ? document.getElementById('ugc-modal').style : {}).display = 'flex';
+    const el_ugc_modal = document.getElementById('ugc-modal'); if(el_ugc_modal) el_ugc_modal.style.display = 'flex';
 }
 function closeUGC() {
     triggerVibe(50);
-    (document.getElementById('ugc-modal') ? document.getElementById('ugc-modal').style : {}).display = 'none';
+    const el_ugc_modal = document.getElementById('ugc-modal'); if(el_ugc_modal) el_ugc_modal.style.display = 'none';
 }
 async function submitUGC() {
     triggerVibe(50);
@@ -1707,12 +1707,12 @@ function requirePremium(callback) {
         callback();
     } else {
         triggerVibe(50);
-        (document.getElementById('paywall-modal') ? document.getElementById('paywall-modal').style : {}).display = 'flex';
+        const el_paywall_modal = document.getElementById('paywall-modal'); if(el_paywall_modal) el_paywall_modal.style.display = 'flex';
     }
 }
 function closePaywall() {
     triggerVibe(50);
-    (document.getElementById('paywall-modal') ? document.getElementById('paywall-modal').style : {}).display = 'none';
+    const el_paywall_modal = document.getElementById('paywall-modal'); if(el_paywall_modal) el_paywall_modal.style.display = 'none';
 }
 function simulatePurchase() {
     triggerVibe([50, 100, 50]);
@@ -1958,7 +1958,7 @@ function loadQuizQuestion() {
     if (waitMsg) ((waitMsg && waitMsg.style) ? waitMsg.style : {}).display = 'none';
     if (spinBtn) ((spinBtn && spinBtn.style) ? spinBtn.style : {}).display = 'none';
     if (nextBtn) nextBtn.style.display = 'none';
-    if (timerProg) ((timerProg && timerProg.style) ? timerProg.style : {}).width = '100%';
+    if (timerProg) if(timerProg && timerProg.style) timerProg.style.width = '100%';
     const ansInput = document.getElementById('quiz-answer-input');
     if (ansInput) ansInput.value = '';
     if (isRoomAdmin && roomChannel) {
@@ -1985,7 +1985,7 @@ function startQuizTimer() {
     clearInterval(quizTimerInterval);
     quizTimerInterval = setInterval(() => {
         timeLeft -= 0.1;
-        if (bar) ((bar && bar.style) ? bar.style : {}).width = (timeLeft / 15) * 100 + '%';
+        if (bar && bar.style) bar.style.width = (timeLeft / 15) * 100 + '%';
         if (timeLeft <= 0) {
             clearInterval(quizTimerInterval);
             handleQuizTimeout();
@@ -1997,9 +1997,9 @@ function handleQuizTimeout() {
         if (isRoomAdmin) {
             showValidationScreen();
         } else {
-            if((document.getElementById('quiz-input-zone')) document.getElementById('quiz-input-zone') ? document.getElementById('quiz-input-zone')) document.getElementById('quiz-input-zone').style : {}).display = 'none';
+            const el_quiz_input_zone = document.getElementById('quiz-input-zone'); if(el_quiz_input_zone) el_quiz_input_zone.style.display = 'none';
             document.getElementById('quiz-wait-message').innerText = "Temps écoulé ! En attente du verdict...";
-            if((document.getElementById('quiz-wait-message')) document.getElementById('quiz-wait-message') ? document.getElementById('quiz-wait-message')) document.getElementById('quiz-wait-message').style : {}).display = 'block';
+            const el_quiz_wait_message = document.getElementById('quiz-wait-message'); if(el_quiz_wait_message) el_quiz_wait_message.style.display = 'block';
         }
     } else {
         // QCM timeout
@@ -2030,8 +2030,8 @@ function submitQuizAnswer() {
         return;
     }
     triggerVibe(30);
-    if((document.getElementById('quiz-input-zone')) document.getElementById('quiz-input-zone') ? document.getElementById('quiz-input-zone')) document.getElementById('quiz-input-zone').style : {}).display = 'none';
-    if((document.getElementById('quiz-wait-message')) document.getElementById('quiz-wait-message') ? document.getElementById('quiz-wait-message')) document.getElementById('quiz-wait-message').style : {}).display = 'block';
+    const el_quiz_input_zone = document.getElementById('quiz-input-zone'); if(el_quiz_input_zone) el_quiz_input_zone.style.display = 'none';
+    const el_quiz_wait_message = document.getElementById('quiz-wait-message'); if(el_quiz_wait_message) el_quiz_wait_message.style.display = 'block';
     roomChannel.send({
         type: 'broadcast',
         event: 'quiz_submit_answer',
@@ -2054,8 +2054,8 @@ function showValidationScreen() {
             </div>
         </div>
     `).join('') : "<p style='text-align:center; opacity:0.5;'>Aucune réponse reçue...</p>";
-    if((document.getElementById('quiz-input-zone')) document.getElementById('quiz-input-zone') ? document.getElementById('quiz-input-zone')) document.getElementById('quiz-input-zone').style : {}).display = 'none';
-    (document.getElementById('quiz-validation-zone') ? document.getElementById('quiz-validation-zone').style : {}).display = 'block';
+    const el_quiz_input_zone = document.getElementById('quiz-input-zone'); if(el_quiz_input_zone) el_quiz_input_zone.style.display = 'none';
+    const el_quiz_validation_zone = document.getElementById('quiz-validation-zone'); if(el_quiz_validation_zone) el_quiz_validation_zone.style.display = 'block';
 }
 function validateQuizPlayer(playerId, isCorrect, btn) {
     triggerVibe(30);
@@ -2086,7 +2086,7 @@ function showQuizPodium() {
     `).join('');
     // Reward for the winner
     if (sorted.length > 0 && sorted[0].id === myPlayerId) {
-        (document.getElementById('quiz-reward-message') ? document.getElementById('quiz-reward-message').style : {}).display = 'block';
+        const el_quiz_reward_message = document.getElementById('quiz-reward-message'); if(el_quiz_reward_message) el_quiz_reward_message.style.display = 'block';
         // Add 20 coins
         const localPlayer = players.find(p => p.id === myPlayerId);
         if (localPlayer) {
@@ -2095,7 +2095,7 @@ function showQuizPodium() {
             showToast("Tu as gagné 20 BuzzCoins ! 🪙", "success");
         }
     } else {
-        (document.getElementById('quiz-reward-message') ? document.getElementById('quiz-reward-message').style : {}).display = 'none';
+        const el_quiz_reward_message = document.getElementById('quiz-reward-message'); if(el_quiz_reward_message) el_quiz_reward_message.style.display = 'none';
     }
     switchView(currentViewId, 'quiz-podium-view');
 }
