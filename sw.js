@@ -2,8 +2,9 @@ const CACHE_NAME = 'voyage-cache-v49';
 const urlsToCache = [
   './',
   './index.html',
+  './style.css',
   './manifest.json',
-  './icon.svg'
+  './icon.png'
 ];
 
 self.addEventListener('install', event => {
@@ -35,7 +36,6 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Cache hit - return response
         if (response) {
           return response;
         }
