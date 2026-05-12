@@ -543,6 +543,7 @@ let phrases = {
         }
 
         function switchView(fromId, toId, callback) {
+            currentViewId = toId;
             const fromView = document.getElementById(fromId);
             const toView = document.getElementById(toId);
             
@@ -1333,3 +1334,144 @@ startGame = function(gameKey) {
         originalStartGame(gameKey);
     }
 };
+
+// --- LOGIQUE DESSIN / GARTIC ---
+let isDrawing = false;
+let lastCanvasUpdate = 0;
+let drawingContext = null;
+let currentViewId = 'menu-view';
+
+function initCanvas() {
+    const canvas = document.getElementById('drawing-canvas');
+    if (!canvas) return;
+    
+    // Ajuster la taille réelle du canvas
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * window.devicePixelRatio;
+    canvas.height = rect.height * window.devicePixelRatio;
+    
+    drawingContext = canvas.getContext('2d');
+    drawingContext.scale(window.devicePixelRatio, window.devicePixelRatio);
+    drawingContext.lineCap = 'round';
+    drawingContext.lineWidth = 5;
+    drawingContext.strokeStyle = '#000';
+
+    const startDraw = (e) => {
+        isDrawing = true;
+        const pos = getMousePos(canvas, e);
+        drawingContext.beginPath();
+        drawingContext.moveTo(pos.x, pos.y);
+    };
+
+    const doDraw = (e) => {
+        if (!isDrawing) return;
+        const pos = getMousePos(canvas, e);
+        drawingContext.lineTo(pos.x, pos.y);
+        drawingContext.stroke();
+        
+        throttleCanvasSync();
+    };
+
+    const stopDraw = () => {
+        isDrawing = false;
+        syncCanvas();
+    };
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', doDraw);
+    canvas.addEventListener('mouseup', stopDraw);
+    canvas.addEventListener('mouseleave', stopDraw);
+
+    canvas.addEventListener('touchstart', (e) => { 
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent('mousedown', {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+        e.preventDefault();
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent('mousemove', {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+        e.preventDefault();
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', (e) => {
+        const mouseEvent = new MouseEvent('mouseup', {});
+        canvas.dispatchEvent(mouseEvent);
+        e.preventDefault();
+    }, { passive: false });
+}
+
+function getMousePos(canvas, evt) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
+}
+
+function throttleCanvasSync() {
+    const now = Date.now();
+    if (now - lastCanvasUpdate > 250) { 
+        syncCanvas();
+        lastCanvasUpdate = now;
+    }
+}
+
+function syncCanvas() {
+    if (syncMode !== 'online' || !roomChannel) return;
+    const canvas = document.getElementById('drawing-canvas');
+    if(!canvas) return;
+    const dataURL = canvas.toDataURL('image/webp', 0.2); 
+    
+    roomChannel.send({
+        type: 'broadcast',
+        event: 'sync_canvas',
+        payload: { image: dataURL }
+    });
+}
+
+function clearCanvas() {
+    if (!drawingContext) return;
+    const canvas = document.getElementById('drawing-canvas');
+    drawingContext.clearRect(0, 0, canvas.width, canvas.height);
+    syncCanvas();
+}
+
+function startDrawMode() {
+    triggerVibe(50);
+    if (syncMode !== 'online') {
+        alert("Ce mode nécessite d'être dans un salon en ligne !");
+        return;
+    }
+    
+    if (!isRoomAdmin) {
+        alert("Seul le chef du salon peut lancer ce mode !");
+        return;
+    }
+
+    const allWords = ["Un chat qui fume", "Une pizza radioactive", "Un canard en prison", "Un voyageur bourré", "Un avion en feu", "Une licorne dark"];
+    const word = allWords[Math.floor(Math.random() * allWords.length)];
+
+    roomChannel.send({
+        type: 'broadcast',
+        event: 'start_draw_game',
+        payload: { drawerId: myPlayerId, prompt: word }
+    });
+}
+
+function finishDrawing() {
+    triggerVibe(50);
+    roomChannel.send({
+        type: 'broadcast',
+        event: 'end_draw_game',
+        payload: {}
+    });
+}
