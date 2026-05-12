@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
+    <meta charset="UTF-8">
     <script>
 
         window.onerror = function(msg, url, lineNo, columnNo, error) {
@@ -20,7 +21,7 @@
         });
     
 </script>
-    <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Jeu de Voyage V49 🚀</title>
     <link rel="manifest" href="manifest.json">
@@ -802,12 +803,12 @@
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             const icons = {
-                info: 'à¢â€žÂ¹ïÂ¸Â',
+                info: 'ℹ️',
                 success: '✅',
-                warning: 'à¢Å¡Â ïÂ¸Â',
-                error: 'à¢ÂÅ’'
+                warning: '⚠️',
+                error: '❌'
             };
-            toast.innerHTML = `<span>${icons[type] || 'à°Å¸â€â€'}</span> <span>${message}</span>`;
+            toast.innerHTML = `<span>${icons[type] || '🔔'}</span> <span>${message}</span>`;
             container.appendChild(toast);
             triggerVibe(type === 'error' ? [50, 100, 50] : 30);
             setTimeout(() => {
@@ -1980,7 +1981,7 @@ function startQuizTimer() {
     clearInterval(quizTimerInterval);
     quizTimerInterval = setInterval(() => {
         timeLeft -= 0.1;
-        bar.style.width = (timeLeft / 15) * 100 + '%';
+        if (bar) bar.style.width = (timeLeft / 15) * 100 + '%';
         if (timeLeft <= 0) {
             clearInterval(quizTimerInterval);
             handleQuizTimeout();
@@ -1992,9 +1993,9 @@ function handleQuizTimeout() {
         if (isRoomAdmin) {
             showValidationScreen();
         } else {
-            document.getElementById('quiz-input-zone').style.display = 'none';
+            if(document.getElementById('quiz-input-zone')) document.getElementById('quiz-input-zone').style.display = 'none';
             document.getElementById('quiz-wait-message').innerText = "Temps écoulé ! En attente du verdict...";
-            document.getElementById('quiz-wait-message').style.display = 'block';
+            if(document.getElementById('quiz-wait-message')) document.getElementById('quiz-wait-message').style.display = 'block';
         }
     } else {
         // QCM timeout
@@ -2025,8 +2026,8 @@ function submitQuizAnswer() {
         return;
     }
     triggerVibe(30);
-    document.getElementById('quiz-input-zone').style.display = 'none';
-    document.getElementById('quiz-wait-message').style.display = 'block';
+    if(document.getElementById('quiz-input-zone')) document.getElementById('quiz-input-zone').style.display = 'none';
+    if(document.getElementById('quiz-wait-message')) document.getElementById('quiz-wait-message').style.display = 'block';
     roomChannel.send({
         type: 'broadcast',
         event: 'quiz_submit_answer',
@@ -2049,7 +2050,7 @@ function showValidationScreen() {
             </div>
         </div>
     `).join('') : "<p style='text-align:center; opacity:0.5;'>Aucune réponse reçue...</p>";
-    document.getElementById('quiz-input-zone').style.display = 'none';
+    if(document.getElementById('quiz-input-zone')) document.getElementById('quiz-input-zone').style.display = 'none';
     document.getElementById('quiz-validation-zone').style.display = 'block';
 }
 function validateQuizPlayer(playerId, isCorrect, btn) {
