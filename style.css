@@ -1,4 +1,4 @@
-:root {
+﻿:root {
             --c-tribunal: #ff3b30;
             --c-tribunal-glow: rgba(255, 59, 48, 0.4);
             --c-draft: #007aff;
@@ -76,6 +76,7 @@
 
         /* Conteneur principal */
         .container {
+    pointer-events: auto !important;
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -102,10 +103,12 @@
             flex-direction: column;
             flex: 1;
             min-height: 0;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            /* transition removed */
         }
         
         #menu-view {
+    z-index: 100 !important;
+    pointer-events: auto !important;
             overflow-y: auto;
             padding-right: 5px; /* Pour la scrollbar */
         }
