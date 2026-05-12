@@ -239,6 +239,14 @@ let phrases = { soft: {}, hard: {} };
             const fromView = document.getElementById(fromId);
             const toView = document.getElementById(toId);
             
+            if (!fromView || !toView) {
+                console.error('switchView error: missing element', {fromId, toId, fromView, toView});
+                if (!toView && toId !== 'menu-view') {
+                    alert('Erreur : La vue \"' + toId + '\" est introuvable. Verifiez que vous avez bien la derniere version.');
+                }
+                return;
+            }
+            
             fromView.style.opacity = '0';
             fromView.style.transform = 'scale(0.9)';
             
