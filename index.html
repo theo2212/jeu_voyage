@@ -1350,10 +1350,13 @@
                     nextPhrase();
                 }
             }, {passive: true});
-            if ('serviceWorker' in navigator) {
+            if ('serviceWorker' in navigator && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+            window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                .then(() => console.log('Service Worker Registered'));
-            }
+                    .then(reg => console.log('Service Worker registered', reg))
+                    .catch(err => console.log('Service Worker registration failed', err));
+            });
+        }
         });
 // --- SUPABASE & MULTIJOUEUR ---
 const SUPABASE_URL = 'https://pzdbkegmbxsvabkvffdi.supabase.co';
