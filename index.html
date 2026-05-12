@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -1041,6 +1041,15 @@
         function beginGame() {
             triggerVibe([50, 50, 50]);
             players.forEach(p => p.score = 0); 
+            if (syncMode === 'online') {
+                players = roomPlayers.map(p => ({
+                    id: p.id || Math.random().toString(36).substr(2, 9),
+                    name: p.name,
+                    score: 0,
+                    coins: 0,
+                    inventory: []
+                }));
+            }
             const fromViewId = syncMode === 'online' ? 'menu-view' : 'players-setup-view';
             switchView(fromViewId, 'game-view', () => {
                 const gameTitle = document.getElementById('game-title');
