@@ -20,7 +20,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jeu de Voyage V41 🚗</title>
+    <title>Jeu de Voyage V42 🚗</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
@@ -187,53 +187,7 @@
         </div>
 
 
-        <!-- Vue : Quiz -->
-        <div id="quiz-view" style="display: none; width: 100%;">
-            <div class="game-header">
-                <div id="quiz-title">Quiz Rapido</div>
-            </div>
-
-            <div id="quiz-timer-bar" style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; margin: 10px 0; overflow: hidden;">
-                <div id="quiz-timer-progress" style="width: 100%; height: 100%; background: #007aff; transition: width 0.1s linear;"></div>
-            </div>
-
-            <div id="quiz-question-count" style="text-align: center; font-size: 0.9rem; opacity: 0.6; margin-bottom: 10px;">Question 1 / 10</div>
-
-            <div class="card-container">
-                <div class="game-card">
-                    <div id="quiz-question-text" class="text-pop-out" style="font-size: 1.4rem;">Chargement...</div>
-                </div>
-            </div>
-
-            <div id="quiz-options" style="width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
-                <!-- Boutons QCM -->
-            </div>
-
-            <div id="quiz-input-zone" style="width: 100%; margin-top: 20px; display: none;">
-                <input type="text" id="quiz-answer-input" class="input-text" placeholder="Ta réponse...">
-                <button class="btn-action" style="margin-top:10px;" onclick="submitQuizAnswer()">Envoyer 🚀</button>
-            </div>
-
-            <div id="quiz-wait-message" style="margin-top: 20px; text-align: center; display: none; opacity: 0.7;">
-                Réponse envoyée ! Attente...
-            </div>
-        </div>
-
-        <!-- Vue : Validation Admin -->
-        <div id="quiz-validation-view" style="display: none; padding: 20px;">
-            <h2 style="text-align: center; color: #ffd700; margin-bottom: 25px; font-size: 1.6rem;">Verdict du Juge ⚖️</h2>
-            
-            <div style="background: rgba(48,209,88,0.1); padding: 20px; border-radius: 20px; border: 1px solid rgba(48,209,88,0.3); margin-bottom: 30px; text-align: center;">
-                <small style="opacity: 0.6; text-transform: uppercase; letter-spacing: 1px;">La bonne réponse était :</small><br>
-                <strong id="quiz-expected-text" style="font-size: 1.5rem; color: #30d158; display: block; margin-top: 5px;">...</strong>
-            </div>
-
-            <div id="quiz-answers-to-validate" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
-                <!-- Réponses des joueurs -->
-            </div>
-            
-            <button id="btn-next-quiz-question" class="btn-action" style="background: #007aff; height: 60px; border-radius: 18px;" onclick="nextQuizQuestion()">Question suivante ➡️</button>
-        </div>
+        <!-- Le Quiz est maintenant injecté dynamiquement dans game-view ou utilise la même structure -->
         <!-- Vue : Podium Quiz -->
         <div id="quiz-podium-view" style="display: none; padding: 20px; text-align: center; height: 100vh; flex-direction: column; justify-content: center;">
             <h1 style="color: #ffd700; font-size: 2.2rem; margin-bottom: 30px;">Podium Final 🏆</h1>
@@ -264,32 +218,49 @@
         </div>
 
         <!-- Vue : Jeu en cours -->
-        <div id="game-view">
+        <div id="game-view" style="display: none;">
             <div class="game-header">
-                <div id="game-title">Titre du jeu</div>
+                <div id="game-title">Jeu de Voyage</div>
+                <div id="quiz-question-count" style="display:none; font-size: 0.9rem; opacity: 0.6;">Question 1 / 10</div>
             </div>
-            
-            <div id="scoreboard">
-                <!-- Scores injectés ici -->
+
+            <!-- Timer Quiz -->
+            <div id="quiz-timer-bar" style="display:none; width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin: 10px 0; overflow: hidden;">
+                <div id="quiz-timer-progress" style="width: 100%; height: 100%; background: #007aff; transition: width 0.1s linear;"></div>
             </div>
-            
+
             <div class="card-container">
-                <div id="game-card">
+                <div id="game-card" class="game-card">
                     <div id="game-text">Chargement...</div>
                 </div>
             </div>
 
-            <!-- Timer pour le jeu des 7 Secondes -->
-            <div id="timer-container">
-                <div id="timer-display">7</div>
-                <button class="btn-timer-start" id="btn-timer-start" onclick="startTimer()">Lancer le Chrono ⏱️</button>
+            <!-- Contrôles Quiz Expert / Validation -->
+            <div id="quiz-validation-zone" style="display: none; width: 100%; margin-top: 15px;">
+                <h3 style="text-align: center; color: #ffd700; font-size: 1.1rem; margin-bottom: 10px;">Verdict du Juge ⚖️</h3>
+                <div id="quiz-answers-to-validate" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                <button class="btn-action" style="margin-top: 15px; background: #007aff;" onclick="nextQuizQuestion()">Question suivante ➡️</button>
+            </div>
+
+            <!-- Zone Saisie Expert -->
+            <div id="quiz-input-zone" style="display: none; width: 100%; margin-top: 15px;">
+                <input type="text" id="quiz-answer-input" class="input-text" placeholder="Ta réponse...">
+                <button class="btn-action" style="margin-top:10px; background: #5856d6;" onclick="submitQuizAnswer()">Envoyer 🚀</button>
+            </div>
+
+            <div id="quiz-wait-message" style="display: none; margin-top: 15px; text-align: center; opacity: 0.7;">
+                Réponse envoyée ! Attente...
             </div>
 
             <div class="controls">
                 <div id="vote-controls" class="vote-grid">
-                    <!-- Boutons de vote injectés ici -->
+                    <!-- Boutons de vote ou QCM injectés ici -->
                 </div>
-                <button class="btn-action" style="background: linear-gradient(135deg, #1c1c1e, #ff2d55); margin-top: 10px;" onclick="spinWheel()">🎡 Je suis lâche (Roue de Punition)</button>
+                <div id="quiz-options" style="display: none; width: 100%; flex-direction: column; gap: 10px;">
+                    <!-- Boutons QCM -->
+                </div>
+                <button id="btn-spin-wheel" class="btn-action" style="background: linear-gradient(135deg, #1c1c1e, #ff2d55); margin-top: 10px;" onclick="spinWheel()">🎡 Je suis lâche (Roue de Punition)</button>
+                <button class="btn-action btn-next" onclick="nextPhrase()">Suivant ➡️</button>
                 <button class="btn-action btn-back" onclick="returnToMenu('game-view')" style="margin-top: 10px;">Quitter la partie</button>
             </div>
         </div>
@@ -396,7 +367,7 @@
     </div>
 
 
-    <script src="app.js?v=41"></script>
+    <script src="app.js?v=42"></script>
 
 </body>
 </html>

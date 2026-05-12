@@ -1,273 +1,273 @@
-let phrases = {
+﻿let phrases = {
     "soft": {
         "tribunal": [
             "L'ananas sur la pizza est le sommet de la gastronomie.",
             "Shrek 2 est meilleur que Le Parrain.",
             "Les notes vocales de plus d'une minute sont une insulte au respect humain.",
             "Mettre des chaussettes avec des sandales est un choix stylistique audacieux et valable.",
-            "L'eau gazeuse a le goût de l'eau qui a été électrocutée, c'est dégueulasse.",
-            "Dire 'je dis ça, je dis rien' mérite la prison ferme.",
-            "Les bébés sont tous moches à la naissance, sans exception.",
-            "Astérix Mission Cléopâtre est le seul bon film comique français.",
+            "L'eau gazeuse a le goÃ»t de l'eau qui a Ã©tÃ© Ã©lectrocutÃ©e, c'est dÃ©gueulasse.",
+            "Dire 'je dis Ã§a, je dis rien' mÃ©rite la prison ferme.",
+            "Les bÃ©bÃ©s sont tous moches Ã  la naissance, sans exception.",
+            "AstÃ©rix Mission ClÃ©opÃ¢tre est le seul bon film comique franÃ§ais.",
             "Les influenceurs ne sont que des panneaux publicitaires ambulants.",
-            "Le vin rouge, c'est du jus de raisin qui a mal tourné.",
-            "Le fromage bleu, c'est littéralement de la moisissure, arrêtez de faire genre c'est bon.",
-            "Mettre un point à la fin d'un SMS est une agression passive."
+            "Le vin rouge, c'est du jus de raisin qui a mal tournÃ©.",
+            "Le fromage bleu, c'est littÃ©ralement de la moisissure, arrÃªtez de faire genre c'est bon.",
+            "Mettre un point Ã  la fin d'un SMS est une agression passive."
         ],
         "draft": [
-            "Pire phrase à dire lors d'un enterrement.",
-            "Pire chose à trouver dans son hamburger.",
-            "Pire super-pouvoir à avoir au quotidien.",
-            "Pire endroit pour avoir une crise de diarrhée.",
+            "Pire phrase Ã  dire lors d'un enterrement.",
+            "Pire chose Ã  trouver dans son hamburger.",
+            "Pire super-pouvoir Ã  avoir au quotidien.",
+            "Pire endroit pour avoir une crise de diarrhÃ©e.",
             "Pire costume d'Halloween pour aller au bureau.",
             "Pire nom pour un chien de garde.",
-            "Pire chose à dire juste après un baiser.",
-            "Pire objet à utiliser comme arme de poing dans la rue.",
-            "Pire talent inutile à montrer à Incroyable Talent.",
-            "Pire excuse pour annuler un rencard à la dernière minute."
+            "Pire chose Ã  dire juste aprÃ¨s un baiser.",
+            "Pire objet Ã  utiliser comme arme de poing dans la rue.",
+            "Pire talent inutile Ã  montrer Ã  Incroyable Talent.",
+            "Pire excuse pour annuler un rencard Ã  la derniÃ¨re minute."
         ],
         "prefere": [
-            "Tu préfères transpirer de la mayonnaise OU pleurer des larmes en sauce piquante ?",
-            "Tu préfères avoir des bras à la place des jambes OU des jambes à la place des bras ?",
-            "Tu préfères parler toutes les langues du monde mais bégayer constamment OU parler seulement ta langue mais avec une voix de robot ?",
-            "Tu préfères avoir un nez en forme de pénis OU des oreilles en forme de vagin ?",
-            "Tu préfères éternuer des confettis OU tousser des paillettes ?",
-            "Tu préfères devoir manger un cafard vivant par jour OU manger une poignée de cheveux à chaque repas ?",
-            "Tu préfères ne plus jamais utiliser de papier toilette OU ne plus jamais utiliser de brosse à dents ?",
-            "Tu préfères avoir toujours la sensation qu'un insecte rampe sur toi OU toujours entendre un bourdonnement dans ton oreille ?",
-            "Tu préfères être constamment humide OU être constamment collant ?",
-            "Tu préfères revivre la pire journée de ta vie tous les lundis OU ne plus jamais ressentir de joie le week-end ?"
+            "Tu prÃ©fÃ¨res transpirer de la mayonnaise OU pleurer des larmes en sauce piquante ?",
+            "Tu prÃ©fÃ¨res avoir des bras Ã  la place des jambes OU des jambes Ã  la place des bras ?",
+            "Tu prÃ©fÃ¨res parler toutes les langues du monde mais bÃ©gayer constamment OU parler seulement ta langue mais avec une voix de robot ?",
+            "Tu prÃ©fÃ¨res avoir un nez en forme de pÃ©nis OU des oreilles en forme de vagin ?",
+            "Tu prÃ©fÃ¨res Ã©ternuer des confettis OU tousser des paillettes ?",
+            "Tu prÃ©fÃ¨res devoir manger un cafard vivant par jour OU manger une poignÃ©e de cheveux Ã  chaque repas ?",
+            "Tu prÃ©fÃ¨res ne plus jamais utiliser de papier toilette OU ne plus jamais utiliser de brosse Ã  dents ?",
+            "Tu prÃ©fÃ¨res avoir toujours la sensation qu'un insecte rampe sur toi OU toujours entendre un bourdonnement dans ton oreille ?",
+            "Tu prÃ©fÃ¨res Ãªtre constamment humide OU Ãªtre constamment collant ?",
+            "Tu prÃ©fÃ¨res revivre la pire journÃ©e de ta vie tous les lundis OU ne plus jamais ressentir de joie le week-end ?"
         ],
         "daube": [
-            "Un homme découvre que son chat est la réincarnation de sa belle-mère.",
-            "Une application de rencontre où tu ne matches qu'avec des gens qui ont les mêmes maladies que toi.",
-            "Un télé-crochet pour trouver le pire cuisinier du monde, le gagnant doit manger son plat.",
-            "Un film d'horreur où le tueur attaque avec une cuillère, mais très lentement.",
-            "Un super-héros dont le seul pouvoir est de rendre les gens légèrement inconfortables.",
-            "Une télé-réalité où des politiciens doivent survivre au SMIC pendant 1 an.",
-            "Un documentaire animalier sur les pigeons de Paris narré par un dépressif.",
-            "Une série policière où l'inspecteur résout les crimes en goûtant la scène de crime.",
-            "Un parc d'attractions sur le thème de la bureaucratie et de l'administration française.",
-            "Un film d'action où le héros est asthmatique et oublie toujours sa ventoline."
+            "Un homme dÃ©couvre que son chat est la rÃ©incarnation de sa belle-mÃ¨re.",
+            "Une application de rencontre oÃ¹ tu ne matches qu'avec des gens qui ont les mÃªmes maladies que toi.",
+            "Un tÃ©lÃ©-crochet pour trouver le pire cuisinier du monde, le gagnant doit manger son plat.",
+            "Un film d'horreur oÃ¹ le tueur attaque avec une cuillÃ¨re, mais trÃ¨s lentement.",
+            "Un super-hÃ©ros dont le seul pouvoir est de rendre les gens lÃ©gÃ¨rement inconfortables.",
+            "Une tÃ©lÃ©-rÃ©alitÃ© oÃ¹ des politiciens doivent survivre au SMIC pendant 1 an.",
+            "Un documentaire animalier sur les pigeons de Paris narrÃ© par un dÃ©pressif.",
+            "Une sÃ©rie policiÃ¨re oÃ¹ l'inspecteur rÃ©sout les crimes en goÃ»tant la scÃ¨ne de crime.",
+            "Un parc d'attractions sur le thÃ¨me de la bureaucratie et de l'administration franÃ§aise.",
+            "Un film d'action oÃ¹ le hÃ©ros est asthmatique et oublie toujours sa ventoline."
         ],
         "redflag": [
             "C'est un 10, mais il/elle tape avec deux doigts sur son clavier.",
-            "C'est un 10, mais il/elle claque des lèvres en mangeant.",
-            "C'est un 10, mais il/elle est incapable de lire l'heure sur une horloge à aiguilles.",
-            "C'est un 10, mais il/elle porte des lunettes de soleil en boîte de nuit.",
-            "C'est un 10, mais il/elle met du ketchup dans ses pâtes.",
+            "C'est un 10, mais il/elle claque des lÃ¨vres en mangeant.",
+            "C'est un 10, mais il/elle est incapable de lire l'heure sur une horloge Ã  aiguilles.",
+            "C'est un 10, mais il/elle porte des lunettes de soleil en boÃ®te de nuit.",
+            "C'est un 10, mais il/elle met du ketchup dans ses pÃ¢tes.",
             "C'est un 10, mais il/elle renifle tout le temps au lieu de se moucher.",
             "C'est un 10, mais il/elle ne sait pas nager.",
             "C'est un 10, mais il/elle a 30 ans et utilise encore le mot 'swag'.",
             "C'est un 10, mais il/elle croit dur comme fer que la Terre est plate.",
-            "C'est un 10, mais il/elle fait des fautes d'orthographe à chaque phrase ('sa va')."
+            "C'est un 10, mais il/elle fait des fautes d'orthographe Ã  chaque phrase ('sa va')."
         ],
         "boire_susceptible": [
-            "Qui est le plus susceptible de survivre à une apocalypse zombie ?",
+            "Qui est le plus susceptible de survivre Ã  une apocalypse zombie ?",
             "Qui est le plus susceptible de rater son propre mariage ?",
-            "Qui est le plus susceptible de devenir fou en premier sur une île déserte ?",
+            "Qui est le plus susceptible de devenir fou en premier sur une Ã®le dÃ©serte ?",
             "Qui est le plus susceptible de se faire arnaquer sur Internet ?",
-            "Qui est le plus susceptible de manger la nourriture d'un collègue dans le frigo ?",
+            "Qui est le plus susceptible de manger la nourriture d'un collÃ¨gue dans le frigo ?",
             "Qui est le plus susceptible de s'endormir ivre dans les toilettes d'un bar ?",
             "Qui est le plus susceptible d'oublier l'anniversaire de son partenaire ?",
-            "Qui est le plus susceptible de péter en public et d'accuser quelqu'un d'autre ?",
-            "Qui est le plus susceptible de mourir bêtement en prenant un selfie ?",
+            "Qui est le plus susceptible de pÃ©ter en public et d'accuser quelqu'un d'autre ?",
+            "Qui est le plus susceptible de mourir bÃªtement en prenant un selfie ?",
             "Qui est le plus susceptible de mentir sur son CV et de se faire griller ?"
         ],
         "boire_jamais": [
-            "Je n'ai jamais fouillé le téléphone de mon partenaire.",
-            "Je n'ai jamais menti pour éviter une soirée.",
-            "Je n'ai jamais volé un petit objet dans un magasin.",
+            "Je n'ai jamais fouillÃ© le tÃ©lÃ©phone de mon partenaire.",
+            "Je n'ai jamais menti pour Ã©viter une soirÃ©e.",
+            "Je n'ai jamais volÃ© un petit objet dans un magasin.",
             "Je n'ai jamais vomi en public.",
-            "Je n'ai jamais stalké un ex avec un faux compte.",
+            "Je n'ai jamais stalkÃ© un ex avec un faux compte.",
             "Je n'ai jamais fait pipi dans une piscine municipale.",
-            "Je n'ai jamais utilisé la brosse à dents de quelqu'un d'autre sans lui dire.",
-            "Je n'ai jamais renvoyé un plat au restaurant juste pour embêter le serveur.",
-            "Je n'ai jamais pleuré pour manipuler une situation.",
-            "Je n'ai jamais fait semblant d'être au téléphone pour ignorer quelqu'un."
+            "Je n'ai jamais utilisÃ© la brosse Ã  dents de quelqu'un d'autre sans lui dire.",
+            "Je n'ai jamais renvoyÃ© un plat au restaurant juste pour embÃªter le serveur.",
+            "Je n'ai jamais pleurÃ© pour manipuler une situation.",
+            "Je n'ai jamais fait semblant d'Ãªtre au tÃ©lÃ©phone pour ignorer quelqu'un."
         ],
         "boire_action": [
-            "Action : Laisse le groupe regarder tes 5 dernières recherches Google, ou bois 3 gorgées.",
-            "Action : Mime un singe enragé pendant 10 secondes, ou bois 2 gorgées.",
-            "Action : Laisse un joueur envoyer un message au hasard à ton dernier contact, ou bois cul sec.",
-            "Action : Fais un compliment gênant à ton voisin de droite, ou bois 2 gorgées.",
-            "Action : Raconte la pire honte de ta vie, ou bois 4 gorgées.",
-            "Action : Parle avec un accent québécois jusqu'à ton prochain tour, ou bois 3 gorgées.",
+            "Action : Laisse le groupe regarder tes 5 derniÃ¨res recherches Google, ou bois 3 gorgÃ©es.",
+            "Action : Mime un singe enragÃ© pendant 10 secondes, ou bois 2 gorgÃ©es.",
+            "Action : Laisse un joueur envoyer un message au hasard Ã  ton dernier contact, ou bois cul sec.",
+            "Action : Fais un compliment gÃªnant Ã  ton voisin de droite, ou bois 2 gorgÃ©es.",
+            "Action : Raconte la pire honte de ta vie, ou bois 4 gorgÃ©es.",
+            "Action : Parle avec un accent quÃ©bÃ©cois jusqu'Ã  ton prochain tour, ou bois 3 gorgÃ©es.",
             "Action : Laisse le groupe choisir ta prochaine photo de profil pour 24h, ou bois cul sec.",
-            "Action : Mange un bout de papier, ou bois 2 gorgées.",
-            "Action : Fais 10 pompes, ou bois 3 gorgées.",
-            "Action : Ne cligne pas des yeux pendant 30 secondes. Si tu perds, bois 2 gorgées."
+            "Action : Mange un bout de papier, ou bois 2 gorgÃ©es.",
+            "Action : Fais 10 pompes, ou bois 3 gorgÃ©es.",
+            "Action : Ne cligne pas des yeux pendant 30 secondes. Si tu perds, bois 2 gorgÃ©es."
         ],
         "boire_dictateur": [
-            "Le Dictateur décide : Interdiction de dire 'Oui' ou 'Non'. Le premier qui le fait boit 2 gorgées.",
-            "Le Dictateur décide : Tu dois vouvoyer tout le monde. Si tu tutoies, tu bois.",
-            "Le Dictateur décide : Choisis un mot interdit. Celui qui le dit boit 2 gorgées.",
-            "Le Dictateur décide : Interdiction de toucher son téléphone, sinon cul sec.",
-            "Le Dictateur décide : À chaque fois qu'on te pose une question, réponds par une question, sinon bois.",
-            "Le Dictateur décide : Interdiction de croiser les bras ou les jambes. Si pris en flag, 1 gorgée.",
-            "Le Dictateur décide : Le joueur à ta gauche est ton esclave, il doit te servir tes verres.",
-            "Le Dictateur décide : Tu ne peux plus pointer du doigt. Si tu le fais, tu bois.",
-            "Le Dictateur décide : Interdiction d'utiliser des prénoms. Si tu le fais, tu bois.",
-            "Le Dictateur décide : À chaque fois qu'un joueur rit, il boit 1 gorgée."
+            "Le Dictateur dÃ©cide : Interdiction de dire 'Oui' ou 'Non'. Le premier qui le fait boit 2 gorgÃ©es.",
+            "Le Dictateur dÃ©cide : Tu dois vouvoyer tout le monde. Si tu tutoies, tu bois.",
+            "Le Dictateur dÃ©cide : Choisis un mot interdit. Celui qui le dit boit 2 gorgÃ©es.",
+            "Le Dictateur dÃ©cide : Interdiction de toucher son tÃ©lÃ©phone, sinon cul sec.",
+            "Le Dictateur dÃ©cide : Ã€ chaque fois qu'on te pose une question, rÃ©ponds par une question, sinon bois.",
+            "Le Dictateur dÃ©cide : Interdiction de croiser les bras ou les jambes. Si pris en flag, 1 gorgÃ©e.",
+            "Le Dictateur dÃ©cide : Le joueur Ã  ta gauche est ton esclave, il doit te servir tes verres.",
+            "Le Dictateur dÃ©cide : Tu ne peux plus pointer du doigt. Si tu le fais, tu bois.",
+            "Le Dictateur dÃ©cide : Interdiction d'utiliser des prÃ©noms. Si tu le fais, tu bois.",
+            "Le Dictateur dÃ©cide : Ã€ chaque fois qu'un joueur rit, il boit 1 gorgÃ©e."
         ],
         "boire_serieux": [
-            "Blague : 'Quelle est la différence entre les oiseaux et les banquiers ? Les oiseaux plumés ne volent plus.' (Ne ris pas)",
-            "Blague : 'Que dit un aveugle quand on lui donne du papier de verre ? Putain c'est écrit petit.' (Ne ris pas)",
+            "Blague : 'Quelle est la diffÃ©rence entre les oiseaux et les banquiers ? Les oiseaux plumÃ©s ne volent plus.' (Ne ris pas)",
+            "Blague : 'Que dit un aveugle quand on lui donne du papier de verre ? Putain c'est Ã©crit petit.' (Ne ris pas)",
             "Blague : 'C'est l'histoire d'un pingouin qui respire par le cul. Un jour il s'assoit, et il meurt.' (Ne ris pas)",
             "Blague : 'Comment appelle-t-on un chien sans patte ? On ne l'appelle pas, on va le chercher.' (Ne ris pas)",
-            "Blague : 'Quel est le point commun entre un parachute et l'humour ? Quand tu n'en as pas, tu t'écrases.' (Ne ris pas)"
+            "Blague : 'Quel est le point commun entre un parachute et l'humour ? Quand tu n'en as pas, tu t'Ã©crases.' (Ne ris pas)"
         ],
         "boire_7sec": [
             "Tu as 7 secondes pour citer 3 pires endroits pour rompre.",
             "Tu as 7 secondes pour citer 3 animaux qui ont l'air cons.",
-            "Tu as 7 secondes pour citer 3 choses à faire avec un cadavre.",
+            "Tu as 7 secondes pour citer 3 choses Ã  faire avec un cadavre.",
             "Tu as 7 secondes pour citer 3 mots qui commencent par 'Z'.",
             "Tu as 7 secondes pour citer 3 choses qu'il ne faut pas mettre au micro-ondes."
         ],
         "boire_roulette": [
-            "Roulette : Le joueur le plus jeune boit 2 gorgées.",
-            "Roulette : Tous ceux qui ont un vêtement noir boivent 1 gorgée.",
-            "Roulette : Le joueur avec le plus de batterie distribue 3 gorgées.",
-            "Roulette : Tous les célibataires boivent 2 gorgées. S'il n'y en a pas, tout le monde boit.",
-            "Roulette : Le dernier à toucher le sol avec sa main boit 2 gorgées."
+            "Roulette : Le joueur le plus jeune boit 2 gorgÃ©es.",
+            "Roulette : Tous ceux qui ont un vÃªtement noir boivent 1 gorgÃ©e.",
+            "Roulette : Le joueur avec le plus de batterie distribue 3 gorgÃ©es.",
+            "Roulette : Tous les cÃ©libataires boivent 2 gorgÃ©es. S'il n'y en a pas, tout le monde boit.",
+            "Roulette : Le dernier Ã  toucher le sol avec sa main boit 2 gorgÃ©es."
         ],
         "boire_menteur": [
             "Vrai ou Faux : Les cochons peuvent manger un corps humain entier (os compris). (Vrai)",
-            "Vrai ou Faux : On avale en moyenne 8 araignées par an en dormant. (Faux, légende)",
+            "Vrai ou Faux : On avale en moyenne 8 araignÃ©es par an en dormant. (Faux, lÃ©gende)",
             "Vrai ou Faux : Les loutres de mer se tiennent la main en dormant. (Vrai)",
-            "Vrai ou Faux : Hitler a été nominé pour le prix Nobel de la paix. (Vrai)",
+            "Vrai ou Faux : Hitler a Ã©tÃ© nominÃ© pour le prix Nobel de la paix. (Vrai)",
             "Vrai ou Faux : Le miel est du vomi d'abeille. (Vrai)"
         ],
         "boire_kamikaze": [
-            "Kamikaze : Thème 'Animaux'. Le 1er qui se trompe boit 3 gorgées.",
-            "Kamikaze : Thème 'Insultes douces'. Le 1er qui se trompe boit 3 gorgées.",
-            "Kamikaze : Thème 'Légumes'. Le 1er qui se trompe boit 3 gorgées.",
-            "Kamikaze : Thème 'Maladies mortelles'. Le 1er qui se trompe boit 3 gorgées.",
-            "Kamikaze : Thème 'Prénoms de beaufs'. Le 1er qui se trompe boit 3 gorgées."
+            "Kamikaze : ThÃ¨me 'Animaux'. Le 1er qui se trompe boit 3 gorgÃ©es.",
+            "Kamikaze : ThÃ¨me 'Insultes douces'. Le 1er qui se trompe boit 3 gorgÃ©es.",
+            "Kamikaze : ThÃ¨me 'LÃ©gumes'. Le 1er qui se trompe boit 3 gorgÃ©es.",
+            "Kamikaze : ThÃ¨me 'Maladies mortelles'. Le 1er qui se trompe boit 3 gorgÃ©es.",
+            "Kamikaze : ThÃ¨me 'PrÃ©noms de beaufs'. Le 1er qui se trompe boit 3 gorgÃ©es."
         ],
         "boire_dilemme": [
-            "Tu préfères : Ne plus avoir de dents OU ne plus avoir de nez ?",
-            "Tu préfères : Savoir QUAND tu vas mourir OU COMMENT tu vas mourir ?",
-            "Tu préfères : Manger du caca goût chocolat OU du chocolat goût caca ?",
-            "Tu préfères : Toujours dire à voix haute ce que tu penses OU devenir muet ?",
-            "Tu préfères : Trouver un poil dans tous tes plats OU boire toujours de l'eau tiède ?"
+            "Tu prÃ©fÃ¨res : Ne plus avoir de dents OU ne plus avoir de nez ?",
+            "Tu prÃ©fÃ¨res : Savoir QUAND tu vas mourir OU COMMENT tu vas mourir ?",
+            "Tu prÃ©fÃ¨res : Manger du caca goÃ»t chocolat OU du chocolat goÃ»t caca ?",
+            "Tu prÃ©fÃ¨res : Toujours dire Ã  voix haute ce que tu penses OU devenir muet ?",
+            "Tu prÃ©fÃ¨res : Trouver un poil dans tous tes plats OU boire toujours de l'eau tiÃ¨de ?"
         ]
     },
     "hard": {
         "tribunal": [
-            "La taille compte, et ceux qui disent le contraire se mentent à eux-mêmes.",
-            "Tromper son/sa partenaire une seule fois en soirée, c'est pas si grave si personne ne l'apprend.",
-            "Faire l'amour dans le noir complet, c'est pour les coincés.",
-            "Les plans à 3 finissent toujours par détruire la relation.",
-            "Simuler au lit est parfois nécessaire pour sauver l'ego de l'autre.",
+            "La taille compte, et ceux qui disent le contraire se mentent Ã  eux-mÃªmes.",
+            "Tromper son/sa partenaire une seule fois en soirÃ©e, c'est pas si grave si personne ne l'apprend.",
+            "Faire l'amour dans le noir complet, c'est pour les coincÃ©s.",
+            "Les plans Ã  3 finissent toujours par dÃ©truire la relation.",
+            "Simuler au lit est parfois nÃ©cessaire pour sauver l'ego de l'autre.",
             "Avoir des fantasmes sur le/la partenaire d'un ami est totalement normal.",
-            "Coucher le premier soir est la meilleure façon de savoir si ça vaut le coup de continuer.",
-            "Payer pour du contenu sur OnlyFans est pathétique.",
-            "Le porno déforme complètement la réalité et ruine la sexualité.",
-            "Fouiller dans le téléphone de son partenaire, c'est légitime si on a un doute."
+            "Coucher le premier soir est la meilleure faÃ§on de savoir si Ã§a vaut le coup de continuer.",
+            "Payer pour du contenu sur OnlyFans est pathÃ©tique.",
+            "Le porno dÃ©forme complÃ¨tement la rÃ©alitÃ© et ruine la sexualitÃ©.",
+            "Fouiller dans le tÃ©lÃ©phone de son partenaire, c'est lÃ©gitime si on a un doute."
         ],
         "draft": [
-            "Pire phrase à dire juste avant de jouir.",
-            "Pire endroit du corps où retrouver un poil inconnu.",
-            "Pire objet à utiliser comme sex-toy improvisé.",
-            "Pire prénom à hurler par erreur au lit.",
-            "Pire chose à découvrir dans l'historique internet de son/sa partenaire.",
-            "Pire endroit public pour essayer de faire l'amour discrètement.",
-            "Pire chose à dire à ses beaux-parents en parlant de leur fille/fils.",
+            "Pire phrase Ã  dire juste avant de jouir.",
+            "Pire endroit du corps oÃ¹ retrouver un poil inconnu.",
+            "Pire objet Ã  utiliser comme sex-toy improvisÃ©.",
+            "Pire prÃ©nom Ã  hurler par erreur au lit.",
+            "Pire chose Ã  dÃ©couvrir dans l'historique internet de son/sa partenaire.",
+            "Pire endroit public pour essayer de faire l'amour discrÃ¨tement.",
+            "Pire chose Ã  dire Ã  ses beaux-parents en parlant de leur fille/fils.",
             "Pire excuse pour justifier une panne au lit.",
-            "Pire message envoyé par erreur au mauvais groupe (famille/travail).",
-            "Pire fétiche inavouable à découvrir chez quelqu'un d'autre."
+            "Pire message envoyÃ© par erreur au mauvais groupe (famille/travail).",
+            "Pire fÃ©tiche inavouable Ã  dÃ©couvrir chez quelqu'un d'autre."
         ],
         "prefere": [
-            "Tu préfères surprendre tes parents en train de faire l'amour OU qu'ils te surprennent en train de faire l'amour ?",
-            "Tu préfères coucher une fois avec ton/ta cousin(e) pour 100 000€ OU ne jamais le faire mais tout le monde croit que tu l'as fait ?",
-            "Tu préfères ne plus jamais ressentir d'orgasme de ta vie OU ne plus jamais pouvoir te masturber ?",
-            "Tu préfères avoir une sex-tape qui fuite au travail OU devant toute ta famille ?",
-            "Tu préfères que ton historique internet soit lu à ton enterrement OU devoir le lire à voix haute devant tes parents demain ?",
-            "Tu préfères coucher avec la personne la plus moche du monde mais tout le monde pense que c'était le/la plus beau/belle, OU l'inverse ?",
-            "Tu préfères crier le nom de ton/ta pire ex au lit à chaque fois, OU que ton partenaire crie le nom de son ex ?",
-            "Tu préfères n'avoir que des rapports qui durent 1 minute maximum OU des rapports qui durent minimum 3 heures sans pouvoir t'arrêter ?",
-            "Tu préfères devoir toujours filmer tes ébats OU devoir toujours avoir un spectateur muet dans la pièce ?",
-            "Tu préfères sucer un orteil sale OU te faire lécher l'aisselle quand tu as transpiré ?"
+            "Tu prÃ©fÃ¨res surprendre tes parents en train de faire l'amour OU qu'ils te surprennent en train de faire l'amour ?",
+            "Tu prÃ©fÃ¨res coucher une fois avec ton/ta cousin(e) pour 100 000â‚¬ OU ne jamais le faire mais tout le monde croit que tu l'as fait ?",
+            "Tu prÃ©fÃ¨res ne plus jamais ressentir d'orgasme de ta vie OU ne plus jamais pouvoir te masturber ?",
+            "Tu prÃ©fÃ¨res avoir une sex-tape qui fuite au travail OU devant toute ta famille ?",
+            "Tu prÃ©fÃ¨res que ton historique internet soit lu Ã  ton enterrement OU devoir le lire Ã  voix haute devant tes parents demain ?",
+            "Tu prÃ©fÃ¨res coucher avec la personne la plus moche du monde mais tout le monde pense que c'Ã©tait le/la plus beau/belle, OU l'inverse ?",
+            "Tu prÃ©fÃ¨res crier le nom de ton/ta pire ex au lit Ã  chaque fois, OU que ton partenaire crie le nom de son ex ?",
+            "Tu prÃ©fÃ¨res n'avoir que des rapports qui durent 1 minute maximum OU des rapports qui durent minimum 3 heures sans pouvoir t'arrÃªter ?",
+            "Tu prÃ©fÃ¨res devoir toujours filmer tes Ã©bats OU devoir toujours avoir un spectateur muet dans la piÃ¨ce ?",
+            "Tu prÃ©fÃ¨res sucer un orteil sale OU te faire lÃ©cher l'aisselle quand tu as transpirÃ© ?"
         ],
         "daube": [
-            "Un documentaire en caméra cachée sur les fétiches les plus dégoûtants des gens normaux.",
-            "Une télé-réalité où 10 célibataires doivent deviner qui parmi eux a la plus petite taille.",
-            "Un thriller érotique où l'arme du crime est toujours un sex-toy insolite.",
-            "Une comédie romantique où les deux protagonistes ont le syndrome de la Tourette, mais seulement pour des insultes sexuelles.",
-            "Un film d'horreur où un esprit maléfique te force à envoyer des nudes à ta mère si tu t'endors.",
-            "Une série dramatique sur le quotidien du modérateur qui doit vérifier tout le porno illégal du net.",
-            "Un jeu télévisé où tu gagnes de l'argent seulement si tu arrives à simuler un orgasme convaincant devant tes beaux-parents.",
-            "Une application de rencontre qui ne matche que les gens ayant le même MST.",
-            "Un biopic sur l'inventeur de la première poupée gonflable réaliste.",
-            "Un film post-apocalyptique où la monnaie d'échange n'est plus l'eau, mais les faveurs sexuelles."
+            "Un documentaire en camÃ©ra cachÃ©e sur les fÃ©tiches les plus dÃ©goÃ»tants des gens normaux.",
+            "Une tÃ©lÃ©-rÃ©alitÃ© oÃ¹ 10 cÃ©libataires doivent deviner qui parmi eux a la plus petite taille.",
+            "Un thriller Ã©rotique oÃ¹ l'arme du crime est toujours un sex-toy insolite.",
+            "Une comÃ©die romantique oÃ¹ les deux protagonistes ont le syndrome de la Tourette, mais seulement pour des insultes sexuelles.",
+            "Un film d'horreur oÃ¹ un esprit malÃ©fique te force Ã  envoyer des nudes Ã  ta mÃ¨re si tu t'endors.",
+            "Une sÃ©rie dramatique sur le quotidien du modÃ©rateur qui doit vÃ©rifier tout le porno illÃ©gal du net.",
+            "Un jeu tÃ©lÃ©visÃ© oÃ¹ tu gagnes de l'argent seulement si tu arrives Ã  simuler un orgasme convaincant devant tes beaux-parents.",
+            "Une application de rencontre qui ne matche que les gens ayant le mÃªme MST.",
+            "Un biopic sur l'inventeur de la premiÃ¨re poupÃ©e gonflable rÃ©aliste.",
+            "Un film post-apocalyptique oÃ¹ la monnaie d'Ã©change n'est plus l'eau, mais les faveurs sexuelles."
         ],
         "redflag": [
             "C'est un 10, mais au lit, il/elle veut toujours que tu l'appelles 'papa' ou 'maman'.",
             "C'est un 10, mais il/elle refuse de te toucher si tu n'as pas pris 2 douches juste avant.",
             "C'est un 10, mais il/elle ne fait aucun bruit ni mouvement pendant l'acte, comme un cadavre.",
-            "C'est un 10, mais il/elle a un album photo caché avec des photos de ses exs nus.",
-            "C'est un 10, mais il/elle veut absolument filmer la première fois sans te demander.",
-            "C'est un 10, mais il/elle refuse tout préliminaire, c'est directement l'action.",
-            "C'est un 10, mais il/elle demande toujours de noter sa performance sur 10 juste après.",
-            "C'est un 10, mais il/elle a un fétiche inavouable avec les pieds sales.",
-            "C'est un 10, mais il/elle pleure systématiquement à la fin du rapport.",
-            "C'est un 10, mais il/elle veut que tu portes un masque de politicien célèbre pendant."
+            "C'est un 10, mais il/elle a un album photo cachÃ© avec des photos de ses exs nus.",
+            "C'est un 10, mais il/elle veut absolument filmer la premiÃ¨re fois sans te demander.",
+            "C'est un 10, mais il/elle refuse tout prÃ©liminaire, c'est directement l'action.",
+            "C'est un 10, mais il/elle demande toujours de noter sa performance sur 10 juste aprÃ¨s.",
+            "C'est un 10, mais il/elle a un fÃ©tiche inavouable avec les pieds sales.",
+            "C'est un 10, mais il/elle pleure systÃ©matiquement Ã  la fin du rapport.",
+            "C'est un 10, mais il/elle veut que tu portes un masque de politicien cÃ©lÃ¨bre pendant."
         ],
         "boire_susceptible": [
             "Qui est le plus susceptible de tromper son/sa partenaire sans aucun scrupule ?",
-            "Qui est le plus susceptible d'envoyer des nudes à la mauvaise personne ?",
-            "Qui est le plus susceptible de coucher avec l'ex d'un ami présent dans la pièce ?",
-            "Qui est le plus susceptible d'avoir un compte caché sur un site X ?",
-            "Qui est le plus susceptible de proposer un plan à 3 et d'être jaloux pendant ?",
+            "Qui est le plus susceptible d'envoyer des nudes Ã  la mauvaise personne ?",
+            "Qui est le plus susceptible de coucher avec l'ex d'un ami prÃ©sent dans la piÃ¨ce ?",
+            "Qui est le plus susceptible d'avoir un compte cachÃ© sur un site X ?",
+            "Qui est le plus susceptible de proposer un plan Ã  3 et d'Ãªtre jaloux pendant ?",
             "Qui est le plus susceptible de coucher pour une promotion au travail ?",
-            "Qui est le plus susceptible de fétichiser quelque chose de très bizarre ?",
+            "Qui est le plus susceptible de fÃ©tichiser quelque chose de trÃ¨s bizarre ?",
             "Qui est le plus susceptible de contracter une MST lors de ces vacances ?",
-            "Qui est le plus susceptible de simuler au lit régulièrement ?",
+            "Qui est le plus susceptible de simuler au lit rÃ©guliÃ¨rement ?",
             "Qui est le plus susceptible de faire une sextape et de la 'perdre' volontairement ?"
         ],
         "boire_jamais": [
-            "Je n'ai jamais fantasmé sur quelqu'un dans cette pièce.",
-            "Je n'ai jamais eu de rapport sexuel dans un lieu public risqué.",
-            "Je n'ai jamais simulé un orgasme pour que ça se termine plus vite.",
+            "Je n'ai jamais fantasmÃ© sur quelqu'un dans cette piÃ¨ce.",
+            "Je n'ai jamais eu de rapport sexuel dans un lieu public risquÃ©.",
+            "Je n'ai jamais simulÃ© un orgasme pour que Ã§a se termine plus vite.",
             "Je n'ai jamais eu envie d'essayer le bondage ou le BDSM.",
-            "Je n'ai jamais couché le premier soir avec un inconnu total.",
-            "Je n'ai jamais regretté amèrement la personne avec qui je me suis réveillé(e).",
-            "Je n'ai jamais utilisé d'objet insolite (non prévu pour) comme sex-toy.",
-            "Je n'ai jamais envoyé une photo de moi nu(e).",
-            "Je n'ai jamais pensé à un(e) ex pendant que je faisais l'amour avec quelqu'un d'autre.",
+            "Je n'ai jamais couchÃ© le premier soir avec un inconnu total.",
+            "Je n'ai jamais regrettÃ© amÃ¨rement la personne avec qui je me suis rÃ©veillÃ©(e).",
+            "Je n'ai jamais utilisÃ© d'objet insolite (non prÃ©vu pour) comme sex-toy.",
+            "Je n'ai jamais envoyÃ© une photo de moi nu(e).",
+            "Je n'ai jamais pensÃ© Ã  un(e) ex pendant que je faisais l'amour avec quelqu'un d'autre.",
             "Je n'ai jamais fait l'amour dans la chambre de mes parents."
         ],
         "boire_action": [
-            "Action : Embrasse dans le cou la personne à ta gauche, ou bois 4 gorgées.",
-            "Action : Laisse le groupe regarder tes photos 'Masquées' ou 'Privées', ou bois cul sec.",
-            "Action : Mime ta position sexuelle préférée, ou bois 3 gorgées.",
-            "Action : Lèche sensuellement l'oreille de ton voisin de droite, ou bois 4 gorgées.",
-            "Action : Avoue quel est ton fantasme inavouable, ou bois 5 gorgées.",
-            "Action : Fais un lap-dance à la personne en face de toi pendant 30 sec, ou bois cul sec.",
-            "Action : Simule un orgasme très bruyant pendant 5 secondes, ou bois 4 gorgées.",
-            "Action : Laisse un joueur écrire 'J'ai envie de toi' à un contact au hasard, ou bois cul sec.",
-            "Action : Montre ton historique de navigation privée, ou bois 5 gorgées.",
-            "Action : Enlève un vêtement (pas les chaussures), ou bois 3 gorgées."
+            "Action : Embrasse dans le cou la personne Ã  ta gauche, ou bois 4 gorgÃ©es.",
+            "Action : Laisse le groupe regarder tes photos 'MasquÃ©es' ou 'PrivÃ©es', ou bois cul sec.",
+            "Action : Mime ta position sexuelle prÃ©fÃ©rÃ©e, ou bois 3 gorgÃ©es.",
+            "Action : LÃ¨che sensuellement l'oreille de ton voisin de droite, ou bois 4 gorgÃ©es.",
+            "Action : Avoue quel est ton fantasme inavouable, ou bois 5 gorgÃ©es.",
+            "Action : Fais un lap-dance Ã  la personne en face de toi pendant 30 sec, ou bois cul sec.",
+            "Action : Simule un orgasme trÃ¨s bruyant pendant 5 secondes, ou bois 4 gorgÃ©es.",
+            "Action : Laisse un joueur Ã©crire 'J'ai envie de toi' Ã  un contact au hasard, ou bois cul sec.",
+            "Action : Montre ton historique de navigation privÃ©e, ou bois 5 gorgÃ©es.",
+            "Action : EnlÃ¨ve un vÃªtement (pas les chaussures), ou bois 3 gorgÃ©es."
         ],
         "boire_dictateur": [
-            "Le Dictateur décide : Chaque joueur doit boire son verre en gardant un contact visuel intense avec son voisin.",
-            "Le Dictateur décide : Interdiction de porter des chaussettes. Tout le monde doit montrer ses pieds.",
-            "Le Dictateur décide : Le joueur de ton choix devient ton soumis sexuel (virtuel). Il doit t'appeler 'Maître/Maîtresse'.",
-            "Le Dictateur décide : À chaque gorgée bue, on doit lâcher un petit gémissement de plaisir.",
-            "Le Dictateur décide : Tous ceux qui portent des sous-vêtements noirs boivent 2 gorgées.",
-            "Le Dictateur décide : La personne à ta droite doit masser tes épaules pendant 2 minutes.",
-            "Le Dictateur décide : Pose une question indiscrète au joueur de ton choix, il doit répondre ou boire cul sec.",
-            "Le Dictateur décide : Deux joueurs de ton choix doivent s'échanger un vêtement.",
-            "Le Dictateur décide : Choisis deux personnes qui ont l'interdiction de se parler. S'ils communiquent, ils boivent.",
-            "Le Dictateur décide : Tu peux palper le torse/les pecs du joueur de ton choix pour 'vérifier' sa musculature."
+            "Le Dictateur dÃ©cide : Chaque joueur doit boire son verre en gardant un contact visuel intense avec son voisin.",
+            "Le Dictateur dÃ©cide : Interdiction de porter des chaussettes. Tout le monde doit montrer ses pieds.",
+            "Le Dictateur dÃ©cide : Le joueur de ton choix devient ton soumis sexuel (virtuel). Il doit t'appeler 'MaÃ®tre/MaÃ®tresse'.",
+            "Le Dictateur dÃ©cide : Ã€ chaque gorgÃ©e bue, on doit lÃ¢cher un petit gÃ©missement de plaisir.",
+            "Le Dictateur dÃ©cide : Tous ceux qui portent des sous-vÃªtements noirs boivent 2 gorgÃ©es.",
+            "Le Dictateur dÃ©cide : La personne Ã  ta droite doit masser tes Ã©paules pendant 2 minutes.",
+            "Le Dictateur dÃ©cide : Pose une question indiscrÃ¨te au joueur de ton choix, il doit rÃ©pondre ou boire cul sec.",
+            "Le Dictateur dÃ©cide : Deux joueurs de ton choix doivent s'Ã©changer un vÃªtement.",
+            "Le Dictateur dÃ©cide : Choisis deux personnes qui ont l'interdiction de se parler. S'ils communiquent, ils boivent.",
+            "Le Dictateur dÃ©cide : Tu peux palper le torse/les pecs du joueur de ton choix pour 'vÃ©rifier' sa musculature."
         ],
         "boire_serieux": [
-            "Blague : 'Quelle est la différence entre le sexe anal et le sexe oral ? Le goût.' (Ne ris pas, sinon bois 2 gorgées)",
-            "Blague : 'Quel est le point commun entre un gynécologue et un livreur de pizza ? Ils peuvent le sentir, mais pas le manger.",
-            "Blague : 'Comment s'appelle le bout de peau inutile à l'extrémité du pénis ? L'homme.",
-            "Blague : 'Quelle est la différence entre un thermomètre buccal et un thermomètre rectal ? Le goût.",
-            "Blague : 'Que fait un spermatozoïde en costume ? Il va à une érection syndicale."
+            "Blague : 'Quelle est la diffÃ©rence entre le sexe anal et le sexe oral ? Le goÃ»t.' (Ne ris pas, sinon bois 2 gorgÃ©es)",
+            "Blague : 'Quel est le point commun entre un gynÃ©cologue et un livreur de pizza ? Ils peuvent le sentir, mais pas le manger.",
+            "Blague : 'Comment s'appelle le bout de peau inutile Ã  l'extrÃ©mitÃ© du pÃ©nis ? L'homme.",
+            "Blague : 'Quelle est la diffÃ©rence entre un thermomÃ¨tre buccal et un thermomÃ¨tre rectal ? Le goÃ»t.",
+            "Blague : 'Que fait un spermatozoÃ¯de en costume ? Il va Ã  une Ã©rection syndicale."
         ],
         "boire_7sec": [
             "Tu as 7 secondes pour citer 3 synonymes vulgaires de l'acte sexuel.",
@@ -277,32 +277,32 @@ let phrases = {
             "Tu as 7 secondes pour citer 3 IST (infections sexuellement transmissibles)."
         ],
         "boire_roulette": [
-            "Roulette : Ceux qui ont déjà envoyé des nudes boivent 2 gorgées.",
-            "Roulette : Le/la plus pervers(e) du groupe (désigné à l'unanimité) boit 3 gorgées.",
-            "Roulette : Ceux qui n'ont pas eu de rapport sexuel depuis plus d'un mois boivent 3 gorgées.",
-            "Roulette : Ceux qui ont déjà trompé boivent cul sec (soyez honnêtes).",
-            "Roulette : La personne avec le plus gros 'body count' distribue 4 gorgées."
+            "Roulette : Ceux qui ont dÃ©jÃ  envoyÃ© des nudes boivent 2 gorgÃ©es.",
+            "Roulette : Le/la plus pervers(e) du groupe (dÃ©signÃ© Ã  l'unanimitÃ©) boit 3 gorgÃ©es.",
+            "Roulette : Ceux qui n'ont pas eu de rapport sexuel depuis plus d'un mois boivent 3 gorgÃ©es.",
+            "Roulette : Ceux qui ont dÃ©jÃ  trompÃ© boivent cul sec (soyez honnÃªtes).",
+            "Roulette : La personne avec le plus gros 'body count' distribue 4 gorgÃ©es."
         ],
         "boire_menteur": [
-            "Vrai ou Faux : Cléopâtre a inventé le premier vibromasseur en utilisant une gourde remplie d'abeilles vivantes. (Vrai)",
+            "Vrai ou Faux : ClÃ©opÃ¢tre a inventÃ© le premier vibromasseur en utilisant une gourde remplie d'abeilles vivantes. (Vrai)",
             "Vrai ou Faux : Le clitoris contient plus de 8000 terminaisons nerveuses. (Vrai)",
-            "Vrai ou Faux : Il est médicalement impossible de se fracturer le pénis. (Faux, c'est possible et horrible)",
-            "Vrai ou Faux : Les bonobos résolvent 90% de leurs conflits par des actes sexuels. (Vrai)",
+            "Vrai ou Faux : Il est mÃ©dicalement impossible de se fracturer le pÃ©nis. (Faux, c'est possible et horrible)",
+            "Vrai ou Faux : Les bonobos rÃ©solvent 90% de leurs conflits par des actes sexuels. (Vrai)",
             "Vrai ou Faux : Le sperme est excellent pour la peau car il contient du zinc et des vitamines C. (Vrai)"
         ],
         "boire_kamikaze": [
-            "Kamikaze : Thème 'Positions sexuelles'. Le 1er qui se trompe boit 3 gorgées.",
-            "Kamikaze : Thème 'Noms de sex-toys'. Le 1er qui se trompe boit 3 gorgées.",
-            "Kamikaze : Thème 'Synonymes de pénis'. Le 1er qui se trompe boit 3 gorgées.",
-            "Kamikaze : Thème 'Lieux insolites pour faire l'amour'. Le 1er qui se trompe boit 3 gorgées.",
-            "Kamikaze : Thème 'Actrices ou Acteurs X'. Le 1er qui se trompe boit 3 gorgées."
+            "Kamikaze : ThÃ¨me 'Positions sexuelles'. Le 1er qui se trompe boit 3 gorgÃ©es.",
+            "Kamikaze : ThÃ¨me 'Noms de sex-toys'. Le 1er qui se trompe boit 3 gorgÃ©es.",
+            "Kamikaze : ThÃ¨me 'Synonymes de pÃ©nis'. Le 1er qui se trompe boit 3 gorgÃ©es.",
+            "Kamikaze : ThÃ¨me 'Lieux insolites pour faire l'amour'. Le 1er qui se trompe boit 3 gorgÃ©es.",
+            "Kamikaze : ThÃ¨me 'Actrices ou Acteurs X'. Le 1er qui se trompe boit 3 gorgÃ©es."
         ],
         "boire_dilemme": [
-            "Tu préfères : Coucher avec le/la partenaire de ton meilleur ami OU que ton meilleur ami couche avec ton/ta partenaire ?",
-            "Tu préfères : Avoir des dents à la place des poils pubiens OU des poils pubiens à la place des dents ?",
-            "Tu préfères : Ne plus jamais pouvoir jouir de ta vie OU devoir crier à pleins poumons à chaque fois que tu jouis ?",
-            "Tu préfères : Être surpris en train de te masturber par tes parents OU surprendre tes parents en train de faire l'amour ?",
-            "Tu préfères : Ne pouvoir faire l'amour que dans l'obscurité totale pour le reste de ta vie OU devoir toujours le faire en plein jour en public ?"
+            "Tu prÃ©fÃ¨res : Coucher avec le/la partenaire de ton meilleur ami OU que ton meilleur ami couche avec ton/ta partenaire ?",
+            "Tu prÃ©fÃ¨res : Avoir des dents Ã  la place des poils pubiens OU des poils pubiens Ã  la place des dents ?",
+            "Tu prÃ©fÃ¨res : Ne plus jamais pouvoir jouir de ta vie OU devoir crier Ã  pleins poumons Ã  chaque fois que tu jouis ?",
+            "Tu prÃ©fÃ¨res : ÃŠtre surpris en train de te masturber par tes parents OU surprendre tes parents en train de faire l'amour ?",
+            "Tu prÃ©fÃ¨res : Ne pouvoir faire l'amour que dans l'obscuritÃ© totale pour le reste de ta vie OU devoir toujours le faire en plein jour en public ?"
         ]
     }
 };
@@ -310,14 +310,14 @@ let phrases = {
         const gameTitles = {
             tribunal: "Tribunal des Opinions",
             draft: "Draft de l'Absurde",
-            prefere: "Tu Préfères... de l'Extrême",
+            prefere: "Tu PrÃ©fÃ¨res... de l'ExtrÃªme",
             daube: "Pitch de Daube",
             redflag: "C'est un 10, MAIS...",
             boire_susceptible: "Qui est le plus susceptible",
             boire_jamais: "Je n'ai jamais (Sombre)",
             boire_action: "Action ou Cul Sec",
             boire_dictateur: "Le Dictateur",
-            boire_serieux: "Garde ton sérieux",
+            boire_serieux: "Garde ton sÃ©rieux",
             boire_7sec: "7 Secondes de l'Enfer",
             boire_roulette: "La Roulette Russe",
             boire_menteur: "Menteur ou Psychopathe",
@@ -329,22 +329,22 @@ let phrases = {
             // Soft / Amusants
             { name: "Choix de la playlist musicale (30 min)", cost: 10, type: "soft" },
             { name: "Surnom ridicule pour l'autre", cost: 10, type: "soft" },
-            { name: "Répondre avec un accent au choix (10 min)", cost: 20, type: "soft" },
+            { name: "RÃ©pondre avec un accent au choix (10 min)", cost: 20, type: "soft" },
             { name: "Droit de veto absolu sur un vote", cost: 30, type: "soft" },
-            { name: "Massage des épaules (10 min)", cost: 40, type: "soft" },
-            { name: "Action Joker : Petite corvée à l'arrivée", cost: 50, type: "soft" },
+            { name: "Massage des Ã©paules (10 min)", cost: 40, type: "soft" },
+            { name: "Action Joker : Petite corvÃ©e Ã  l'arrivÃ©e", cost: 50, type: "soft" },
             
-            // Epicés (Tirés d'Amiocoin)
-            { name: "Baiser où tu veux, quand tu veux", cost: 20, type: "spicy" },
+            // EpicÃ©s (TirÃ©s d'Amiocoin)
+            { name: "Baiser oÃ¹ tu veux, quand tu veux", cost: 20, type: "spicy" },
             { name: "Manger qqch directement dans la bouche de l'autre", cost: 30, type: "spicy" },
             { name: "Toucher l'autre en public sans se faire capter", cost: 40, type: "spicy" },
-            { name: "Droit à une sieste collée-serrée", cost: 50, type: "spicy" },
-            { name: "Lancer de dé coquin (6 idées sexy)", cost: 60, type: "spicy" },
-            { name: "Massage érotique à l’huile ce soir", cost: 80, type: "spicy" },
-            { name: "Gage mystère à exécuter sans le savoir", cost: 100, type: "spicy" },
-            { name: "Shooting photo sexy (privé)", cost: 120, type: "spicy" },
-            { name: "Nuit de plaisir avec toutes les envies réalisées", cost: 150, type: "spicy" },
-            { name: "Fantasme surprise réalisé sans tabou", cost: 200, type: "spicy" }
+            { name: "Droit Ã  une sieste collÃ©e-serrÃ©e", cost: 50, type: "spicy" },
+            { name: "Lancer de dÃ© coquin (6 idÃ©es sexy)", cost: 60, type: "spicy" },
+            { name: "Massage Ã©rotique Ã  lâ€™huile ce soir", cost: 80, type: "spicy" },
+            { name: "Gage mystÃ¨re Ã  exÃ©cuter sans le savoir", cost: 100, type: "spicy" },
+            { name: "Shooting photo sexy (privÃ©)", cost: 120, type: "spicy" },
+            { name: "Nuit de plaisir avec toutes les envies rÃ©alisÃ©es", cost: 150, type: "spicy" },
+            { name: "Fantasme surprise rÃ©alisÃ© sans tabou", cost: 200, type: "spicy" }
         ];
 
 
@@ -357,7 +357,7 @@ let phrases = {
         let isEcoMode = false;
         let audioCtx = null;
 
-        // --- Moteur Audio Procédural ---
+        // --- Moteur Audio ProcÃ©dural ---
         function initAudio() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -428,7 +428,7 @@ let phrases = {
             if(isEcoMode) document.body.classList.add('eco-mode');
             else document.body.classList.remove('eco-mode');
             triggerVibe(50);
-            showToast(isEcoMode ? "Mode Éco activé 🔋" : "Mode Éco désactivé ⚡", "info");
+            showToast(isEcoMode ? "Mode Ã‰co activÃ© ðŸ”‹" : "Mode Ã‰co dÃ©sactivÃ© âš¡", "info");
         }
 
         // --- Notifications (Toasts) ---
@@ -440,13 +440,13 @@ let phrases = {
             toast.className = `toast ${type}`;
             
             const icons = {
-                info: 'ℹ️',
-                success: '✅',
-                warning: '⚠️',
-                error: '❌'
+                info: 'â„¹ï¸',
+                success: 'âœ…',
+                warning: 'âš ï¸',
+                error: 'âŒ'
             };
             
-            toast.innerHTML = `<span>${icons[type] || '🔔'}</span> <span>${message}</span>`;
+            toast.innerHTML = `<span>${icons[type] || 'ðŸ””'}</span> <span>${message}</span>`;
             container.appendChild(toast);
             
             triggerVibe(type === 'error' ? [50, 100, 50] : 30);
@@ -470,13 +470,13 @@ let phrases = {
             }
         }
 
-        // --- Quête du Jour ---
+        // --- QuÃªte du Jour ---
         const dailyQuests = [
-            "Faites croire à un serveur/vendeur que c'est votre anniversaire de rencontre.",
-            "Le premier à se plaindre d'avoir chaud ou d'avoir faim paie un verre.",
-            "Réussir à placer le mot 'choucroute' dans une discussion avec un inconnu.",
-            "Interdiction de regarder son téléphone pendant le repas. Le premier qui flanche paie l'addition.",
-            "Inventez un nom de code pour désigner les personnes que vous trouvez moches dans la rue.",
+            "Faites croire Ã  un serveur/vendeur que c'est votre anniversaire de rencontre.",
+            "Le premier Ã  se plaindre d'avoir chaud ou d'avoir faim paie un verre.",
+            "RÃ©ussir Ã  placer le mot 'choucroute' dans une discussion avec un inconnu.",
+            "Interdiction de regarder son tÃ©lÃ©phone pendant le repas. Le premier qui flanche paie l'addition.",
+            "Inventez un nom de code pour dÃ©signer les personnes que vous trouvez moches dans la rue.",
             "Le perdant du prochain jeu devra porter le sac de l'autre pendant 1h."
         ];
 
@@ -484,27 +484,27 @@ let phrases = {
         const quizQuestions = {
             qcm: [
                 { q: "Quelle est la capitale de l'Australie ?", a: ["Sydney", "Melbourne", "Canberra", "Perth"], c: 2 },
-                { q: "Quel pays a gagné la Coupe du Monde 2018 ?", a: ["France", "Croatie", "Brésil", "Allemagne"], c: 0 },
+                { q: "Quel pays a gagnÃ© la Coupe du Monde 2018 ?", a: ["France", "Croatie", "BrÃ©sil", "Allemagne"], c: 0 },
                 { q: "Combien y a-t-il de continents ?", a: ["5", "6", "7", "8"], c: 2 },
                 { q: "Quelle est la monnaie du Japon ?", a: ["Yuan", "Yen", "Won", "Dollar"], c: 1 },
                 { q: "Qui a peint la Joconde ?", a: ["Van Gogh", "Picasso", "Da Vinci", "Monet"], c: 2 },
-                { q: "Quelle est la planète la plus proche du Soleil ?", a: ["Vénus", "Mars", "Mercure", "Jupiter"], c: 2 },
-                { q: "En quelle année est né Internet ?", a: ["1969", "1983", "1995", "2000"], c: 1 },
+                { q: "Quelle est la planÃ¨te la plus proche du Soleil ?", a: ["VÃ©nus", "Mars", "Mercure", "Jupiter"], c: 2 },
+                { q: "En quelle annÃ©e est nÃ© Internet ?", a: ["1969", "1983", "1995", "2000"], c: 1 },
                 { q: "Quel est l'oiseau qui ne vole pas ?", a: ["Aigle", "Autruche", "Pigeon", "Moineau"], c: 1 },
-                { q: "Quel est l'élément chimique de symbole O ?", a: ["Or", "Oxygène", "Ozone", "Osmium"], c: 1 },
-                { q: "Quelle est la langue la plus parlée au monde ?", a: ["Anglais", "Espagnol", "Mandarin", "Français"], c: 2 }
+                { q: "Quel est l'Ã©lÃ©ment chimique de symbole O ?", a: ["Or", "OxygÃ¨ne", "Ozone", "Osmium"], c: 1 },
+                { q: "Quelle est la langue la plus parlÃ©e au monde ?", a: ["Anglais", "Espagnol", "Mandarin", "FranÃ§ais"], c: 2 }
             ],
             expert: [
-                { q: "Quel est le nom du célèbre détective créé par Arthur Conan Doyle ?", a: "Sherlock Holmes" },
+                { q: "Quel est le nom du cÃ©lÃ¨bre dÃ©tective crÃ©Ã© par Arthur Conan Doyle ?", a: "Sherlock Holmes" },
                 { q: "Quel est le point culminant du monde ?", a: "Everest" },
-                { q: "Quel gaz les plantes absorbent-elles pour faire la photosynthèse ?", a: "CO2 / Dioxyde de carbone" },
-                { q: "Qui a écrit 'Les Misérables' ?", a: "Victor Hugo" },
+                { q: "Quel gaz les plantes absorbent-elles pour faire la photosynthÃ¨se ?", a: "CO2 / Dioxyde de carbone" },
+                { q: "Qui a Ã©crit 'Les MisÃ©rables' ?", a: "Victor Hugo" },
                 { q: "Quel est l'organe le plus lourd du corps humain ?", a: "Le foie" },
-                { q: "Quel fleuve traverse l'Égypte ?", a: "Le Nil" },
-                { q: "Combien d'États y a-t-il aux États-Unis ?", a: "50" },
+                { q: "Quel fleuve traverse l'Ã‰gypte ?", a: "Le Nil" },
+                { q: "Combien d'Ã‰tats y a-t-il aux Ã‰tats-Unis ?", a: "50" },
                 { q: "Dans quel pays se trouve la ville de Marrakech ?", a: "Maroc" },
-                { q: "Quel est l'inventeur de l'ampoule électrique ?", a: "Thomas Edison" },
-                { q: "Quel métal est liquide à température ambiante ?", a: "Le mercure" }
+                { q: "Quel est l'inventeur de l'ampoule Ã©lectrique ?", a: "Thomas Edison" },
+                { q: "Quel mÃ©tal est liquide Ã  tempÃ©rature ambiante ?", a: "Le mercure" }
             ]
         };
 
@@ -576,7 +576,7 @@ let phrases = {
                 localStorage.removeItem('voyage_availableIndices');
                 players = [];
                 initIndices();
-                showToast("Mémoire effacée !", "success");
+                showToast("MÃ©moire effacÃ©e !", "success");
             }
         }
 
@@ -612,7 +612,7 @@ let phrases = {
             players.forEach((p, index) => {
                 list.innerHTML += `
                     <div class="player-item">
-                        <span>${p.name} <small style="color:#ffd700">(${p.coins} 🪙)</small></span>
+                        <span>${p.name} <small style="color:#ffd700">(${p.coins} ðŸª™)</small></span>
                         <button class="btn-remove" onclick="removePlayer(${index})">&times;</button>
                     </div>
                 `;
@@ -700,10 +700,10 @@ let phrases = {
                 const gameTitle = document.getElementById('game-title');
                 
                 if (currentGame === 'chaos') {
-                    gameTitle.innerText = "Jeu Surprise ! 🌪️";
+                    gameTitle.innerText = "Jeu Surprise ! ðŸŒªï¸";
                     gameTitle.className = 'txt-boire';
                 } else {
-                    gameTitle.innerText = gameTitles[currentGame] + (currentTheme === 'hard' ? ' 🌶️' : '');
+                    gameTitle.innerText = gameTitles[currentGame] + (currentTheme === 'hard' ? ' ðŸŒ¶ï¸' : '');
                     gameTitle.className = 'txt-' + currentGame.replace('boire_', 'boire'); 
                     if (currentGame.includes('boire')) gameTitle.className = 'txt-boire';
                     if (currentGame === 'tribunal') gameTitle.className = 'txt-tribunal';
@@ -754,7 +754,7 @@ let phrases = {
                     display.innerText = "0 ! BOIS !";
                     document.body.classList.add('timer-flash');
                     display.classList.add('timer-flash');
-                    btn.innerText = "Relancer ⏱️";
+                    btn.innerText = "Relancer â±ï¸";
                     btn.style.display = 'block';
                     triggerVibe([200, 100, 200, 100, 200]);
                     playSound('alarm');
@@ -781,7 +781,7 @@ let phrases = {
             const playerIndex = select.value;
             const player = players[playerIndex];
             
-            document.getElementById('shop-balance').innerText = player.coins + " 🪙";
+            document.getElementById('shop-balance').innerText = player.coins + " ðŸª™";
             
             const grid = document.getElementById('shop-grid');
             grid.innerHTML = shopItems.map((item, index) => {
@@ -790,7 +790,7 @@ let phrases = {
                     <div class="shop-item type-${item.type}">
                         <div class="shop-item-info">
                             <div class="shop-item-name">${item.name}</div>
-                            <div class="shop-item-cost">${item.cost} 🪙</div>
+                            <div class="shop-item-cost">${item.cost} ðŸª™</div>
                         </div>
                         <button class="btn-buy" onclick="buyItem(${index})" ${!canAfford ? 'disabled' : ''}>Acheter</button>
                     </div>
@@ -810,21 +810,21 @@ let phrases = {
                 saveState();
                 playSound('coin');
                 triggerVibe([50, 50, 100]);
-                showToast(`🎁 Ajouté à l'inventaire de ${player.name} !`, "success");
+                showToast(`ðŸŽ AjoutÃ© Ã  l'inventaire de ${player.name} !`, "success");
                 renderShopItems();
             }
         }
 
         function openInventory() {
             if(players.length === 0) {
-                showToast("Aucun joueur enregistré !", "warning");
+                showToast("Aucun joueur enregistrÃ© !", "warning");
                 return;
             }
             triggerVibe(50);
             const playerNameSpan = document.getElementById('inv-player-name');
             const invList = document.getElementById('inventory-list');
             
-            // On affiche le premier joueur par défaut, idéalement à améliorer avec un select
+            // On affiche le premier joueur par dÃ©faut, idÃ©alement Ã  amÃ©liorer avec un select
             let pIndex = 0; 
             const player = players[pIndex];
             playerNameSpan.innerText = player.name;
@@ -844,7 +844,7 @@ let phrases = {
 
         function useItem(pIndex, itemIdx) {
             triggerVibe(50);
-            if (confirm("Veux-tu utiliser cet objet maintenant ? Il sera consommé.")) {
+            if (confirm("Veux-tu utiliser cet objet maintenant ? Il sera consommÃ©.")) {
                 players[pIndex].inventory.splice(itemIdx, 1);
                 saveState();
                 openInventory();
@@ -858,15 +858,15 @@ let phrases = {
 
         // --- Roue de la Punition ---
         const punishments = [
-            "Bois 3 gorgées 🍻", "Cul Sec ! 🍺", "Enlève un vêtement 🧦",
-            "Masse les épaules d'un joueur (2min) 💆", "-50 BussCoins 🪙",
-            "Mime ta position sexuelle 🛏️", "Donne 5 gorgées 🎯", "Révèle un secret 🤫",
-            "Fais 10 pompes 💪", "Poste une story gênante 📱"
+            "Bois 3 gorgÃ©es ðŸ»", "Cul Sec ! ðŸº", "EnlÃ¨ve un vÃªtement ðŸ§¦",
+            "Masse les Ã©paules d'un joueur (2min) ðŸ’†", "-50 BussCoins ðŸª™",
+            "Mime ta position sexuelle ðŸ›ï¸", "Donne 5 gorgÃ©es ðŸŽ¯", "RÃ©vÃ¨le un secret ðŸ¤«",
+            "Fais 10 pompes ðŸ’ª", "Poste une story gÃªnante ðŸ“±"
         ];
         function spinWheel() {
             triggerVibe(50);
             document.getElementById('wheel-modal').style.display = 'flex';
-            document.getElementById('wheel-result').innerText = "Prêt à tourner ?";
+            document.getElementById('wheel-result').innerText = "PrÃªt Ã  tourner ?";
             document.getElementById('btn-spin').style.display = 'inline-block';
         }
         function closeWheel() {
@@ -888,7 +888,7 @@ let phrases = {
                 if (count > maxCount) {
                     clearInterval(spinInterval);
                     const finalResult = punishments[count % punishments.length];
-                    resultDiv.innerText = `🎯 ${finalResult} !`;
+                    resultDiv.innerText = `ðŸŽ¯ ${finalResult} !`;
                     triggerVibe([100, 50, 100]);
                     playSound('coin');
                 }
@@ -907,7 +907,7 @@ let phrases = {
                 <div class="score-badge">
                     <span>${p.name}</span>
                     <span class="score-value">${p.score} pts</span>
-                    <span class="coin-value">${p.coins} 🪙</span>
+                    <span class="coin-value">${p.coins} ðŸª™</span>
                 </div>
             `).join('');
         }
@@ -924,7 +924,7 @@ let phrases = {
             let html = players.map((p, index) => `
                 <button class="btn-vote" onclick="votePlayer(${index})">
                     <span>+1 Point pour ${p.name}</span>
-                    <small>Gagne 10 🪙</small>
+                    <small>Gagne 10 ðŸª™</small>
                 </button>
             `).join('');
             
@@ -951,7 +951,7 @@ let phrases = {
                 const keys = Object.keys(phrases['soft']);
                 activeGame = keys[Math.floor(Math.random() * keys.length)];
                 activeTheme = Math.random() > 0.5 ? 'soft' : 'hard';
-                document.getElementById('game-title').innerText = `Chaos : ${gameTitles[activeGame]} ${activeTheme === 'hard' ? '🌶️' : ''}`;
+                document.getElementById('game-title').innerText = `Chaos : ${gameTitles[activeGame]} ${activeTheme === 'hard' ? 'ðŸŒ¶ï¸' : ''}`;
             }
 
             if (!phrases[activeTheme] || !phrases[activeTheme][activeGame]) {
@@ -981,7 +981,7 @@ let phrases = {
                 document.getElementById('timer-display').innerText = '7';
                 document.getElementById('timer-display').classList.remove('timer-flash');
                 document.getElementById('btn-timer-start').style.display = 'block';
-                document.getElementById('btn-timer-start').innerText = 'Lancer le Chrono ⏱️';
+                document.getElementById('btn-timer-start').innerText = 'Lancer le Chrono â±ï¸';
                 document.body.classList.remove('timer-flash');
                 clearInterval(timerInterval);
             } else {
@@ -1117,7 +1117,7 @@ function generateRoomCode() {
 
 function updateLobbyUI() {
     const list = document.getElementById('room-players-list');
-    list.innerHTML = roomPlayers.map(p => `<div>${p.isAdmin ? '👑 ' : ''}${p.name + (p.id === myPlayerId ? ' (Toi)' : '')}</div>`).join('');
+    list.innerHTML = roomPlayers.map(p => `<div>${p.isAdmin ? 'ðŸ‘‘ ' : ''}${p.name + (p.id === myPlayerId ? ' (Toi)' : '')}</div>`).join('');
     
     if (isRoomAdmin && roomPlayers.length > 1) {
         document.getElementById('btn-start-room').style.display = 'inline-block';
@@ -1131,7 +1131,7 @@ function updateLobbyUI() {
 async function createRoom() {
     const pseudoInput = document.getElementById('player-pseudo-input');
     if (!pseudoInput) {
-        showToast("Erreur : Page non à jour. Videz le cache.", "error");
+        showToast("Erreur : Page non Ã  jour. Videz le cache.", "error");
         return;
     }
     const pseudo = pseudoInput.value.trim() || 'Anonyme';
@@ -1152,7 +1152,7 @@ async function createRoom() {
 async function joinRoom() {
     const pseudoInput = document.getElementById('player-pseudo-input');
     if (!pseudoInput) {
-        showToast("Erreur : Page non à jour. Videz le cache.", "error");
+        showToast("Erreur : Page non Ã  jour. Videz le cache.", "error");
         return;
     }
     const pseudo = pseudoInput.value.trim() || 'Anonyme';
@@ -1185,7 +1185,7 @@ async function joinRoom() {
 async function joinSupabaseChannel(roomId) {
     const sb = getSupabase();
     if (!sb) {
-        showToast("Supabase non connecté.", "error");
+        showToast("Supabase non connectÃ©.", "error");
         return;
     }
     
@@ -1238,10 +1238,10 @@ async function joinSupabaseChannel(roomId) {
             
             const gameTitle = document.getElementById('game-title');
             if (data.currentGame === 'chaos') {
-                gameTitle.innerText = "Jeu Surprise ! 🌪️";
+                gameTitle.innerText = "Jeu Surprise ! ðŸŒªï¸";
                 gameTitle.className = 'txt-boire';
             } else {
-                gameTitle.innerText = gameTitles[data.currentGame] + (data.currentTheme === 'hard' ? ' 🌶️' : '');
+                gameTitle.innerText = gameTitles[data.currentGame] + (data.currentTheme === 'hard' ? ' ðŸŒ¶ï¸' : '');
                 gameTitle.className = 'txt-' + data.currentGame.replace('boire_', 'boire'); 
             }
             
@@ -1304,7 +1304,7 @@ async function joinSupabaseChannel(roomId) {
     });
 
     roomChannel.on('broadcast', { event: 'end_draw_game' }, payload => {
-        showToast("Partie de dessin terminée !", "info");
+        showToast("Partie de dessin terminÃ©e !", "info");
         returnToMenu(currentViewId);
     });
 
@@ -1326,7 +1326,7 @@ async function joinSupabaseChannel(roomId) {
 
     roomChannel.on('broadcast', { event: 'quiz_fast_winner' }, payload => {
         const data = payload.payload;
-        showToast(`${data.playerName} a été le plus rapide ! ⚡`, "info");
+        showToast(`${data.playerName} a Ã©tÃ© le plus rapide ! âš¡`, "info");
         triggerVibe(50);
     });
 
@@ -1340,10 +1340,10 @@ async function joinSupabaseChannel(roomId) {
     roomChannel.on('broadcast', { event: 'quiz_verdict' }, payload => {
         if (!isRoomAdmin && payload.payload.playerId === myPlayerId) {
             if (payload.payload.isCorrect) {
-                showToast("Ton point a été validé ! ✅", "success");
+                showToast("Ton point a Ã©tÃ© validÃ© ! âœ…", "success");
                 triggerVibe(50);
             } else {
-                showToast("Réponse refusée par l'admin. ❌", "error");
+                showToast("RÃ©ponse refusÃ©e par l'admin. âŒ", "error");
                 triggerVibe([50, 50]);
             }
         }
@@ -1351,21 +1351,21 @@ async function joinSupabaseChannel(roomId) {
 
     roomChannel.on('broadcast', { event: 'quiz_end' }, payload => {
         if (!isRoomAdmin) {
-            showToast("Quiz terminé ! Bravo 🏆", "success");
+            showToast("Quiz terminÃ© ! Bravo ðŸ†", "success");
             returnToMenu(currentViewId);
         }
     });
     
     await roomChannel.subscribe((status) => {
         if(status === 'SUBSCRIBED') {
-            console.log('Connecté au salon ' + roomId);
+            console.log('ConnectÃ© au salon ' + roomId);
         }
     });
 }
 
 function startOnlineGame() {
     triggerVibe(50);
-    showToast("✅ Salon prêt ! Amis synchronisés.", "success");
+    showToast("âœ… Salon prÃªt ! Amis synchronisÃ©s.", "success");
     switchView('lobby-view', 'menu-view');
 }
 
@@ -1377,7 +1377,7 @@ function getSupabase() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Le modal s'affiche à chaque lancement d'application comme demandé
+    // Le modal s'affiche Ã  chaque lancement d'application comme demandÃ©
     document.getElementById('sync-modal').style.display = 'flex';
     fetchPhrasesFromSupabase();
 });
@@ -1430,7 +1430,7 @@ async function submitUGC() {
 
     const sb = getSupabase();
     if (!sb) {
-        showToast("Système non prêt, réessayez...", "warning");
+        showToast("SystÃ¨me non prÃªt, rÃ©essayez...", "warning");
         return;
     }
 
@@ -1442,11 +1442,11 @@ async function submitUGC() {
         if (error) throw error;
         
         playSound('coin');
-        showToast("Merci ! Phrase envoyée 🚀", "success");
+        showToast("Merci ! Phrase envoyÃ©e ðŸš€", "success");
         document.getElementById('ugc-text').value = '';
         closeUGC();
     } catch (e) {
-        showToast("Erreur d'envoi. Vérifie ta connexion.", "error");
+        showToast("Erreur d'envoi. VÃ©rifie ta connexion.", "error");
         console.error(e);
     }
 }
@@ -1472,7 +1472,7 @@ function simulatePurchase() {
     isPremium = true;
     localStorage.setItem('voyage_premium', 'true');
     closePaywall();
-    showToast("🎉 Accès Premium débloqué !", "success");
+    showToast("ðŸŽ‰ AccÃ¨s Premium dÃ©bloquÃ© !", "success");
 }
 
 // Hook Premium into selectTheme and startGame
@@ -1550,7 +1550,7 @@ function initCanvas() {
     const canvas = document.getElementById('drawing-canvas');
     if (!canvas) return;
     
-    // Ajuster la taille réelle du canvas
+    // Ajuster la taille rÃ©elle du canvas
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width * window.devicePixelRatio;
     canvas.height = rect.height * window.devicePixelRatio;
@@ -1663,7 +1663,7 @@ function startDrawMode() {
         return;
     }
 
-    const allWords = ["Un chat qui fume", "Une pizza radioactive", "Un canard en prison", "Un voyageur bourré", "Un avion en feu", "Une licorne dark"];
+    const allWords = ["Un chat qui fume", "Une pizza radioactive", "Un canard en prison", "Un voyageur bourrÃ©", "Un avion en feu", "Une licorne dark"];
     const word = allWords[Math.floor(Math.random() * allWords.length)];
 
     roomChannel.send({
@@ -1717,16 +1717,27 @@ function startQuiz(type) {
 
 function loadQuizQuestion() {
     const qData = quizQuestions[currentQuizType][currentQuizIndex];
-    const view = 'quiz-view';
+    const view = 'game-view'; 
     
-    document.getElementById('quiz-question-count').innerText = `QUESTION ${currentQuizIndex + 1} / 10`;
-    document.getElementById('quiz-question-text').innerText = qData.q;
-    document.getElementById('quiz-title').innerText = currentQuizType === 'qcm' ? "⚡ QUIZ RAPIDO" : "🎓 QUIZ EXPERT";
+    // Titre et header
+    document.getElementById('game-title').innerText = currentQuizType === 'qcm' ? "⚡ Quiz Rapido" : "🎓 Quiz Expert";
+    document.getElementById('quiz-question-count').innerText = `Question ${currentQuizIndex + 1} / 10`;
+    document.getElementById('quiz-question-count').style.display = 'block';
     
-    // Reset UI
+    // Texte de la question
+    document.getElementById('game-text').innerText = qData.q;
+    
+    // Reset Visibility
+    document.getElementById('vote-controls').style.display = 'none';
+    document.getElementById('quiz-timer-bar').style.display = 'block';
     document.getElementById('quiz-options').style.display = 'none';
     document.getElementById('quiz-input-zone').style.display = 'none';
+    document.getElementById('quiz-validation-zone').style.display = 'none';
     document.getElementById('quiz-wait-message').style.display = 'none';
+    document.getElementById('btn-spin-wheel').style.display = 'none';
+    const nextBtn = document.querySelector('.btn-next');
+    if (nextBtn) nextBtn.style.display = 'none';
+    
     document.getElementById('quiz-timer-progress').style.width = '100%';
     document.getElementById('quiz-answer-input').value = '';
     
@@ -1766,7 +1777,7 @@ function handleQuizTimeout() {
             showValidationScreen();
         } else {
             document.getElementById('quiz-input-zone').style.display = 'none';
-            document.getElementById('quiz-wait-message').innerText = "Temps écoulé ! En attente du verdict...";
+            document.getElementById('quiz-wait-message').innerText = "Temps Ã©coulÃ© ! En attente du verdict...";
             document.getElementById('quiz-wait-message').style.display = 'block';
         }
     } else {
@@ -1778,7 +1789,7 @@ function handleQuizTimeout() {
 function checkQcmAnswer(index) {
     const qData = quizQuestions['qcm'][currentQuizIndex];
     if (index === qData.c) {
-        showToast("Bonne réponse ! ⚡", "success");
+        showToast("Bonne rÃ©ponse ! âš¡", "success");
         triggerVibe(50);
         roomChannel.send({
             type: 'broadcast',
@@ -1787,7 +1798,7 @@ function checkQcmAnswer(index) {
         });
         if (isRoomAdmin) nextQuizQuestion();
     } else {
-        showToast("Faux ! ❌", "error");
+        showToast("Faux ! âŒ", "error");
         triggerVibe([50, 50]);
     }
 }
@@ -1817,24 +1828,25 @@ function showValidationScreen() {
     
     const list = document.getElementById('quiz-answers-to-validate');
     list.innerHTML = quizAnswersReceived.length ? quizAnswersReceived.map(ans => `
-        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom:10px;">
             <div style="flex: 1;">
                 <small style="opacity: 0.7;">${ans.playerName} :</small><br>
                 <strong>${ans.text}</strong>
             </div>
             <div style="display: flex; gap: 5px;">
-                <button class="btn-add" style="background: #30d158; width: 40px;" onclick="validateQuizPlayer('${ans.playerId}', true, this)">✅</button>
-                <button class="btn-add" style="background: #ff3b30; width: 40px;" onclick="validateQuizPlayer('${ans.playerId}', false, this)">❌</button>
+                <button class="btn-add" style="background: #30d158; width: 40px; border:none; border-radius:8px; color:white;" onclick="validateQuizPlayer('${ans.playerId}', true, this)">âœ…</button>
+                <button class="btn-add" style="background: #ff3b30; width: 40px; border:none; border-radius:8px; color:white;" onclick="validateQuizPlayer('${ans.playerId}', false, this)">âŒ</button>
             </div>
         </div>
-    `).join('') : "<p style='text-align:center; opacity:0.5;'>Aucune réponse reçue...</p>";
+    `).join('') : "<p style='text-align:center; opacity:0.5;'>Aucune rÃ©ponse reÃ§ue...</p>";
     
-    switchView('quiz-view', 'quiz-validation-view');
+    document.getElementById('quiz-input-zone').style.display = 'none';
+    document.getElementById('quiz-validation-zone').style.display = 'block';
 }
 
 function validateQuizPlayer(playerId, isCorrect, btn) {
     triggerVibe(30);
-    btn.parentElement.innerHTML = isCorrect ? "<span style='color:#30d158;'>Validé ✅</span>" : "<span style='color:#ff3b30;'>Faux ❌</span>";
+    btn.parentElement.innerHTML = isCorrect ? "<span style='color:#30d158;'>ValidÃ© âœ…</span>" : "<span style='color:#ff3b30;'>Faux âŒ</span>";
     
     roomChannel.send({
         type: 'broadcast',
@@ -1855,7 +1867,7 @@ function showQuizPodium() {
     
     list.innerHTML = sorted.map((p, i) => `
         <div style="background: rgba(255,255,255,0.08); padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 15px; border: 1px solid ${i === 0 ? '#ffd700' : 'rgba(255,255,255,0.1)'}; transform: scale(${i === 0 ? '1.05' : '1'});">
-            <div style="font-size: 1.5rem;">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '👤'}</div>
+            <div style="font-size: 1.5rem;">${i === 0 ? 'ðŸ¥‡' : i === 1 ? 'ðŸ¥ˆ' : i === 2 ? 'ðŸ¥‰' : 'ðŸ‘¤'}</div>
             <div style="flex: 1; text-align: left;">
                 <div style="font-weight: bold; font-size: 1.1rem;">${p.name}</div>
                 <div style="font-size: 0.9rem; opacity: 0.6;">${p.score || 0} points</div>
@@ -1872,7 +1884,7 @@ function showQuizPodium() {
         if (localPlayer) {
             localPlayer.coins = (localPlayer.coins || 0) + 20;
             saveState();
-            showToast("Tu as gagné 20 BuzzCoins ! 🪙", "success");
+            showToast("Tu as gagnÃ© 20 BuzzCoins ! ðŸª™", "success");
         }
     } else {
         document.getElementById('quiz-reward-message').style.display = 'none';
