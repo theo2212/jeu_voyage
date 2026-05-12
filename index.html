@@ -20,7 +20,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jeu de Voyage - Humour Noir</title>
+    <title>Jeu de Voyage V35 🚗</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
@@ -144,20 +144,20 @@
         <div id="draw-view" style="display: none;">
             <h2 id="draw-prompt" style="color: #ffd700; margin-bottom: 10px; text-align: center;">Dessine : ...</h2>
             
-            <div class="drawing-toolbar">
-                <div class="color-picker">
-                    <div class="color-circle active" style="background: #000; border: 2px solid white;" onclick="setBrushColor('#000', this)"></div>
-                    <div class="color-circle" style="background: #ff2d55; border: 2px solid rgba(255,255,255,0.5);" onclick="setBrushColor('#ff2d55', this)"></div>
-                    <div class="color-circle" style="background: #007aff; border: 2px solid rgba(255,255,255,0.5);" onclick="setBrushColor('#007aff', this)"></div>
-                    <div class="color-circle" style="background: #34c759; border: 2px solid rgba(255,255,255,0.5);" onclick="setBrushColor('#34c759', this)"></div>
-                    <div class="color-circle" style="background: #ffd700; border: 2px solid rgba(255,255,255,0.5);" onclick="setBrushColor('#ffd700', this)"></div>
+            <div class="drawing-toolbar" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.15); padding: 12px; border-radius: 15px; margin-bottom: 12px; gap: 10px; border: 1px solid rgba(255,255,255,0.1);">
+                <div class="color-picker" style="display: flex; gap: 10px;">
+                    <div class="color-circle active" style="background: #000; width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; cursor: pointer;" onclick="setBrushColor('#000', this)"></div>
+                    <div class="color-circle" style="background: #ff2d55; width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); cursor: pointer;" onclick="setBrushColor('#ff2d55', this)"></div>
+                    <div class="color-circle" style="background: #007aff; width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); cursor: pointer;" onclick="setBrushColor('#007aff', this)"></div>
+                    <div class="color-circle" style="background: #34c759; width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); cursor: pointer;" onclick="setBrushColor('#34c759', this)"></div>
+                    <div class="color-circle" style="background: #ffd700; width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); cursor: pointer;" onclick="setBrushColor('#ffd700', this)"></div>
                 </div>
-                <div class="brush-sizes">
-                    <button class="size-btn" onclick="setBrushSize(2, this)">•</button>
-                    <button class="size-btn active" onclick="setBrushSize(5, this)">●</button>
-                    <button class="size-btn" onclick="setBrushSize(12, this)" style="font-size: 1.2rem;">●</button>
+                <div class="brush-sizes" style="display: flex; gap: 10px; align-items: center;">
+                    <button class="size-btn" style="background: rgba(255,255,255,0.1); border:none; color:white; width:35px; height:35px; border-radius:10px;" onclick="setBrushSize(2, this)">•</button>
+                    <button class="size-btn active" style="background: white; border:none; color:black; width:35px; height:35px; border-radius:10px; font-weight:bold;" onclick="setBrushSize(5, this)">●</button>
+                    <button class="size-btn" style="background: rgba(255,255,255,0.1); border:none; color:white; width:35px; height:35px; border-radius:10px;" onclick="setBrushSize(12, this)">⬤</button>
                 </div>
-                <button id="btn-eraser" class="tool-btn" onclick="toggleEraser()">🧽 Gomme</button>
+                <button id="btn-eraser" class="tool-btn" style="background: rgba(255,255,255,0.1); border:none; color:white; padding:8px 12px; border-radius:10px; display:flex; align-items:center; gap:5px;" onclick="toggleEraser()">🧽 Gomme</button>
             </div>
 
             <div id="draw-container" style="position: relative; width: 100%; aspect-ratio: 1/1; background: white; border-radius: 15px; overflow: hidden; touch-action: none;">
@@ -330,7 +330,7 @@
     </div>
 
 
-    <script src="app.js?v=34"></script>
+    <script src="app.js?v=35"></script>
 
 </body>
 </html>

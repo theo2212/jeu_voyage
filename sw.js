@@ -1,4 +1,4 @@
-const CACHE_NAME = 'voyage-cache-v34';
+const CACHE_NAME = 'voyage-cache-v35';
 const urlsToCache = [
   './',
   './index.html',
