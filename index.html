@@ -614,6 +614,99 @@
             transform: scale(0.9);
         }
 
+        /* Nouvelles Fonctionnalités CSS */
+        body.eco-mode {
+            background: #000 !important;
+            color: #fff !important;
+        }
+        body.eco-mode .bg-shapes {
+            display: none !important;
+        }
+        body.eco-mode * {
+            box-shadow: none !important;
+            text-shadow: none !important;
+            transition: none !important;
+            animation: none !important;
+            backdrop-filter: none !important;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .quest-banner {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .inventory-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 50vh;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        .inventory-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #game-card {
+            touch-action: pan-y; /* Permet le swipe X */
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
     </style>
 </head>
 <body>
@@ -627,8 +720,22 @@
     <div class="container">
         <!-- Vue : Menu Principal -->
         <div id="menu-view">
-            <h1>Jeu de Voyage</h1>
+            <div class="top-bar">
+                <h1>Jeu de Voyage</h1>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-icon" onclick="toggleEcoMode()" title="Mode Éco">🔋</button>
+                    <button class="btn-icon" onclick="openInventory()" title="Inventaire">🎒</button>
+                </div>
+            </div>
+            
+            <div id="quest-banner" class="quest-banner" style="display: none;">
+                <div>📜 <b>Quête du Jour</b></div>
+                <div id="quest-text" style="font-weight: normal; font-size: 0.95rem;"></div>
+            </div>
+
             <button class="btn-menu btn-shop" onclick="openShop()">🛒 Boutique (BussCoins)</button>
+            <button class="btn-menu" style="background: linear-gradient(135deg, #ff0055, #ffaa00); color: white; font-weight: 900; letter-spacing: 1px;" onclick="startGame('chaos')">🌪️ JEU SURPRISE (Chaos)</button>
+            
             <div class="menu-buttons">
                 <div class="menu-section-title">🗣️ Jeux de Débats</div>
                 <button class="btn-menu bg-tribunal" onclick="startGame('tribunal')">Tribunal des Opinions</button>
@@ -710,6 +817,7 @@
                 <div id="vote-controls" class="vote-grid">
                     <!-- Boutons de vote injectés ici -->
                 </div>
+                <button class="btn-action" style="background: linear-gradient(135deg, #1c1c1e, #ff2d55); margin-top: 10px;" onclick="spinWheel()">🎡 Je suis lâche (Roue de Punition)</button>
                 <button class="btn-action btn-back" onclick="returnToMenu('game-view')" style="margin-top: 10px;">Quitter la partie</button>
             </div>
         </div>
@@ -729,6 +837,28 @@
             </div>
             
             <button class="btn-action btn-back" onclick="returnToMenu('shop-view')">Retour au menu</button>
+        </div>
+        <!-- Modal : Inventaire -->
+        <div id="inventory-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>🎒 Inventaire de <span id="inv-player-name"></span></h2>
+                <div id="inventory-list" class="inventory-list">
+                    <!-- Objets injectés ici -->
+                </div>
+                <button class="btn-action btn-back" style="margin-top:20px;" onclick="closeInventory()">Fermer</button>
+            </div>
+        </div>
+
+        <!-- Modal : Roue de l'infortune -->
+        <div id="wheel-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>🎡 Roue de la Punition</h2>
+                <div id="wheel-result" style="font-size: 1.5rem; font-weight: bold; margin: 30px 0; color: #ff2d55; min-height: 60px;">
+                    Prêt à tourner ?
+                </div>
+                <button class="btn-action" id="btn-spin" onclick="executeSpin()">Tourner !</button>
+                <button class="btn-action btn-back" style="margin-top:10px;" onclick="closeWheel()">Fermer</button>
+            </div>
         </div>
     </div>
 
@@ -1082,11 +1212,91 @@
             { name: "Fantasme surprise réalisé sans tabou", cost: 200, type: "spicy" }
         ];
 
+
         let currentGame = '';
         let currentTheme = 'soft';
         let availableIndices = {};
         let players = [];
         let timerInterval;
+        let isEcoMode = false;
+        let audioCtx = null;
+
+        // --- Moteur Audio Procédural ---
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const now = audioCtx.currentTime;
+            if (type === 'coin') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1000, now);
+                osc.frequency.exponentialRampToValueAtTime(1500, now + 0.1);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'tick') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, now);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } else if (type === 'alarm') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.linearRampToValueAtTime(400, now + 0.2);
+                gain.gain.setValueAtTime(0.4, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            }
+        }
+
+        function triggerVibe(pattern) {
+            if (navigator.vibrate) navigator.vibrate(pattern);
+        }
+
+        function toggleEcoMode() {
+            isEcoMode = !isEcoMode;
+            if(isEcoMode) document.body.classList.add('eco-mode');
+            else document.body.classList.remove('eco-mode');
+            triggerVibe(50);
+        }
+
+        // --- Quête du Jour ---
+        const dailyQuests = [
+            "Faites croire à un serveur/vendeur que c'est votre anniversaire de rencontre.",
+            "Le premier à se plaindre d'avoir chaud ou d'avoir faim paie un verre.",
+            "Réussir à placer le mot 'choucroute' dans une discussion avec un inconnu.",
+            "Interdiction de regarder son téléphone pendant le repas. Le premier qui flanche paie l'addition.",
+            "Inventez un nom de code pour désigner les personnes que vous trouvez moches dans la rue.",
+            "Le perdant du prochain jeu devra porter le sac de l'autre pendant 1h."
+        ];
+
+        function checkDailyQuest() {
+            const today = new Date().toDateString();
+            const savedDate = localStorage.getItem('voyage_quest_date');
+            let questIndex = localStorage.getItem('voyage_quest_index');
+            
+            if (savedDate !== today || questIndex === null) {
+                questIndex = Math.floor(Math.random() * dailyQuests.length);
+                localStorage.setItem('voyage_quest_date', today);
+                localStorage.setItem('voyage_quest_index', questIndex);
+            }
+            
+            document.getElementById('quest-text').innerText = dailyQuests[questIndex];
+            document.getElementById('quest-banner').style.display = 'flex';
+        }
 
         function initIndices() {
             availableIndices = {};
@@ -1105,13 +1315,17 @@
 
         function loadState() {
             const savedVersion = localStorage.getItem('voyage_version');
-            if (savedVersion !== 'v4_themes') {
+            if (savedVersion !== 'v5_gigaupdate') {
                 localStorage.clear();
-                localStorage.setItem('voyage_version', 'v4_themes');
+                localStorage.setItem('voyage_version', 'v5_gigaupdate');
             }
 
             const savedPlayers = localStorage.getItem('voyage_players');
-            if (savedPlayers) players = JSON.parse(savedPlayers);
+            if (savedPlayers) {
+                players = JSON.parse(savedPlayers);
+                // Patch pour l'inventaire
+                players.forEach(p => { if(!p.inventory) p.inventory = []; });
+            }
 
             const savedIndices = localStorage.getItem('voyage_availableIndices');
             if (savedIndices) {
@@ -1119,10 +1333,11 @@
             } else {
                 initIndices();
             }
+            checkDailyQuest();
         }
 
         function resetMemory() {
-            if(confirm("Veux-tu vraiment effacer tous les joueurs, les coins et recommencer les cartes à zéro ?")) {
+            if(confirm("Veux-tu vraiment effacer tous les joueurs, l'inventaire et les coins ?")) {
                 localStorage.removeItem('voyage_players');
                 localStorage.removeItem('voyage_availableIndices');
                 players = [];
@@ -1131,7 +1346,6 @@
             }
         }
 
-        // --- Gestion des Joueurs ---
         function handleEnter(event) {
             if (event.key === 'Enter') addPlayer();
         }
@@ -1140,10 +1354,11 @@
             const input = document.getElementById('player-input');
             const name = input.value.trim();
             if (name) {
-                players.push({ name: name, score: 0, coins: 0 });
+                players.push({ name: name, score: 0, coins: 0, inventory: [] });
                 input.value = '';
                 saveState();
                 renderPlayers();
+                triggerVibe(50);
             }
         }
 
@@ -1151,6 +1366,7 @@
             players.splice(index, 1);
             saveState();
             renderPlayers();
+            triggerVibe(50);
         }
 
         function renderPlayers() {
@@ -1166,7 +1382,6 @@
             });
         }
 
-        // --- Navigation ---
         function switchView(fromId, toId, callback) {
             const fromView = document.getElementById(fromId);
             const toView = document.getElementById(toId);
@@ -1188,11 +1403,21 @@
         }
 
         function startGame(gameKey) {
+            initAudio();
+            triggerVibe(50);
             currentGame = gameKey;
-            switchView('menu-view', 'theme-setup-view');
+            if (gameKey === 'chaos') {
+                currentTheme = Math.random() > 0.5 ? 'soft' : 'hard';
+                switchView('menu-view', 'players-setup-view', () => {
+                    document.getElementById('player-input').focus();
+                });
+            } else {
+                switchView('menu-view', 'theme-setup-view');
+            }
         }
 
         function selectTheme(theme) {
+            triggerVibe(50);
             currentTheme = theme;
             switchView('theme-setup-view', 'players-setup-view', () => {
                 document.getElementById('player-input').focus();
@@ -1200,24 +1425,32 @@
         }
 
         function returnToMenu(currentViewId) {
+            triggerVibe(50);
             document.body.classList.remove('timer-flash');
             clearInterval(timerInterval);
             switchView(currentViewId, 'menu-view');
         }
 
         function beginGame() {
+            triggerVibe([50, 50, 50]);
             players.forEach(p => p.score = 0); 
             
             switchView('players-setup-view', 'game-view', () => {
                 const gameTitle = document.getElementById('game-title');
-                gameTitle.innerText = gameTitles[currentGame] + (currentTheme === 'hard' ? ' 🌶️' : '');
-                gameTitle.className = 'txt-' + currentGame.replace('boire_', 'boire'); // Fallback style
-                if (currentGame.includes('boire')) gameTitle.className = 'txt-boire';
-                if (currentGame === 'tribunal') gameTitle.className = 'txt-tribunal';
-                if (currentGame === 'draft') gameTitle.className = 'txt-draft';
-                if (currentGame === 'prefere') gameTitle.className = 'txt-prefere';
-                if (currentGame === 'daube') gameTitle.className = 'txt-daube';
-                if (currentGame === 'redflag') gameTitle.className = 'txt-redflag';
+                
+                if (currentGame === 'chaos') {
+                    gameTitle.innerText = "Jeu Surprise ! 🌪️";
+                    gameTitle.className = 'txt-boire';
+                } else {
+                    gameTitle.innerText = gameTitles[currentGame] + (currentTheme === 'hard' ? ' 🌶️' : '');
+                    gameTitle.className = 'txt-' + currentGame.replace('boire_', 'boire'); 
+                    if (currentGame.includes('boire')) gameTitle.className = 'txt-boire';
+                    if (currentGame === 'tribunal') gameTitle.className = 'txt-tribunal';
+                    if (currentGame === 'draft') gameTitle.className = 'txt-draft';
+                    if (currentGame === 'prefere') gameTitle.className = 'txt-prefere';
+                    if (currentGame === 'daube') gameTitle.className = 'txt-daube';
+                    if (currentGame === 'redflag') gameTitle.className = 'txt-redflag';
+                }
                 
                 updateScoreboard();
                 renderVoteButtons();
@@ -1225,8 +1458,9 @@
             });
         }
 
-        // --- Chrono 7 Secondes ---
+        // --- Chrono ---
         function startTimer() {
+            triggerVibe(50);
             const display = document.getElementById('timer-display');
             const btn = document.getElementById('btn-timer-start');
             let timeLeft = 7;
@@ -1240,6 +1474,9 @@
             timerInterval = setInterval(() => {
                 timeLeft--;
                 display.innerText = timeLeft;
+                playSound('tick');
+                if (timeLeft <= 3) triggerVibe(100);
+                
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     display.innerText = "0 ! BOIS !";
@@ -1247,16 +1484,19 @@
                     display.classList.add('timer-flash');
                     btn.innerText = "Relancer ⏱️";
                     btn.style.display = 'block';
+                    triggerVibe([200, 100, 200, 100, 200]);
+                    playSound('alarm');
                 }
             }, 1000);
         }
 
-        // --- Boutique (Shop) ---
+        // --- Inventaire & Boutique ---
         function openShop() {
             if(players.length === 0) {
-                alert("Ajoutez d'abord des joueurs pour ouvrir la boutique et leur donner une cagnotte !");
+                alert("Ajoutez d'abord des joueurs pour ouvrir la boutique !");
                 return;
             }
+            triggerVibe(50);
             switchView('menu-view', 'shop-view', () => {
                 const select = document.getElementById('shop-player-select');
                 select.innerHTML = players.map((p, i) => `<option value="${i}">${p.name}</option>`).join('');
@@ -1294,10 +1534,93 @@
             
             if (player.coins >= item.cost) {
                 player.coins -= item.cost;
+                player.inventory.push(item.name);
                 saveState();
-                alert(`🎁 ${player.name} vient d'acheter : "${item.name}" ! Préparez-vous !`);
+                playSound('coin');
+                triggerVibe([50, 50, 100]);
+                alert(`🎁 Ajouté à l'inventaire de ${player.name} !`);
                 renderShopItems();
             }
+        }
+
+        function openInventory() {
+            if(players.length === 0) {
+                alert("Aucun joueur n'est enregistré !");
+                return;
+            }
+            triggerVibe(50);
+            const playerNameSpan = document.getElementById('inv-player-name');
+            const invList = document.getElementById('inventory-list');
+            
+            // On affiche le premier joueur par défaut, idéalement à améliorer avec un select
+            let pIndex = 0; 
+            const player = players[pIndex];
+            playerNameSpan.innerText = player.name;
+            
+            if (player.inventory.length === 0) {
+                invList.innerHTML = `<div style="color:white; opacity:0.6;">Inventaire vide.</div>`;
+            } else {
+                invList.innerHTML = player.inventory.map((itemName, idx) => `
+                    <div class="inventory-item">
+                        <span>${itemName}</span>
+                        <button class="btn-action" style="padding: 5px 15px; font-size: 0.9rem;" onclick="useItem(${pIndex}, ${idx})">Utiliser</button>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('inventory-modal').style.display = 'flex';
+        }
+
+        function useItem(pIndex, itemIdx) {
+            triggerVibe(50);
+            if (confirm("Veux-tu utiliser cet objet maintenant ? Il sera consommé.")) {
+                players[pIndex].inventory.splice(itemIdx, 1);
+                saveState();
+                openInventory();
+            }
+        }
+
+        function closeInventory() {
+            triggerVibe(50);
+            document.getElementById('inventory-modal').style.display = 'none';
+        }
+
+        // --- Roue de la Punition ---
+        const punishments = [
+            "Bois 3 gorgées 🍻", "Cul Sec ! 🍺", "Enlève un vêtement 🧦",
+            "Masse les épaules d'un joueur (2min) 💆", "-50 BussCoins 🪙",
+            "Mime ta position sexuelle 🛏️", "Donne 5 gorgées 🎯", "Révèle un secret 🤫",
+            "Fais 10 pompes 💪", "Poste une story gênante 📱"
+        ];
+        function spinWheel() {
+            triggerVibe(50);
+            document.getElementById('wheel-modal').style.display = 'flex';
+            document.getElementById('wheel-result').innerText = "Prêt à tourner ?";
+            document.getElementById('btn-spin').style.display = 'inline-block';
+        }
+        function closeWheel() {
+            triggerVibe(50);
+            document.getElementById('wheel-modal').style.display = 'none';
+        }
+        function executeSpin() {
+            const btn = document.getElementById('btn-spin');
+            btn.style.display = 'none';
+            const resultDiv = document.getElementById('wheel-result');
+            let count = 0;
+            let maxCount = 20 + Math.floor(Math.random() * 10);
+            
+            let spinInterval = setInterval(() => {
+                resultDiv.innerText = punishments[count % punishments.length];
+                triggerVibe(20);
+                playSound('tick');
+                count++;
+                if (count > maxCount) {
+                    clearInterval(spinInterval);
+                    const finalResult = punishments[count % punishments.length];
+                    resultDiv.innerText = `🎯 ${finalResult} !`;
+                    triggerVibe([100, 50, 100]);
+                    playSound('coin');
+                }
+            }, 100);
         }
 
         // --- Logique de Jeu ---
@@ -1339,6 +1662,7 @@
         }
 
         function votePlayer(index) {
+            triggerVibe(30);
             players[index].score += 1;
             players[index].coins += 10;
             saveState();
@@ -1347,11 +1671,22 @@
         }
 
         function nextPhrase(isFirst = false) {
-            const memKey = currentTheme + '_' + currentGame;
+            triggerVibe(30);
+            let activeGame = currentGame;
+            let activeTheme = currentTheme;
+
+            if (currentGame === 'chaos') {
+                const keys = Object.keys(phrases['soft']);
+                activeGame = keys[Math.floor(Math.random() * keys.length)];
+                activeTheme = Math.random() > 0.5 ? 'soft' : 'hard';
+                document.getElementById('game-title').innerText = `Chaos : ${gameTitles[activeGame]} ${activeTheme === 'hard' ? '🌶️' : ''}`;
+            }
+
+            const memKey = activeTheme + '_' + activeGame;
             let list = availableIndices[memKey];
             
             if (!list || list.length === 0) {
-                list = Array.from({length: phrases[currentTheme][currentGame].length}, (_, i) => i);
+                list = Array.from({length: phrases[activeTheme][activeGame].length}, (_, i) => i);
                 availableIndices[memKey] = list;
             }
             
@@ -1363,7 +1698,7 @@
             const cardElement = document.getElementById('game-card');
 
             // Timer display logic
-            if (currentGame === 'boire_7sec') {
+            if (activeGame === 'boire_7sec') {
                 document.getElementById('timer-container').style.display = 'flex';
                 document.getElementById('timer-display').innerText = '7';
                 document.getElementById('timer-display').classList.remove('timer-flash');
@@ -1378,22 +1713,41 @@
             }
             
             if (isFirst) {
-                textElement.innerText = phrases[currentTheme][currentGame][phraseIndex];
+                textElement.innerText = phrases[activeTheme][activeGame][phraseIndex];
                 textElement.className = 'text-pop-in';
             } else {
                 textElement.className = 'text-pop-out';
                 cardElement.style.transform = 'scale(0.98)';
                 
                 setTimeout(() => {
-                    textElement.innerText = phrases[currentTheme][currentGame][phraseIndex];
+                    textElement.innerText = phrases[activeTheme][activeGame][phraseIndex];
                     textElement.className = 'text-pop-in';
                     cardElement.style.transform = 'scale(1)';
                 }, 250);
             }
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
+        // --- Swipe Events ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('DOMContentLoaded', () => {
             loadState();
+            
+            const gameCard = document.getElementById('game-card');
+            gameCard.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, {passive: true});
+            
+            gameCard.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                if (touchStartX - touchEndX > 50) {
+                    // Swiped Left
+                    nextPhrase();
+                } else if (touchEndX - touchStartX > 50) {
+                    // Swiped Right
+                    nextPhrase();
+                }
+            }, {passive: true});
             
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('sw.js')
