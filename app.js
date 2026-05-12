@@ -914,15 +914,15 @@ const phrases = {
 // --- SUPABASE & MULTIJOUEUR ---
 const SUPABASE_URL = 'https://pzdbkegmbxsvabkvffdi.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_esYFZqPxzRx24Wh_VrGFqQ_QybEoy_w';
-let supabase = null;
+let supabaseClient = null;
 let isPremium = localStorage.getItem('voyage_premium') === 'true';
 let syncMode = localStorage.getItem('voyage_sync_mode'); // 'online' ou 'offline'
 
 function getSupabase() {
-    if (!supabase && window.supabase) {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    if (!supabaseClient && window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
-    return supabase;
+    return supabaseClient;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
