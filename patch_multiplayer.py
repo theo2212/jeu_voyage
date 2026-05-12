@@ -47,7 +47,11 @@ async function createRoom() {
 async function joinRoom() {
     triggerVibe(50);
     const input = document.getElementById('room-code-input').value.toUpperCase().trim();
-    if (input.length !== 4) return alert('Code invalide');
+    if (input.length !== 4) {
+        shakeInput('room-code-input');
+        showToast('Code invalide (4 lettres)', 'warning');
+        return;
+    }
     
     myRoomId = input;
     isRoomAdmin = false;
@@ -182,7 +186,7 @@ async function joinSupabaseChannel(roomId) {
 
 function startOnlineGame() {
     triggerVibe(50);
-    alert("✅ Salon prêt ! Les téléphones de tes amis vont se synchroniser. Choisis un jeu dans le menu pour commencer !");
+    showToast("✅ Salon prêt ! Amis synchronisés.", "success");
     switchView('lobby-view', 'menu-view');
 }
 """

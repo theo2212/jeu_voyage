@@ -428,6 +428,46 @@ let phrases = {
             if(isEcoMode) document.body.classList.add('eco-mode');
             else document.body.classList.remove('eco-mode');
             triggerVibe(50);
+            showToast(isEcoMode ? "Mode Éco activé 🔋" : "Mode Éco désactivé ⚡", "info");
+        }
+
+        // --- Notifications (Toasts) ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('notification-container');
+            if (!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                info: 'ℹ️',
+                success: '✅',
+                warning: '⚠️',
+                error: '❌'
+            };
+            
+            toast.innerHTML = `<span>${icons[type] || '🔔'}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+            
+            triggerVibe(type === 'error' ? [50, 100, 50] : 30);
+            
+            setTimeout(() => {
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        function shakeInput(inputId) {
+            const el = document.getElementById(inputId);
+            if (el) {
+                el.classList.add('shake');
+                el.style.borderColor = '#ff3b30';
+                setTimeout(() => {
+                    el.classList.remove('shake');
+                    el.style.borderColor = '';
+                }, 400);
+                el.focus();
+            }
         }
 
         // --- Quête du Jour ---
@@ -503,7 +543,7 @@ let phrases = {
                 localStorage.removeItem('voyage_availableIndices');
                 players = [];
                 initIndices();
-                alert("Mémoire effacée !");
+                showToast("Mémoire effacée !", "success");
             }
         }
 
@@ -520,6 +560,9 @@ let phrases = {
                 saveState();
                 renderPlayers();
                 triggerVibe(50);
+            } else {
+                shakeInput('player-input');
+                showToast("Veuillez entrer un nom !", "warning");
             }
         }
 
@@ -551,7 +594,7 @@ let phrases = {
             if (!fromView || !toView) {
                 console.error('switchView error: missing element', {fromId, toId, fromView, toView});
                 if (!toView && toId !== 'menu-view') {
-                    alert('Erreur : La vue \"' + toId + '\" est introuvable. Verifiez que vous avez bien la derniere version.');
+                    showToast('Erreur : La vue "' + toId + '" est introuvable.', 'error');
                 }
                 return;
             }
@@ -689,7 +732,7 @@ let phrases = {
         // --- Inventaire & Boutique ---
         function openShop() {
             if(players.length === 0) {
-                alert("Ajoutez d'abord des joueurs pour ouvrir la boutique !");
+                showToast("Ajoutez d'abord des joueurs !", "warning");
                 return;
             }
             triggerVibe(50);
@@ -734,14 +777,14 @@ let phrases = {
                 saveState();
                 playSound('coin');
                 triggerVibe([50, 50, 100]);
-                alert(`🎁 Ajouté à l'inventaire de ${player.name} !`);
+                showToast(`🎁 Ajouté à l'inventaire de ${player.name} !`, "success");
                 renderShopItems();
             }
         }
 
         function openInventory() {
             if(players.length === 0) {
-                alert("Aucun joueur n'est enregistré !");
+                showToast("Aucun joueur enregistré !", "warning");
                 return;
             }
             triggerVibe(50);
@@ -880,7 +923,7 @@ let phrases = {
 
             if (!phrases[activeTheme] || !phrases[activeTheme][activeGame]) {
                 console.error("Missing phrases for", {activeTheme, activeGame, phrases});
-                alert("Oups ! Les phrases pour ce mode ne sont pas encore téléchargées. Patiente 2 secondes ou change de mode.");
+                showToast("Phrases en cours de chargement...", "info");
                 return;
             }
             
@@ -1055,7 +1098,7 @@ function updateLobbyUI() {
 async function createRoom() {
     const pseudoInput = document.getElementById('player-pseudo-input');
     if (!pseudoInput) {
-        alert("Erreur critique : Votre page (index.html) n'est pas a jour. Veuillez vider le cache Safari (Reglages -> Safari -> Avance -> Donnees de sites -> Supprimer github.io).");
+        showToast("Erreur : Page non à jour. Videz le cache.", "error");
         return;
     }
     const pseudo = pseudoInput.value.trim() || 'Anonyme';
@@ -1076,12 +1119,16 @@ async function createRoom() {
 async function joinRoom() {
     const pseudoInput = document.getElementById('player-pseudo-input');
     if (!pseudoInput) {
-        alert("Erreur critique : Votre page (index.html) n'est pas a jour. Veuillez vider le cache Safari (Reglages -> Safari -> Avance -> Donnees de sites -> Supprimer github.io).");
+        showToast("Erreur : Page non à jour. Videz le cache.", "error");
         return;
     }
     const pseudo = pseudoInput.value.trim() || 'Anonyme';
     const input = document.getElementById('room-code-input').value.toUpperCase().trim();
-    if (input.length !== 4) return alert('Code invalide');
+    if (input.length !== 4) {
+        shakeInput('room-code-input');
+        showToast('Code invalide (4 lettres)', 'warning');
+        return;
+    }
     
     myRoomId = input;
     isRoomAdmin = false;
@@ -1105,7 +1152,7 @@ async function joinRoom() {
 async function joinSupabaseChannel(roomId) {
     const sb = getSupabase();
     if (!sb) {
-        alert("Supabase non connecté.");
+        showToast("Supabase non connecté.", "error");
         return;
     }
     
@@ -1207,6 +1254,26 @@ async function joinSupabaseChannel(roomId) {
             }
         }
     });
+
+    roomChannel.on('broadcast', { event: 'start_draw_game' }, payload => {
+        const data = payload.payload;
+        if (data.drawerId !== myPlayerId) {
+            const drawer = roomPlayers.find(p => p.id === data.drawerId);
+            const drawerName = drawer ? drawer.name : "Quelqu'un";
+            document.getElementById('current-drawer-name').innerText = drawerName;
+            switchView(currentViewId, 'guess-view');
+        }
+    });
+
+    roomChannel.on('broadcast', { event: 'sync_canvas' }, payload => {
+        const img = document.getElementById('guess-image');
+        if (img) img.src = payload.payload.image;
+    });
+
+    roomChannel.on('broadcast', { event: 'end_draw_game' }, payload => {
+        showToast("Partie de dessin terminée !", "info");
+        returnToMenu(currentViewId);
+    });
     
     await roomChannel.subscribe((status) => {
         if(status === 'SUBSCRIBED') {
@@ -1217,7 +1284,7 @@ async function joinSupabaseChannel(roomId) {
 
 function startOnlineGame() {
     triggerVibe(50);
-    alert("✅ Salon prêt ! Les téléphones de tes amis vont se synchroniser. Choisis un jeu dans le menu pour commencer !");
+    showToast("✅ Salon prêt ! Amis synchronisés.", "success");
     switchView('lobby-view', 'menu-view');
 }
 
@@ -1268,13 +1335,14 @@ async function submitUGC() {
     const author = document.getElementById('ugc-author').value.trim() || 'Anonyme';
 
     if(!text) {
-        alert("La phrase ne peut pas être vide !");
+        shakeInput('ugc-text');
+        showToast("La phrase est vide !", "warning");
         return;
     }
 
     const sb = getSupabase();
     if (!sb) {
-        alert("Le système n'est pas encore prêt, veuillez patienter quelques secondes et réessayer.");
+        showToast("Système non prêt, réessayez...", "warning");
         return;
     }
 
@@ -1286,11 +1354,11 @@ async function submitUGC() {
         if (error) throw error;
         
         playSound('coin');
-        alert("Merci ! Ta phrase a été envoyée et sera ajoutée après validation. 🚀");
+        showToast("Merci ! Phrase envoyée 🚀", "success");
         document.getElementById('ugc-text').value = '';
         closeUGC();
     } catch (e) {
-        alert("Erreur lors de l'envoi. Vérifie ta connexion internet.");
+        showToast("Erreur d'envoi. Vérifie ta connexion.", "error");
         console.error(e);
     }
 }
@@ -1316,7 +1384,7 @@ function simulatePurchase() {
     isPremium = true;
     localStorage.setItem('voyage_premium', 'true');
     closePaywall();
-    alert("🎉 Achat validé ! Vous avez maintenant accès à tout le contenu Premium.");
+    showToast("🎉 Accès Premium débloqué !", "success");
 }
 
 // Hook Premium into selectTheme and startGame
@@ -1450,12 +1518,12 @@ function clearCanvas() {
 function startDrawMode() {
     triggerVibe(50);
     if (syncMode !== 'online') {
-        alert("Ce mode nécessite d'être dans un salon en ligne !");
+        showToast("Mode en ligne requis !", "warning");
         return;
     }
     
     if (!isRoomAdmin) {
-        alert("Seul le chef du salon peut lancer ce mode !");
+        showToast("Seul le chef peut lancer le mode !", "warning");
         return;
     }
 
@@ -1477,9 +1545,12 @@ function startDrawMode() {
 
 function finishDrawing() {
     triggerVibe(50);
-    roomChannel.send({
-        type: 'broadcast',
-        event: 'end_draw_game',
-        payload: {}
-    });
+    if (roomChannel) {
+        roomChannel.send({
+            type: 'broadcast',
+            event: 'end_draw_game',
+            payload: {}
+        });
+    }
+    returnToMenu('draw-view');
 }

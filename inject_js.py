@@ -59,6 +59,36 @@ new_js = """
             if(isEcoMode) document.body.classList.add('eco-mode');
             else document.body.classList.remove('eco-mode');
             triggerVibe(50);
+            showToast(isEcoMode ? "Mode Éco activé 🔋" : "Mode Éco désactivé ⚡", "info");
+        }
+
+        // --- Notifications (Toasts) ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('notification-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icons = { info: 'ℹ️', success: '✅', warning: '⚠️', error: '❌' };
+            toast.innerHTML = `<span>${icons[type] || '🔔'}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+            triggerVibe(type === 'error' ? [50, 100, 50] : 30);
+            setTimeout(() => {
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        function shakeInput(inputId) {
+            const el = document.getElementById(inputId);
+            if (el) {
+                el.classList.add('shake');
+                el.style.borderColor = '#ff3b30';
+                setTimeout(() => {
+                    el.classList.remove('shake');
+                    el.style.borderColor = '';
+                }, 400);
+                el.focus();
+            }
         }
 
         // --- Quête du Jour ---
@@ -130,7 +160,7 @@ new_js = """
                 localStorage.removeItem('voyage_availableIndices');
                 players = [];
                 initIndices();
-                alert("Mémoire effacée !");
+                showToast("Mémoire effacée !", "success");
             }
         }
 
@@ -147,6 +177,9 @@ new_js = """
                 saveState();
                 renderPlayers();
                 triggerVibe(50);
+            } else {
+                shakeInput('player-input');
+                showToast("Veuillez entrer un nom !", "warning");
             }
         }
 

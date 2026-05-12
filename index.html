@@ -3,11 +3,19 @@
 <head>
     <script>
         window.onerror = function(msg, url, lineNo, columnNo, error) {
-            alert('ERREUR JS : ' + msg + '\nLigne : ' + lineNo);
+            if (window.showToast) {
+                showToast('Erreur JS : ' + msg, 'error');
+            } else {
+                console.error('ERREUR JS : ' + msg + '\nLigne : ' + lineNo);
+            }
             return false;
         };
         window.addEventListener('unhandledrejection', function(event) {
-            alert('ERREUR PROMISE : ' + event.reason);
+            if (window.showToast) {
+                showToast('Erreur Promise : ' + event.reason, 'error');
+            } else {
+                console.error('ERREUR PROMISE : ' + event.reason);
+            }
         });
     </script>
     <meta charset="UTF-8">
@@ -61,6 +69,7 @@
                 <button class="btn-menu bg-prefere" onclick="startGame('prefere')">Tu Préfères de l'Extrême</button>
                 <button class="btn-menu bg-daube" onclick="startGame('daube')">Pitch de Daube</button>
                 <button class="btn-menu bg-redflag" onclick="startGame('redflag')">C'est un 10, MAIS...</button>
+                <button class="btn-menu" style="background: linear-gradient(135deg, #af52de, #ff2d55); color: white;" onclick="startDrawMode()">🎨 Dessine & Devine (Gartic)</button>
 
                 <div class="menu-section-title" style="margin-top:20px;">🍻 Jeux à Boire</div>
                 <button class="btn-menu bg-drink" onclick="startGame('boire_susceptible')">🎯 Le Tribunal</button>
@@ -299,9 +308,12 @@
                 <button class="btn-action btn-back" onclick="closeUGC()">Annuler</button>
             </div>
         </div>
+
+        <div id="notification-container"></div>
     </div>
 
-    <script src="app.js?v=32"></script>
+
+    <script src="app.js?v=33"></script>
 
 </body>
 </html>
