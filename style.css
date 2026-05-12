@@ -95,7 +95,7 @@
         }
 
         /* Vues */
-        #menu-view, #theme-setup-view, #players-setup-view, #game-view, #shop-view {
+        #menu-view, #theme-setup-view, #players-setup-view, #game-view, #shop-view, #lobby-view {
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -108,10 +108,15 @@
             padding-right: 5px; /* Pour la scrollbar */
         }
 
-        #theme-setup-view, #players-setup-view, #game-view, #shop-view {
+        #theme-setup-view, #players-setup-view, #game-view, #shop-view, #lobby-view {
             display: none;
             opacity: 0;
             transform: scale(0.95);
+        }
+        
+        #lobby-view {
+            align-items: center;
+            justify-content: center;
         }
 
         /* Boutons Menu */
