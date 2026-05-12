@@ -198,17 +198,18 @@ async function joinSupabaseChannel(roomId) {
         returnToMenu(currentViewId);
     });
 
-    roomChannel.on('broadcast', { event: 'start_quiz' }, payload => {
+    roomChannel.on('broadcast', { event: 'quiz_sync' }, payload => {
         if (!isRoomAdmin) {
             currentQuizType = payload.payload.type;
-            currentQuizIndex = 0;
+            currentQuizIndex = payload.payload.index;
             loadQuizQuestion();
         }
     });
 
-    roomChannel.on('broadcast', { event: 'quiz_next' }, payload => {
+    roomChannel.on('broadcast', { event: 'start_quiz' }, payload => {
         if (!isRoomAdmin) {
-            currentQuizIndex = payload.payload.index;
+            currentQuizType = payload.payload.type;
+            currentQuizIndex = 0;
             loadQuizQuestion();
         }
     });
