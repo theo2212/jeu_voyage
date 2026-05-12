@@ -668,13 +668,13 @@ async function fetchPhrasesFromSupabase() {
         if (error) throw error;
         
         if (data && data.length > 0) {
-            let newPhrases = {
-                soft: { tribunal: [], draft: [], boire_action: [], boire_7sec: [] },
-                hard: { tribunal: [], draft: [], boire_action: [], boire_7sec: [] }
-            };
+            let newPhrases = { soft: {}, hard: {} };
             
             data.forEach(row => {
-                if(newPhrases[row.theme] && newPhrases[row.theme][row.game_mode]) {
+                if (newPhrases[row.theme]) {
+                    if (!newPhrases[row.theme][row.game_mode]) {
+                        newPhrases[row.theme][row.game_mode] = [];
+                    }
                     newPhrases[row.theme][row.game_mode].push(row.content);
                 }
             });
