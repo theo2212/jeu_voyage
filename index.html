@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -96,7 +96,7 @@
 
 
         <!-- Vue : Choix du Thème -->
-        <div id="theme-setup-view">
+        <div id="theme-setup-view" style="display: none;">
             <h1>Niveau de Jeu</h1>
             <div style="flex: 1; display: flex; flex-direction: column; gap: 20px; justify-content: center;">
                 <button class="btn-action" style="background: linear-gradient(135deg, #34c759, #30d158); color: white; height: 120px; font-size: 1.5rem; flex-direction: column; gap: 10px;" onclick="selectTheme('soft')">
@@ -207,7 +207,7 @@
             <button class="btn-action" style="background: #333; margin-top: auto;" onclick="returnToMenu('quiz-podium-view')">Retour au menu</button>
         </div>
 
-        <div id="players-setup-view">
+        <div id="players-setup-view" style="display: none;">
             <h1>Joueurs</h1>
             <div class="input-group">
                 <input type="text" id="player-input" class="input-text" placeholder="Nom du joueur" onkeypress="handleEnter(event)">
@@ -269,7 +269,7 @@
         </div>
 
         <!-- Vue : Boutique -->
-        <div id="shop-view">
+        <div id="shop-view" style="display: none;">
             <h1>Boutique</h1>
             <div class="shop-header">
                 <select id="shop-player-select" onchange="renderShopItems()">
@@ -1328,7 +1328,7 @@
                     }
                 });
             }
-                    cardElement.style.transform = 'scale(1)';
+                    if(typeof cardElement !== 'undefined' && cardElement) cardElement.style.transform = 'scale(1)';
                 }, 250);
             }
         }
@@ -1336,21 +1336,25 @@
         let touchStartX = 0;
         let touchEndX = 0;
         document.addEventListener('DOMContentLoaded', () => {
-            loadState();
-            const gameCard = document.getElementById('game-card');
-            gameCard.addEventListener('touchstart', e => {
-                touchStartX = e.changedTouches[0].screenX;
-            }, {passive: true});
-            gameCard.addEventListener('touchend', e => {
-                touchEndX = e.changedTouches[0].screenX;
-                if (touchStartX - touchEndX > 50) {
-                    // Swiped Left
-                    nextPhrase();
-                } else if (touchEndX - touchStartX > 50) {
-                    // Swiped Right
-                    nextPhrase();
+            try {
+                loadState();
+                const gameCard = document.getElementById('game-card');
+                if (gameCard) {
+                    gameCard.addEventListener('touchstart', e => {
+                        touchStartX = e.changedTouches[0].screenX;
+                    }, {passive: true});
+                    gameCard.addEventListener('touchend', e => {
+                        touchEndX = e.changedTouches[0].screenX;
+                        if (touchStartX - touchEndX > 50) {
+                            nextPhrase();
+                        } else if (touchEndX - touchStartX > 50) {
+                            nextPhrase();
+                        }
+                    }, {passive: true});
                 }
-            }, {passive: true});
+            } catch (e) {
+                console.error("Erreur DOMContentLoaded:", e);
+            }
             if ('serviceWorker' in navigator && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
@@ -1535,7 +1539,7 @@ async function joinSupabaseChannel(roomId) {
             setTimeout(() => {
                 textElement.innerText = data.phraseText;
                 textElement.className = 'text-pop-in';
-                cardElement.style.transform = 'scale(1)';
+                if(typeof cardElement !== 'undefined' && cardElement) cardElement.style.transform = 'scale(1)';
             }, 250);
         }
     });
