@@ -690,13 +690,21 @@ let phrases = {
             
             // Nettoyage Quiz si on quitte game-view
             if (fromId === 'game-view') {
-                document.getElementById('game-view').classList.remove('bg-quiz-theme');
-                document.getElementById('quiz-timer-bar').style.display = 'none';
-                document.getElementById('quiz-question-count').style.display = 'none';
-                document.getElementById('quiz-options').style.display = 'none';
-                document.getElementById('quiz-input-zone').style.display = 'none';
-                document.getElementById('quiz-validation-zone').style.display = 'none';
-                document.getElementById('btn-spin-wheel').style.display = 'block';
+                const gv = document.getElementById('game-view');
+                if (gv) gv.classList.remove('bg-quiz-theme');
+                
+                const elements = [
+                    'quiz-timer-bar', 'quiz-question-count', 'quiz-options', 
+                    'quiz-input-zone', 'quiz-validation-zone'
+                ];
+                elements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+                
+                const spinBtn = document.getElementById('btn-spin-wheel');
+                if (spinBtn) spinBtn.style.display = 'block';
+                
                 const nextBtn = document.querySelector('.btn-next');
                 if (nextBtn) nextBtn.style.display = 'inline-block';
             }
@@ -1733,39 +1741,48 @@ function loadQuizQuestion() {
     const qData = quizQuestions[currentQuizType][currentQuizIndex];
     const view = 'game-view'; 
     
-    // Titre et header
-    document.getElementById('game-title').innerText = currentQuizType === 'qcm' ? "⚡ Quiz Rapido" : "🎓 Quiz Expert";
-    document.getElementById('quiz-question-count').innerText = `Question ${currentQuizIndex + 1} / 10`;
-    document.getElementById('quiz-question-count').style.display = 'block';
-    
-    // Texte de la question
-    document.getElementById('game-text').innerText = qData.q;
-    
-    // Thème Quiz
-    document.getElementById('game-view').classList.add('bg-quiz-theme');
-    
-    // Reset Visibility
-    document.getElementById('vote-controls').style.display = 'none';
-    document.getElementById('quiz-timer-bar').style.display = 'block';
-    document.getElementById('quiz-options').style.display = 'none';
-    document.getElementById('quiz-input-zone').style.display = 'none';
-    document.getElementById('quiz-validation-zone').style.display = 'none';
-    document.getElementById('quiz-wait-message').style.display = 'none';
-    document.getElementById('btn-spin-wheel').style.display = 'none';
+    const titleEl = document.getElementById('game-title');
+    const qCountEl = document.getElementById('quiz-question-count');
+    const qTextEl = document.getElementById('game-text');
+    const gameViewEl = document.getElementById('game-view');
+    const timerBar = document.getElementById('quiz-timer-bar');
+    const timerProg = document.getElementById('quiz-timer-progress');
+    const optionsDiv = document.getElementById('quiz-options');
+    const inputZone = document.getElementById('quiz-input-zone');
+    const validZone = document.getElementById('quiz-validation-zone');
+    const waitMsg = document.getElementById('quiz-wait-message');
+    const spinBtn = document.getElementById('btn-spin-wheel');
+    const voteControls = document.getElementById('vote-controls');
     const nextBtn = document.querySelector('.btn-next');
+    
+    if (titleEl) titleEl.innerText = currentQuizType === 'qcm' ? "⚡ Quiz Rapido" : "🎓 Quiz Expert";
+    if (qCountEl) {
+        qCountEl.innerText = `Question ${currentQuizIndex + 1} / 10`;
+        qCountEl.style.display = 'block';
+    }
+    if (qTextEl) qTextEl.innerText = qData.q;
+    if (gameViewEl) gameViewEl.classList.add('bg-quiz-theme');
+    
+    if (voteControls) voteControls.style.display = 'none';
+    if (timerBar) timerBar.style.display = 'block';
+    if (optionsDiv) optionsDiv.style.display = 'none';
+    if (inputZone) inputZone.style.display = 'none';
+    if (validZone) validZone.style.display = 'none';
+    if (waitMsg) waitMsg.style.display = 'none';
+    if (spinBtn) spinBtn.style.display = 'none';
     if (nextBtn) nextBtn.style.display = 'none';
     
-    document.getElementById('quiz-timer-progress').style.width = '100%';
-    document.getElementById('quiz-answer-input').value = '';
+    if (timerProg) timerProg.style.width = '100%';
+    const ansInput = document.getElementById('quiz-answer-input');
+    if (ansInput) ansInput.value = '';
     
-    if (currentQuizType === 'qcm') {
-        const optionsDiv = document.getElementById('quiz-options');
+    if (currentQuizType === 'qcm' && optionsDiv) {
         optionsDiv.style.display = 'flex';
         optionsDiv.innerHTML = qData.a.map((opt, i) => `
             <button class="btn-vote quiz-option-${i}" style="width: 100%; margin: 0; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);" onclick="checkQcmAnswer(${i})">${opt}</button>
         `).join('');
-    } else {
-        document.getElementById('quiz-input-zone').style.display = 'block';
+    } else if (inputZone) {
+        inputZone.style.display = 'block';
     }
 
     switchView(currentViewId, view);
