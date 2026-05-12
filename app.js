@@ -309,7 +309,9 @@ let phrases = { soft: {}, hard: {} };
             triggerVibe([50, 50, 50]);
             players.forEach(p => p.score = 0); 
             
-            switchView('players-setup-view', 'game-view', () => {
+            const fromViewId = syncMode === 'online' ? 'menu-view' : 'players-setup-view';
+            
+            switchView(fromViewId, 'game-view', () => {
                 const gameTitle = document.getElementById('game-title');
                 
                 if (currentGame === 'chaos') {
