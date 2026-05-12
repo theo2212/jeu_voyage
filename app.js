@@ -1311,6 +1311,13 @@ function chooseSync(mode) {
     syncMode = mode;
     localStorage.setItem('voyage_sync_mode', mode);
     document.getElementById('sync-modal').style.display = 'none';
+    
+    // Afficher/Masquer Gartic dans le menu
+    const garticBtn = document.getElementById('btn-menu-gartic');
+    if (garticBtn) {
+        garticBtn.style.display = (mode === 'online') ? 'block' : 'none';
+    }
+
     if(mode === 'online') {
         switchView('menu-view', 'lobby-view');
     }
@@ -1410,6 +1417,53 @@ startGame = function(gameKey) {
 let isDrawing = false;
 let lastCanvasUpdate = 0;
 let drawingContext = null;
+let currentBrushColor = '#000000';
+let currentBrushSize = 5;
+let isEraserActive = false;
+
+function setBrushColor(color, el) {
+    currentBrushColor = color;
+    isEraserActive = false;
+    document.getElementById('btn-eraser').classList.remove('active');
+    
+    document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    
+    if (drawingContext) {
+        drawingContext.strokeStyle = color;
+        drawingContext.globalCompositeOperation = 'source-over';
+    }
+}
+
+function setBrushSize(size, el) {
+    currentBrushSize = size;
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    if (el) el.classList.add('active');
+    
+    if (drawingContext) {
+        drawingContext.lineWidth = size;
+    }
+}
+
+function toggleEraser() {
+    isEraserActive = !isEraserActive;
+    const btn = document.getElementById('btn-eraser');
+    
+    if (isEraserActive) {
+        btn.classList.add('active');
+        if (drawingContext) {
+            drawingContext.globalCompositeOperation = 'destination-out';
+            drawingContext.lineWidth = currentBrushSize * 2; // Gomme un peu plus grosse
+        }
+    } else {
+        btn.classList.remove('active');
+        if (drawingContext) {
+            drawingContext.globalCompositeOperation = 'source-over';
+            drawingContext.strokeStyle = currentBrushColor;
+            drawingContext.lineWidth = currentBrushSize;
+        }
+    }
+}
 
 function initCanvas() {
     const canvas = document.getElementById('drawing-canvas');
@@ -1423,8 +1477,9 @@ function initCanvas() {
     drawingContext = canvas.getContext('2d');
     drawingContext.scale(window.devicePixelRatio, window.devicePixelRatio);
     drawingContext.lineCap = 'round';
-    drawingContext.lineWidth = 5;
-    drawingContext.strokeStyle = '#000';
+    drawingContext.lineWidth = currentBrushSize;
+    drawingContext.strokeStyle = isEraserActive ? '#ffffff' : currentBrushColor;
+    if (isEraserActive) drawingContext.globalCompositeOperation = 'destination-out';
 
     const startDraw = (e) => {
         isDrawing = true;

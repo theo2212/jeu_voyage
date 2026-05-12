@@ -199,6 +199,13 @@ choose_sync_replacement = """function chooseSync(mode) {
     syncMode = mode;
     localStorage.setItem('voyage_sync_mode', mode);
     document.getElementById('sync-modal').style.display = 'none';
+    
+    // Afficher/Masquer Gartic dans le menu
+    const garticBtn = document.getElementById('btn-menu-gartic');
+    if (garticBtn) {
+        garticBtn.style.display = (mode === 'online') ? 'block' : 'none';
+    }
+
     if(mode === 'online') {
         switchView('menu-view', 'lobby-view');
     }

@@ -762,3 +762,68 @@
 .shake {
     animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }
+/* --- Outils de Dessin --- */
+.drawing-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+.color-picker {
+    display: flex;
+    gap: 8px;
+}
+.color-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.color-circle.active {
+    transform: scale(1.2);
+    border-color: white;
+}
+.brush-sizes {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.size-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.size-btn.active {
+    background: white;
+    color: black;
+}
+.tool-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+}
+.tool-btn.active {
+    background: #ff2d55;
+    color: white;
+}
