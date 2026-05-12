@@ -350,6 +350,7 @@ let phrases = {
 
         let currentGame = '';
         let currentTheme = 'soft';
+        let currentViewId = 'menu-view';
         let availableIndices = {};
         let players = [];
         let timerInterval;
@@ -1341,7 +1342,6 @@ startGame = function(gameKey) {
 let isDrawing = false;
 let lastCanvasUpdate = 0;
 let drawingContext = null;
-let currentViewId = 'menu-view';
 
 function initCanvas() {
     const canvas = document.getElementById('drawing-canvas');
@@ -1466,6 +1466,12 @@ function startDrawMode() {
         type: 'broadcast',
         event: 'start_draw_game',
         payload: { drawerId: myPlayerId, prompt: word }
+    });
+
+    // Local switch for admin
+    document.getElementById('draw-prompt').innerText = "Dessine : " + word;
+    switchView(currentViewId, 'draw-view', () => {
+        setTimeout(initCanvas, 500);
     });
 }
 
