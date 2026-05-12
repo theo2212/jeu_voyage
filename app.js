@@ -740,7 +740,12 @@ function updateLobbyUI() {
 }
 
 async function createRoom() {
-    const pseudo = document.getElementById('player-pseudo-input').value.trim() || 'Anonyme';
+    const pseudoInput = document.getElementById('player-pseudo-input');
+    if (!pseudoInput) {
+        alert("Erreur critique : Votre page (index.html) n'est pas a jour. Veuillez vider le cache Safari (Reglages -> Safari -> Avance -> Donnees de sites -> Supprimer github.io).");
+        return;
+    }
+    const pseudo = pseudoInput.value.trim() || 'Anonyme';
     triggerVibe(50);
     myRoomId = generateRoomCode();
     isRoomAdmin = true;
@@ -756,7 +761,12 @@ async function createRoom() {
 }
 
 async function joinRoom() {
-    const pseudo = document.getElementById('player-pseudo-input').value.trim() || 'Anonyme';
+    const pseudoInput = document.getElementById('player-pseudo-input');
+    if (!pseudoInput) {
+        alert("Erreur critique : Votre page (index.html) n'est pas a jour. Veuillez vider le cache Safari (Reglages -> Safari -> Avance -> Donnees de sites -> Supprimer github.io).");
+        return;
+    }
+    const pseudo = pseudoInput.value.trim() || 'Anonyme';
     const input = document.getElementById('room-code-input').value.toUpperCase().trim();
     if (input.length !== 4) return alert('Code invalide');
     
