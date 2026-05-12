@@ -918,8 +918,11 @@ let supabase = null;
 let isPremium = localStorage.getItem('voyage_premium') === 'true';
 let syncMode = localStorage.getItem('voyage_sync_mode'); // 'online' ou 'offline'
 
-if (window.supabase) {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+function getSupabase() {
+    if (!supabase && window.supabase) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+    return supabase;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -964,13 +967,14 @@ async function submitUGC() {
         return;
     }
 
-    if (!supabase) {
-        alert("Erreur de connexion à la base de données.");
+    const sb = getSupabase();
+    if (!sb) {
+        alert("Le système n'est pas encore prêt, veuillez patienter quelques secondes et réessayer.");
         return;
     }
 
     try {
-        const { error } = await supabase.from('pending_phrases').insert([
+        const { error } = await sb.from('pending_phrases').insert([
             { theme: theme, game_mode: game, content: text, submitted_by: author }
         ]);
         
