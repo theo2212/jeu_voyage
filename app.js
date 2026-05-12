@@ -1732,12 +1732,9 @@ function loadQuizQuestion() {
     
     if (currentQuizType === 'qcm') {
         const optionsDiv = document.getElementById('quiz-options');
-        optionsDiv.style.display = 'grid';
-        const colors = ['#007aff', '#30d158', '#ff9500', '#ff3b30'];
+        optionsDiv.style.display = 'flex';
         optionsDiv.innerHTML = qData.a.map((opt, i) => `
-            <button class="btn-vote" style="width: 100%; height: 80px; font-size: 1.1rem; margin: 0; border-radius: 22px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; padding: 10px; border-bottom: 4px solid ${colors[i]};" onclick="checkQcmAnswer(${i})">
-                ${opt}
-            </button>
+            <button class="btn-vote" style="width: 100%; margin: 0;" onclick="checkQcmAnswer(${i})">${opt}</button>
         `).join('');
     } else {
         document.getElementById('quiz-input-zone').style.display = 'block';
