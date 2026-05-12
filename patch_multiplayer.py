@@ -176,6 +176,73 @@ async function joinSupabaseChannel(roomId) {
             }
         }
     });
+
+    // --- GARTIC & QUIZ LISTENERS ---
+    roomChannel.on('broadcast', { event: 'start_draw_game' }, payload => {
+        if (!isRoomAdmin) {
+            const data = payload.payload;
+            document.getElementById('draw-prompt').innerText = "Devine le dessin !";
+            switchView(currentViewId, 'guess-view');
+        }
+    });
+
+    roomChannel.on('broadcast', { event: 'sync_canvas' }, payload => {
+        if (!isRoomAdmin) {
+            const img = document.getElementById('guess-image');
+            if (img) img.src = payload.payload.image;
+        }
+    });
+
+    roomChannel.on('broadcast', { event: 'end_draw_game' }, payload => {
+        showToast("Partie de dessin terminée !", "info");
+        returnToMenu(currentViewId);
+    });
+
+    roomChannel.on('broadcast', { event: 'start_quiz' }, payload => {
+        if (!isRoomAdmin) {
+            currentQuizType = payload.payload.type;
+            currentQuizIndex = 0;
+            loadQuizQuestion();
+        }
+    });
+
+    roomChannel.on('broadcast', { event: 'quiz_next' }, payload => {
+        if (!isRoomAdmin) {
+            currentQuizIndex = payload.payload.index;
+            loadQuizQuestion();
+        }
+    });
+
+    roomChannel.on('broadcast', { event: 'quiz_fast_winner' }, payload => {
+        const data = payload.payload;
+        showToast(`${data.playerName} a été le plus rapide ! ⚡`, "info");
+        triggerVibe(50);
+    });
+
+    roomChannel.on('broadcast', { event: 'quiz_submit_answer' }, payload => {
+        if (isRoomAdmin) {
+            quizAnswersReceived.push(payload.payload);
+        }
+    });
+
+    roomChannel.on('broadcast', { event: 'quiz_verdict' }, payload => {
+        if (!isRoomAdmin && payload.payload.playerId === myPlayerId) {
+            if (payload.payload.isCorrect) {
+                showToast("Ton point a été validé ! ✅", "success");
+                triggerVibe(50);
+            } else {
+                showToast("Réponse refusée par l'admin. ❌", "error");
+                triggerVibe([50, 50]);
+            }
+        }
+    });
+
+    roomChannel.on('broadcast', { event: 'quiz_end' }, payload => {
+        if (!isRoomAdmin) {
+            showToast("Quiz terminé ! Bravo 🏆", "success");
+            returnToMenu(currentViewId);
+        }
+    });
     
     await roomChannel.subscribe((status) => {
         if(status === 'SUBSCRIBED') {

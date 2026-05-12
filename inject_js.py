@@ -101,6 +101,39 @@ new_js = """
             "Le perdant du prochain jeu devra porter le sac de l'autre pendant 1h."
         ];
 
+        // --- DATA QUIZ ---
+        const quizQuestions = {
+            qcm: [
+                { q: "Quelle est la capitale de l'Australie ?", a: ["Sydney", "Melbourne", "Canberra", "Perth"], c: 2 },
+                { q: "Quel pays a gagné la Coupe du Monde 2018 ?", a: ["France", "Croatie", "Brésil", "Allemagne"], c: 0 },
+                { q: "Combien y a-t-il de continents ?", a: ["5", "6", "7", "8"], c: 2 },
+                { q: "Quelle est la monnaie du Japon ?", a: ["Yuan", "Yen", "Won", "Dollar"], c: 1 },
+                { q: "Qui a peint la Joconde ?", a: ["Van Gogh", "Picasso", "Da Vinci", "Monet"], c: 2 },
+                { q: "Quelle est la planète la plus proche du Soleil ?", a: ["Vénus", "Mars", "Mercure", "Jupiter"], c: 2 },
+                { q: "En quelle année est né Internet ?", a: ["1969", "1983", "1995", "2000"], c: 1 },
+                { q: "Quel est l'oiseau qui ne vole pas ?", a: ["Aigle", "Autruche", "Pigeon", "Moineau"], c: 1 },
+                { q: "Quel est l'élément chimique de symbole O ?", a: ["Or", "Oxygène", "Ozone", "Osmium"], c: 1 },
+                { q: "Quelle est la langue la plus parlée au monde ?", a: ["Anglais", "Espagnol", "Mandarin", "Français"], c: 2 }
+            ],
+            expert: [
+                { q: "Quel est le nom du célèbre détective créé par Arthur Conan Doyle ?", a: "Sherlock Holmes" },
+                { q: "Quel est le point culminant du monde ?", a: "Everest" },
+                { q: "Quel gaz les plantes absorbent-elles pour faire la photosynthèse ?", a: "CO2 / Dioxyde de carbone" },
+                { q: "Qui a écrit 'Les Misérables' ?", a: "Victor Hugo" },
+                { q: "Quel est l'organe le plus lourd du corps humain ?", a: "Le foie" },
+                { q: "Quel fleuve traverse l'Égypte ?", a: "Le Nil" },
+                { q: "Combien d'États y a-t-il aux États-Unis ?", a: "50" },
+                { q: "Dans quel pays se trouve la ville de Marrakech ?", a: "Maroc" },
+                { q: "Quel est l'inventeur de l'ampoule électrique ?", a: "Thomas Edison" },
+                { q: "Quel métal est liquide à température ambiante ?", a: "Le mercure" }
+            ]
+        };
+
+        let currentQuizType = 'qcm';
+        let currentQuizIndex = 0;
+        let quizAnswersReceived = [];
+        let quizTimerInterval = null;
+
         function checkDailyQuest() {
             const today = new Date().toDateString();
             const savedDate = localStorage.getItem('voyage_quest_date');
@@ -545,6 +578,175 @@ new_js = """
                     textElement.className = 'text-pop-in';
                     cardElement.style.transform = 'scale(1)';
                 }, 250);
+            }
+        }
+
+        // --- LOGIQUE QUIZ ---
+        function startQuiz(type) {
+            triggerVibe(50);
+            if (syncMode !== 'online') {
+                showToast("Mode en ligne requis pour le Quiz !", "warning");
+                return;
+            }
+            if (!isRoomAdmin) {
+                showToast("Seul l'admin peut lancer le Quiz.", "warning");
+                return;
+            }
+
+            currentQuizType = type;
+            currentQuizIndex = 0;
+            quizAnswersReceived = [];
+            
+            roomChannel.send({
+                type: 'broadcast',
+                event: 'start_quiz',
+                payload: { type: type }
+            });
+
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            const qData = quizQuestions[currentQuizType][currentQuizIndex];
+            const view = 'quiz-view';
+            
+            document.getElementById('quiz-question-count').innerText = `Question ${currentQuizIndex + 1} / 10`;
+            document.getElementById('quiz-question-text').innerText = qData.q;
+            document.getElementById('quiz-title').innerText = currentQuizType === 'qcm' ? "⚡ Quiz Rapido" : "🎓 Quiz Expert";
+            
+            // Reset UI
+            document.getElementById('quiz-options').style.display = 'none';
+            document.getElementById('quiz-input-zone').style.display = 'none';
+            document.getElementById('quiz-wait-message').style.display = 'none';
+            document.getElementById('quiz-timer-progress').style.width = '100%';
+            document.getElementById('quiz-answer-input').value = '';
+            
+            if (currentQuizType === 'qcm') {
+                const optionsDiv = document.getElementById('quiz-options');
+                optionsDiv.style.display = 'grid';
+                optionsDiv.innerHTML = qData.a.map((opt, i) => `
+                    <button class="btn-vote" onclick="checkQcmAnswer(${i})">${opt}</button>
+                `).join('');
+            } else {
+                document.getElementById('quiz-input-zone').style.display = 'block';
+            }
+
+            switchView(currentViewId, view);
+            startQuizTimer();
+        }
+
+        function startQuizTimer() {
+            let timeLeft = 15;
+            const bar = document.getElementById('quiz-timer-progress');
+            
+            clearInterval(quizTimerInterval);
+            quizTimerInterval = setInterval(() => {
+                timeLeft -= 0.1;
+                bar.style.width = (timeLeft / 15) * 100 + '%';
+                
+                if (timeLeft <= 0) {
+                    clearInterval(quizTimerInterval);
+                    handleQuizTimeout();
+                }
+            }, 100);
+        }
+
+        function handleQuizTimeout() {
+            if (currentQuizType === 'expert') {
+                if (isRoomAdmin) {
+                    showValidationScreen();
+                } else {
+                    document.getElementById('quiz-input-zone').style.display = 'none';
+                    document.getElementById('quiz-wait-message').innerText = "Temps écoulé ! En attente du verdict...";
+                    document.getElementById('quiz-wait-message').style.display = 'block';
+                }
+            } else {
+                if (isRoomAdmin) nextQuizQuestion();
+            }
+        }
+
+        function checkQcmAnswer(index) {
+            const qData = quizQuestions['qcm'][currentQuizIndex];
+            if (index === qData.c) {
+                showToast("Bonne réponse ! ⚡", "success");
+                triggerVibe(50);
+                roomChannel.send({
+                    type: 'broadcast',
+                    event: 'quiz_fast_winner',
+                    payload: { playerId: myPlayerId, playerName: players.find(p => p.id === myPlayerId)?.name || 'Anonyme' }
+                });
+                if (isRoomAdmin) nextQuizQuestion();
+            } else {
+                showToast("Faux ! ❌", "error");
+                triggerVibe([50, 50]);
+            }
+        }
+
+        function submitQuizAnswer() {
+            const input = document.getElementById('quiz-answer-input');
+            const text = input.value.trim();
+            if (!text) {
+                shakeInput('quiz-answer-input');
+                return;
+            }
+            
+            triggerVibe(30);
+            document.getElementById('quiz-input-zone').style.display = 'none';
+            document.getElementById('quiz-wait-message').style.display = 'block';
+            
+            roomChannel.send({
+                type: 'broadcast',
+                event: 'quiz_submit_answer',
+                payload: { playerId: myPlayerId, playerName: players.find(p => p.id === myPlayerId)?.name || 'Anonyme', text: text }
+            });
+        }
+
+        function showValidationScreen() {
+            const qData = quizQuestions['expert'][currentQuizIndex];
+            document.getElementById('quiz-expected-text').innerText = qData.a;
+            
+            const list = document.getElementById('quiz-answers-to-validate');
+            list.innerHTML = quizAnswersReceived.length ? quizAnswersReceived.map(ans => `
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom:10px;">
+                    <div style="flex: 1;">
+                        <small style="opacity: 0.7;">${ans.playerName} :</small><br>
+                        <strong>${ans.text}</strong>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn-add" style="background: #30d158; width: 40px; border:none; border-radius:8px; color:white;" onclick="validateQuizPlayer('${ans.playerId}', true, this)">✅</button>
+                        <button class="btn-add" style="background: #ff3b30; width: 40px; border:none; border-radius:8px; color:white;" onclick="validateQuizPlayer('${ans.playerId}', false, this)">❌</button>
+                    </div>
+                </div>
+            `).join('') : "<p style='text-align:center; opacity:0.5;'>Aucune réponse reçue...</p>";
+            
+            switchView('quiz-view', 'quiz-validation-view');
+        }
+
+        function validateQuizPlayer(playerId, isCorrect, btn) {
+            triggerVibe(30);
+            btn.parentElement.innerHTML = isCorrect ? "<span style='color:#30d158;'>Validé ✅</span>" : "<span style='color:#ff3b30;'>Faux ❌</span>";
+            
+            roomChannel.send({
+                type: 'broadcast',
+                event: 'quiz_verdict',
+                payload: { playerId: playerId, isCorrect: isCorrect }
+            });
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < 10) {
+                quizAnswersReceived = [];
+                roomChannel.send({
+                    type: 'broadcast',
+                    event: 'quiz_next',
+                    payload: { index: currentQuizIndex }
+                });
+                loadQuizQuestion();
+            } else {
+                roomChannel.send({ type: 'broadcast', event: 'quiz_end', payload: {} });
+                showToast("Quiz terminé ! Bravo à tous 🏆", "success");
+                returnToMenu(currentViewId);
             }
         }
 
