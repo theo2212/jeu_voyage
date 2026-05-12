@@ -229,8 +229,9 @@ async function joinSupabaseChannel(roomId) {
     });
 
     roomChannel.on('broadcast', { event: 'quiz_verdict' }, payload => {
-        if (!isRoomAdmin && payload.payload.playerId === myPlayerId) {
-            if (payload.payload.isCorrect) {
+        const data = payload.payload;
+        if (!isRoomAdmin && data.playerId === myPlayerId) {
+            if (data.isCorrect) {
                 showToast("Ton point a été validé ! ✅", "success");
                 triggerVibe(50);
             } else {
@@ -238,12 +239,15 @@ async function joinSupabaseChannel(roomId) {
                 triggerVibe([50, 50]);
             }
         }
+        // Sync local score in roomPlayers for everyone
+        const player = roomPlayers.find(p => p.id === data.playerId);
+        if (player && data.isCorrect) player.score = (player.score || 0) + 1;
     });
 
     roomChannel.on('broadcast', { event: 'quiz_end' }, payload => {
         if (!isRoomAdmin) {
-            showToast("Quiz terminé ! Bravo 🏆", "success");
-            returnToMenu(currentViewId);
+            roomPlayers = payload.payload.finalPlayers;
+            showQuizPodium();
         }
     });
     

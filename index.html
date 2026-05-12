@@ -20,7 +20,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jeu de Voyage V38 🚗</title>
+    <title>Jeu de Voyage V39 🚗</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
@@ -236,6 +236,22 @@
             
             <button id="btn-next-quiz-question" class="btn-action" style="background: #007aff; height: 60px; border-radius: 18px;" onclick="nextQuizQuestion()">Question suivante ➡️</button>
         </div>
+        <!-- Vue : Podium Quiz -->
+        <div id="quiz-podium-view" style="display: none; padding: 20px; text-align: center; height: 100vh; flex-direction: column; justify-content: center;">
+            <h1 style="color: #ffd700; font-size: 2.2rem; margin-bottom: 30px;">Podium Final 🏆</h1>
+            
+            <div id="quiz-podium-list" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; width: 100%;">
+                <!-- Gagnants injectés ici -->
+            </div>
+
+            <div id="quiz-reward-message" style="background: rgba(255,215,0,0.1); padding: 20px; border-radius: 20px; border: 1px solid #ffd700; display: none; margin-bottom: 30px; width: 100%;">
+                <div style="font-size: 1.2rem; color: #ffd700; margin-bottom: 5px;">Félicitations ! 🎉</div>
+                <div style="font-size: 1.5rem; font-weight: bold;">+20 BuzzCoins 🪙</div>
+            </div>
+
+            <button class="btn-action" style="background: #333; margin-top: auto;" onclick="returnToMenu('quiz-podium-view')">Retour au menu</button>
+        </div>
+
         <div id="players-setup-view">
             <h1>Joueurs</h1>
             <div class="input-group">
@@ -382,7 +398,7 @@
     </div>
 
 
-    <script src="app.js?v=38"></script>
+    <script src="app.js?v=39"></script>
 
 </body>
 </html>

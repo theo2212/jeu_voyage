@@ -731,6 +731,41 @@ new_js = """
                 event: 'quiz_verdict',
                 payload: { playerId: playerId, isCorrect: isCorrect }
             });
+
+            if (isCorrect) {
+                const player = roomPlayers.find(p => p.id === playerId);
+                if (player) player.score = (player.score || 0) + 1;
+            }
+        }
+
+        function showQuizPodium() {
+            const sorted = [...roomPlayers].sort((a, b) => (b.score || 0) - (a.score || 0));
+            const list = document.getElementById('quiz-podium-list');
+            
+            list.innerHTML = sorted.map((p, i) => `
+                <div style="background: rgba(255,255,255,0.08); padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 15px; border: 1px solid ${i === 0 ? '#ffd700' : 'rgba(255,255,255,0.1)'}; margin-bottom: 10px; transform: scale(${i === 0 ? '1.05' : '1'});">
+                    <div style="font-size: 1.5rem;">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '👤'}</div>
+                    <div style="flex: 1; text-align: left;">
+                        <div style="font-weight: bold; font-size: 1.1rem;">${p.name}</div>
+                        <div style="font-size: 0.9rem; opacity: 0.6;">${p.score || 0} points</div>
+                    </div>
+                    ${i === 0 ? '<div style="color: #ffd700; font-weight: bold;">GAGNANT</div>' : ''}
+                </div>
+            `).join('');
+
+            if (sorted.length > 0 && sorted[0].id === myPlayerId) {
+                document.getElementById('quiz-reward-message').style.display = 'block';
+                const localPlayer = players.find(p => p.id === myPlayerId);
+                if (localPlayer) {
+                    localPlayer.coins = (localPlayer.coins || 0) + 20;
+                    saveState();
+                    showToast("Tu as gagné 20 BuzzCoins ! 🪙", "success");
+                }
+            } else {
+                document.getElementById('quiz-reward-message').style.display = 'none';
+            }
+
+            switchView(currentViewId, 'quiz-podium-view');
         }
 
         function nextQuizQuestion() {
@@ -744,9 +779,8 @@ new_js = """
                 });
                 loadQuizQuestion();
             } else {
-                roomChannel.send({ type: 'broadcast', event: 'quiz_end', payload: {} });
-                showToast("Quiz terminé ! Bravo à tous 🏆", "success");
-                returnToMenu(currentViewId);
+                roomChannel.send({ type: 'broadcast', event: 'quiz_end', payload: { finalPlayers: roomPlayers } });
+                showQuizPodium();
             }
         }
 
