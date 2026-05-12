@@ -923,10 +923,14 @@ if (window.supabase) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (!syncMode) {
-        document.getElementById('sync-modal').style.display = 'flex';
-    }
+    // Le modal s'affiche à chaque lancement d'application comme demandé
+    document.getElementById('sync-modal').style.display = 'flex';
 });
+
+function openSyncModal() {
+    triggerVibe(50);
+    document.getElementById('sync-modal').style.display = 'flex';
+}
 
 function chooseSync(mode) {
     syncMode = mode;
