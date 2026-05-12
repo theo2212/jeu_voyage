@@ -20,7 +20,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jeu de Voyage V37 🚗</title>
+    <title>Jeu de Voyage V38 🚗</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
@@ -43,7 +43,7 @@
 
     <div class="container">
         <!-- Vue : Menu Principal -->
-        <div id="menu-view" style="background: #2c003e;">
+        <div id="menu-view">
             <div class="top-bar">
                 <h1>Jeu de Voyage</h1>
                 <div style="display: flex; gap: 10px;">
@@ -188,49 +188,53 @@
 
 
         <!-- Vue : Quiz -->
-        <div id="quiz-view" style="display: none;">
-            <div class="game-header">
-                <div id="quiz-title" style="color: #007aff;">Quiz Master 🧠</div>
-                <div id="quiz-question-count" style="font-size: 0.9rem; opacity: 0.7;">Question 1 / 10</div>
+        <div id="quiz-view" style="display: none; padding: 20px;">
+            <div class="game-header" style="margin-bottom: 30px;">
+                <div id="quiz-title" style="font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #007aff, #5856d6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Quiz Rapido</div>
+                <div id="quiz-question-count" style="font-size: 1rem; opacity: 0.6; margin-top: 5px;">Question 1 / 10</div>
             </div>
             
-            <div id="quiz-timer-bar" style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin: 15px 0; overflow: hidden;">
-                <div id="quiz-timer-progress" style="width: 100%; height: 100%; background: #007aff; transition: width 0.1s linear;"></div>
+            <div id="quiz-timer-bar" style="width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 30px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);">
+                <div id="quiz-timer-progress" style="width: 100%; height: 100%; background: linear-gradient(90deg, #007aff, #30d158); box-shadow: 0 0 10px rgba(0,122,255,0.5); transition: width 0.1s linear;"></div>
             </div>
 
-            <div class="card-container">
-                <div class="game-card" style="min-height: 150px; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; font-size: 1.3rem;">
-                    <div id="quiz-question-text">Chargement de la question...</div>
+            <div class="card-container" style="margin-bottom: 30px;">
+                <div class="game-card" style="min-height: 180px; display: flex; align-items: center; justify-content: center; padding: 25px; text-align: center; font-size: 1.4rem; background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px;">
+                    <div id="quiz-question-text" style="font-weight: 600; line-height: 1.4;">Chargement...</div>
                 </div>
             </div>
 
             <!-- Options QCM -->
-            <div id="quiz-options" class="vote-grid" style="margin-top: 20px; display: none;">
+            <div id="quiz-options" style="display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%;">
                 <!-- Boutons QCM injectés ici -->
             </div>
 
             <!-- Zone Saisie Expert -->
-            <div id="quiz-input-zone" style="margin-top: 20px; display: none;">
-                <input type="text" id="quiz-answer-input" class="input-text" placeholder="Ta réponse..." style="margin-bottom: 10px;">
-                <button id="btn-send-quiz-answer" class="btn-action" onclick="submitQuizAnswer()">Envoyer 🚀</button>
+            <div id="quiz-input-zone" style="margin-top: 20px; display: none; width: 100%;">
+                <input type="text" id="quiz-answer-input" class="input-text" placeholder="Tape ta réponse ici..." style="height: 60px; font-size: 1.1rem; border-radius: 18px; background: rgba(255,255,255,0.05); margin-bottom: 15px; width: 100%;">
+                <button id="btn-send-quiz-answer" class="btn-action" style="height: 60px; font-size: 1.1rem; border-radius: 18px; background: linear-gradient(135deg, #5856d6, #af52de);" onclick="submitQuizAnswer()">Envoyer ma réponse 🚀</button>
             </div>
 
-            <div id="quiz-wait-message" style="margin-top: 20px; text-align: center; display: none; opacity: 0.8;">
-                Réponse envoyée ! Attente des autres... ⏳
+            <div id="quiz-wait-message" style="margin-top: 30px; text-align: center; display: none; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 15px; border: 1px dashed rgba(255,255,255,0.1);">
+                <div class="spinner" style="margin: 0 auto 10px;"></div>
+                <span style="opacity: 0.8;">Réponse enregistrée ! On attend les autres...</span>
             </div>
         </div>
 
-        <!-- Vue : Validation Admin (Quiz Expert) -->
-        <div id="quiz-validation-view" style="display: none;">
-            <h2 style="text-align: center; color: #ffd700; margin-bottom: 20px;">Verdict du Juge ⚖️</h2>
-            <div id="quiz-correct-answer" style="background: rgba(48,209,88,0.1); padding: 15px; border-radius: 12px; border: 1px solid #30d158; margin-bottom: 20px; text-align: center;">
-                <small style="opacity: 0.7;">Réponse attendue :</small><br>
-                <strong id="quiz-expected-text" style="font-size: 1.2rem; color: #30d158;">...</strong>
+        <!-- Vue : Validation Admin -->
+        <div id="quiz-validation-view" style="display: none; padding: 20px;">
+            <h2 style="text-align: center; color: #ffd700; margin-bottom: 25px; font-size: 1.6rem;">Verdict du Juge ⚖️</h2>
+            
+            <div style="background: rgba(48,209,88,0.1); padding: 20px; border-radius: 20px; border: 1px solid rgba(48,209,88,0.3); margin-bottom: 30px; text-align: center;">
+                <small style="opacity: 0.6; text-transform: uppercase; letter-spacing: 1px;">La bonne réponse était :</small><br>
+                <strong id="quiz-expected-text" style="font-size: 1.5rem; color: #30d158; display: block; margin-top: 5px;">...</strong>
             </div>
-            <div id="quiz-answers-to-validate" style="display: flex; flex-direction: column; gap: 10px; max-height: 50vh; overflow-y: auto; padding: 5px;">
-                <!-- Réponses des joueurs avec boutons ✅/❌ -->
+
+            <div id="quiz-answers-to-validate" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                <!-- Réponses des joueurs -->
             </div>
-            <button id="btn-next-quiz-question" class="btn-action" style="margin-top: 20px; background: #007aff;" onclick="nextQuizQuestion()">Question suivante ➡️</button>
+            
+            <button id="btn-next-quiz-question" class="btn-action" style="background: #007aff; height: 60px; border-radius: 18px;" onclick="nextQuizQuestion()">Question suivante ➡️</button>
         </div>
         <div id="players-setup-view">
             <h1>Joueurs</h1>
@@ -378,7 +382,7 @@
     </div>
 
 
-    <script src="app.js?v=37"></script>
+    <script src="app.js?v=38"></script>
 
 </body>
 </html>

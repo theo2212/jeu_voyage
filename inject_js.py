@@ -625,7 +625,7 @@ new_js = """
                 const optionsDiv = document.getElementById('quiz-options');
                 optionsDiv.style.display = 'grid';
                 optionsDiv.innerHTML = qData.a.map((opt, i) => `
-                    <button class="btn-vote" onclick="checkQcmAnswer(${i})">${opt}</button>
+                    <button class="btn-vote" style="width: 100%; height: 60px; font-size: 1.1rem; margin: 0; border-radius: 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: white; font-weight: 500;" onclick="checkQcmAnswer(${i})">${opt}</button>
                 `).join('');
             } else {
                 document.getElementById('quiz-input-zone').style.display = 'block';

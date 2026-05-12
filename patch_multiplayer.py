@@ -217,6 +217,9 @@ async function joinSupabaseChannel(roomId) {
         const data = payload.payload;
         showToast(`${data.playerName} a été le plus rapide ! ⚡`, "info");
         triggerVibe(50);
+        if (isRoomAdmin) {
+            setTimeout(nextQuizQuestion, 1500); // Passer auto après 1.5s
+        }
     });
 
     roomChannel.on('broadcast', { event: 'quiz_submit_answer' }, payload => {
