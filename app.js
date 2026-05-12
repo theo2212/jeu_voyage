@@ -267,6 +267,19 @@ let phrases = { soft: {}, hard: {} };
             initAudio();
             triggerVibe(50);
             currentGame = gameKey;
+            
+            if (syncMode === 'online') {
+                // En mode online, on utilise les joueurs de la room
+                players = roomPlayers.map(p => ({
+                    name: p.name,
+                    score: 0,
+                    coins: 0,
+                    inventory: []
+                }));
+                beginGame();
+                return;
+            }
+
             if (gameKey === 'chaos') {
                 currentTheme = Math.random() > 0.5 ? 'soft' : 'hard';
                 switchView('menu-view', 'players-setup-view', () => {
@@ -554,6 +567,12 @@ let phrases = { soft: {}, hard: {} };
                 document.getElementById('game-title').innerText = `Chaos : ${gameTitles[activeGame]} ${activeTheme === 'hard' ? '🌶️' : ''}`;
             }
 
+            if (!phrases[activeTheme] || !phrases[activeTheme][activeGame]) {
+                console.error("Missing phrases for", {activeTheme, activeGame, phrases});
+                alert("Oups ! Les phrases pour ce mode ne sont pas encore téléchargées. Patiente 2 secondes ou change de mode.");
+                return;
+            }
+            
             const memKey = activeTheme + '_' + activeGame;
             let list = availableIndices[memKey];
             
@@ -711,7 +730,7 @@ function generateRoomCode() {
 
 function updateLobbyUI() {
     const list = document.getElementById('room-players-list');
-    list.innerHTML = roomPlayers.map(p => `<div>${p.isAdmin ? '👑 ' : ''}${p.id === myPlayerId ? 'Toi' : 'Joueur ' + p.id}</div>`).join('');
+    list.innerHTML = roomPlayers.map(p => `<div>${p.isAdmin ? '👑 ' : ''}${p.name + (p.id === myPlayerId ? ' (Toi)' : '')}</div>`).join('');
     
     if (isRoomAdmin && roomPlayers.length > 1) {
         document.getElementById('btn-start-room').style.display = 'inline-block';
@@ -721,11 +740,13 @@ function updateLobbyUI() {
 }
 
 async function createRoom() {
+    const pseudo = document.getElementById('player-pseudo-input').value.trim() || 'Anonyme';
     triggerVibe(50);
     myRoomId = generateRoomCode();
     isRoomAdmin = true;
-    roomPlayers = [{ id: myPlayerId, isAdmin: true }];
+    roomPlayers = [{ id: myPlayerId, name: pseudo, isAdmin: true }];
     
+    document.getElementById('lobby-setup').style.display = 'none';
     document.getElementById('lobby-controls').style.display = 'none';
     document.getElementById('room-waiting-area').style.display = 'block';
     document.getElementById('room-code-display').innerText = myRoomId;
@@ -735,13 +756,14 @@ async function createRoom() {
 }
 
 async function joinRoom() {
-    triggerVibe(50);
+    const pseudo = document.getElementById('player-pseudo-input').value.trim() || 'Anonyme';
     const input = document.getElementById('room-code-input').value.toUpperCase().trim();
     if (input.length !== 4) return alert('Code invalide');
     
     myRoomId = input;
     isRoomAdmin = false;
     
+    document.getElementById('lobby-setup').style.display = 'none';
     document.getElementById('lobby-controls').style.display = 'none';
     document.getElementById('room-waiting-area').style.display = 'block';
     document.getElementById('room-code-display').innerText = myRoomId;
@@ -752,7 +774,7 @@ async function joinRoom() {
         roomChannel.send({
             type: 'broadcast',
             event: 'player_join',
-            payload: { id: myPlayerId }
+            payload: { id: myPlayerId, name: pseudo }
         });
     }
 }
@@ -774,7 +796,7 @@ async function joinSupabaseChannel(roomId) {
         if (isRoomAdmin) {
             const newPlayer = payload.payload;
             if (!roomPlayers.find(p => p.id === newPlayer.id)) {
-                roomPlayers.push({ id: newPlayer.id, isAdmin: false });
+                roomPlayers.push({ id: newPlayer.id, name: newPlayer.name, isAdmin: false });
                 updateLobbyUI();
                 roomChannel.send({
                     type: 'broadcast',
