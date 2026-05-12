@@ -1044,8 +1044,10 @@ function updateLobbyUI() {
     
     if (isRoomAdmin && roomPlayers.length > 1) {
         document.getElementById('btn-start-room').style.display = 'inline-block';
+        document.getElementById('btn-gartic-room').style.display = 'inline-block';
     } else {
         document.getElementById('btn-start-room').style.display = 'none';
+        document.getElementById('btn-gartic-room').style.display = 'none';
     }
 }
 

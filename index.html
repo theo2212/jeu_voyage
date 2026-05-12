@@ -52,7 +52,6 @@
 
             <button class="btn-menu btn-shop" onclick="openShop()">🛒 Boutique (BussCoins)</button>
             <button class="btn-menu" style="background: linear-gradient(135deg, #ff0055, #ffaa00); color: white; font-weight: 900; letter-spacing: 1px;" onclick="startGame('chaos')">🌪️ JEU SURPRISE (Chaos)</button>
-            <button class="btn-menu" style="background: linear-gradient(135deg, #34c759, #30d158); color: white; font-weight: 900; letter-spacing: 1px;" onclick="startDrawMode()">🎨 DESSINE & DEVINE (Gartic)</button>
             
             <div class="menu-buttons">
                 <button class="btn-menu" style="background: rgba(255,255,255,0.1); font-size: 0.9rem;" onclick="openUGC()">✍️ Proposer une phrase</button>
@@ -126,6 +125,7 @@
                     <!-- Liste des joueurs -->
                 </div>
                 <button id="btn-start-room" class="btn-action btn-next" style="display:none;" onclick="startOnlineGame()">Lancer la partie</button>
+                <button id="btn-gartic-room" class="btn-action" style="display:none; background: linear-gradient(135deg, #af52de, #ff2d55); color: white; margin-top: 10px;" onclick="startDrawMode()">🎨 DESSINE & DEVINE (Gartic)</button>
             </div>
 
             <button class="btn-action btn-back" style="margin-top: 20px;" onclick="returnToMenu('lobby-view')">Retour au menu</button>
@@ -301,7 +301,7 @@
         </div>
     </div>
 
-    <script src="app.js?v=30"></script>
+    <script src="app.js?v=31"></script>
 
 </body>
 </html>
