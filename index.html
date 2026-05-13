@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -1954,24 +1954,29 @@ function loadQuizQuestion() {
     const spinBtn = document.getElementById('btn-spin-wheel');
     const voteControls = document.getElementById('vote-controls');
     const nextBtn = document.querySelector('.btn-next');
-    if (titleEl) titleEl.innerText = currentQuizType === 'qcm' ? "âš¡ Quiz Rapido" : "ðŸŽ“ Quiz Expert";
+    const bar = document.getElementById('quiz-timer-progress');
+
+    if (titleEl) titleEl.innerText = currentQuizType === 'qcm' ? "⚡ Quiz Rapido" : "🎓 Quiz Expert";
     if (qCountEl) {
         qCountEl.innerText = `Question ${currentQuizIndex + 1} / 10`;
         qCountEl.style.display = 'block';
     }
     if (qTextEl) qTextEl.innerText = qData.q;
     if (gameViewEl) gameViewEl.classList.add('bg-quiz-theme');
-    if (voteControls) ((voteControls && voteControls.style) ? voteControls.style : {}).display = 'none';
+    
+    if (voteControls) voteControls.style.display = 'none';
     if (timerBar) timerBar.style.display = 'block';
-    if (optionsDiv) ((optionsDiv && (optionsDiv || {}).style) ? (optionsDiv || {}).style : {}).display = 'none';
-    if (inputZone) ((inputZone && (inputZone || {}).style) ? (inputZone || {}).style : {}).display = 'none';
-    if (validZone) ((validZone && (validZone || {}).style) ? (validZone || {}).style : {}).display = 'none';
-    if (waitMsg) ((waitMsg && (waitMsg || {}).style) ? (waitMsg || {}).style : {}).display = 'none';
-    if (spinBtn) ((spinBtn && (spinBtn || {}).style) ? (spinBtn || {}).style : {}).display = 'none';
+    if (optionsDiv) optionsDiv.style.display = 'none';
+    if (inputZone) inputZone.style.display = 'none';
+    if (validZone) validZone.style.display = 'none';
+    if (waitMsg) waitMsg.style.display = 'none';
+    if (spinBtn) spinBtn.style.display = 'none';
     if (nextBtn) nextBtn.style.display = 'none';
-    if (timerProg) if(timerProg && (timerProg || {}).style) (timerProg || {}).style.width = '100%';
+    if (bar) bar.style.width = '100%';
+
     const ansInput = document.getElementById('quiz-answer-input');
     if (ansInput) ansInput.value = '';
+
     if (isRoomAdmin && roomChannel) {
         roomChannel.send({
             type: 'broadcast',
@@ -1979,13 +1984,14 @@ function loadQuizQuestion() {
             payload: { type: currentQuizType, index: currentQuizIndex }
         });
     }
+
     if (currentQuizType === 'qcm' && optionsDiv) {
-        ((optionsDiv && (optionsDiv || {}).style) ? (optionsDiv || {}).style : {}).display = 'flex';
-        (optionsDiv || {}).innerHTML = qData.a.map((opt, i) => `
+        optionsDiv.style.display = 'flex';
+        optionsDiv.innerHTML = qData.a.map((opt, i) => `
             <button class="btn-vote quiz-option-${i}" style="width: 100%; margin: 0; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);" onclick="checkQcmAnswer(${i})">${opt}</button>
         `).join('');
     } else if (inputZone) {
-        ((inputZone && (inputZone || {}).style) ? (inputZone || {}).style : {}).display = 'block';
+        inputZone.style.display = 'block';
     }
     switchView(currentViewId, view);
     startQuizTimer();
@@ -1996,7 +2002,7 @@ function startQuizTimer() {
     clearInterval(quizTimerInterval);
     quizTimerInterval = setInterval(() => {
         timeLeft -= 0.1;
-        if (bar && (bar || {}).style) (bar || {}).style.width = (timeLeft / 15) * 100 + '%';
+        if (bar) bar.style.width = (timeLeft / 15) * 100 + '%';
         if (timeLeft <= 0) {
             clearInterval(quizTimerInterval);
             handleQuizTimeout();
