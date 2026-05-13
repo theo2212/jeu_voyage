@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -23,7 +23,7 @@
 </script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jeu de Voyage V50 ✨</title>
+    <title>Jeu de Voyage V51 💎</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
@@ -1032,7 +1032,7 @@
                     if (el) el.style.display = 'none';
                 });
                 const spinBtn = document.getElementById('btn-spin-wheel');
-                if (spinBtn) ((spinBtn && (spinBtn || {}).style) ? (spinBtn || {}).style : {}).display = 'block';
+                if (spinBtn) if(spinBtn) spinBtn.style.display = 'block';
                 const nextBtn = document.querySelector('.btn-next');
                 if (nextBtn) nextBtn.style.display = 'inline-block';
             }
@@ -1080,7 +1080,7 @@
             const display = document.getElementById('timer-display');
             const btn = document.getElementById('btn-timer-start');
             let timeLeft = 7;
-            ((btn && (btn || {}).style) ? (btn || {}).style : {}).display = 'none';
+            if(btn) btn.style.display = 'none';
             (display || {}).innerText = timeLeft;
             (display || {}).classList.remove('timer-flash');
             document.body.classList.remove('timer-flash');
@@ -1099,7 +1099,7 @@
                     document.body.classList.add('timer-flash');
                     (display || {}).classList.add('timer-flash');
                     (btn || {}).innerText = "Relancer à¢ÂÂ±ïÂ¸Â";
-                    ((btn && (btn || {}).style) ? (btn || {}).style : {}).display = 'block';
+                    if(btn) btn.style.display = 'block';
                     triggerVibe([200, 100, 200, 100, 200]);
                     playSound('alarm');
                 }
@@ -1207,7 +1207,7 @@
         }
         function executeSpin() {
             const btn = document.getElementById('btn-spin');
-            ((btn && (btn || {}).style) ? (btn || {}).style : {}).display = 'none';
+            if(btn) btn.style.display = 'none';
             const resultDiv = document.getElementById('wheel-result');
             let count = 0;
             let maxCount = 20 + Math.floor(Math.random() * 10);
