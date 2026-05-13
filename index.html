@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -877,7 +877,7 @@
                 localStorage.setItem('voyage_quest_date', today);
                 localStorage.setItem('voyage_quest_index', questIndex);
             }
-            document.getElementById('quest-text').innerText = dailyQuests[questIndex];
+            (document.getElementById('quest-text') || {}).innerText = dailyQuests[questIndex];
             const el_quest_banner = document.getElementById('quest-banner'); if(el_quest_banner) el_quest_banner.style.display = 'flex';
         }
         function initIndices() {
@@ -972,15 +972,15 @@
                 }
                 return;
             }
-            fromView.style.opacity = '0';
-            fromView.style.transform = 'scale(0.9)';
+            (fromView || {}).style.opacity = '0';
+            (fromView || {}).style.transform = 'scale(0.9)';
             setTimeout(() => {
-                fromView.style.display = 'none';
-                toView.style.display = 'flex';
+                (fromView || {}).style.display = 'none';
+                (toView || {}).style.display = 'flex';
                 if(callback) callback();
                 setTimeout(() => {
-                    toView.style.opacity = '1';
-                    toView.style.transform = 'scale(1)';
+                    (toView || {}).style.opacity = '1';
+                    (toView || {}).style.transform = 'scale(1)';
                 }, 50);
             }, 300);
         }
@@ -1002,7 +1002,7 @@
             if (gameKey === 'chaos') {
                 currentTheme = Math.random() > 0.5 ? 'soft' : 'hard';
                 switchView('menu-view', 'players-setup-view', () => {
-                    document.getElementById('player-input').focus();
+                    (document.getElementById('player-input') || {}).focus();
                 });
             } else {
                 switchView('menu-view', 'theme-setup-view');
@@ -1012,7 +1012,7 @@
             triggerVibe(50);
             currentTheme = theme;
             switchView('theme-setup-view', 'players-setup-view', () => {
-                document.getElementById('player-input').focus();
+                (document.getElementById('player-input') || {}).focus();
             });
         }
         function returnToMenu(fromId) {
@@ -1032,7 +1032,7 @@
                     if (el) el.style.display = 'none';
                 });
                 const spinBtn = document.getElementById('btn-spin-wheel');
-                if (spinBtn) ((spinBtn && spinBtn.style) ? spinBtn.style : {}).display = 'block';
+                if (spinBtn) ((spinBtn && (spinBtn || {}).style) ? (spinBtn || {}).style : {}).display = 'block';
                 const nextBtn = document.querySelector('.btn-next');
                 if (nextBtn) nextBtn.style.display = 'inline-block';
             }
@@ -1054,17 +1054,17 @@
             switchView(fromViewId, 'game-view', () => {
                 const gameTitle = document.getElementById('game-title');
                 if (currentGame === 'chaos') {
-                    gameTitle.innerText = "Jeu Surprise ! à°Å¸Å’ÂªïÂ¸Â";
-                    gameTitle.className = 'txt-boire';
+                    (gameTitle || {}).innerText = "Jeu Surprise ! à°Å¸Å’ÂªïÂ¸Â";
+                    (gameTitle || {}).className = 'txt-boire';
                 } else {
-                    gameTitle.innerText = gameTitles[currentGame] + (currentTheme === 'hard' ? ' à°Å¸Å’Â¶ïÂ¸Â' : '');
-                    gameTitle.className = 'txt-' + currentGame.replace('boire_', 'boire'); 
-                    if (currentGame.includes('boire')) gameTitle.className = 'txt-boire';
-                    if (currentGame === 'tribunal') gameTitle.className = 'txt-tribunal';
-                    if (currentGame === 'draft') gameTitle.className = 'txt-draft';
-                    if (currentGame === 'prefere') gameTitle.className = 'txt-prefere';
-                    if (currentGame === 'daube') gameTitle.className = 'txt-daube';
-                    if (currentGame === 'redflag') gameTitle.className = 'txt-redflag';
+                    (gameTitle || {}).innerText = gameTitles[currentGame] + (currentTheme === 'hard' ? ' à°Å¸Å’Â¶ïÂ¸Â' : '');
+                    (gameTitle || {}).className = 'txt-' + currentGame.replace('boire_', 'boire'); 
+                    if (currentGame.includes('boire')) (gameTitle || {}).className = 'txt-boire';
+                    if (currentGame === 'tribunal') (gameTitle || {}).className = 'txt-tribunal';
+                    if (currentGame === 'draft') (gameTitle || {}).className = 'txt-draft';
+                    if (currentGame === 'prefere') (gameTitle || {}).className = 'txt-prefere';
+                    if (currentGame === 'daube') (gameTitle || {}).className = 'txt-daube';
+                    if (currentGame === 'redflag') (gameTitle || {}).className = 'txt-redflag';
                 }
                 updateScoreboard();
                 renderVoteButtons();
@@ -1080,14 +1080,14 @@
             const display = document.getElementById('timer-display');
             const btn = document.getElementById('btn-timer-start');
             let timeLeft = 7;
-            ((btn && btn.style) ? btn.style : {}).display = 'none';
-            display.innerText = timeLeft;
-            display.classList.remove('timer-flash');
+            ((btn && (btn || {}).style) ? (btn || {}).style : {}).display = 'none';
+            (display || {}).innerText = timeLeft;
+            (display || {}).classList.remove('timer-flash');
             document.body.classList.remove('timer-flash');
             clearInterval(timerInterval);
             timerInterval = setInterval(() => {
                 timeLeft--;
-                display.innerText = timeLeft;
+                (display || {}).innerText = timeLeft;
                 playSound('tick');
                 if (timeLeft <= 3) triggerVibe(100);
                 if (syncMode === 'online' && isRoomAdmin && roomChannel) {
@@ -1095,11 +1095,11 @@
                 }
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    display.innerText = "0 ! BOIS !";
+                    (display || {}).innerText = "0 ! BOIS !";
                     document.body.classList.add('timer-flash');
-                    display.classList.add('timer-flash');
-                    btn.innerText = "Relancer à¢ÂÂ±ïÂ¸Â";
-                    ((btn && btn.style) ? btn.style : {}).display = 'block';
+                    (display || {}).classList.add('timer-flash');
+                    (btn || {}).innerText = "Relancer à¢ÂÂ±ïÂ¸Â";
+                    ((btn && (btn || {}).style) ? (btn || {}).style : {}).display = 'block';
                     triggerVibe([200, 100, 200, 100, 200]);
                     playSound('alarm');
                 }
@@ -1122,7 +1122,7 @@
             const select = document.getElementById('shop-player-select');
             const playerIndex = select.value;
             const player = players[playerIndex];
-            document.getElementById('shop-balance').innerText = player.coins + " 🪙";
+            (document.getElementById('shop-balance') || {}).innerText = player.coins + " 🪙";
             const grid = document.getElementById('shop-grid');
             grid.innerHTML = shopItems.map((item, index) => {
                 const canAfford = player.coins >= item.cost;
@@ -1198,7 +1198,7 @@
         function spinWheel() {
             triggerVibe(50);
             const el_wheel_modal = document.getElementById('wheel-modal'); if(el_wheel_modal) el_wheel_modal.style.display = 'flex';
-            document.getElementById('wheel-result').innerText = "Prêt à tourner ?";
+            (document.getElementById('wheel-result') || {}).innerText = "Prêt à tourner ?";
             const el_btn_spin = document.getElementById('btn-spin'); if(el_btn_spin) el_btn_spin.style.display = 'inline-block';
         }
         function closeWheel() {
@@ -1207,7 +1207,7 @@
         }
         function executeSpin() {
             const btn = document.getElementById('btn-spin');
-            ((btn && btn.style) ? btn.style : {}).display = 'none';
+            ((btn && (btn || {}).style) ? (btn || {}).style : {}).display = 'none';
             const resultDiv = document.getElementById('wheel-result');
             let count = 0;
             let maxCount = 20 + Math.floor(Math.random() * 10);
@@ -1228,12 +1228,13 @@
         // --- Logique de Jeu ---
         function updateScoreboard() {
             const scoreboard = document.getElementById('scoreboard');
+            if (!scoreboard) return;
             if (players.length === 0) {
-                scoreboard.style.display = 'none';
+                (scoreboard || {}).style.display = 'none';
                 return;
             }
-            scoreboard.style.display = 'flex';
-            scoreboard.innerHTML = players.map(p => `
+            (scoreboard || {}).style.display = 'flex';
+            (scoreboard || {}).innerHTML = players.map(p => `
                 <div class="score-badge">
                     <span>${p.name}</span>
                     <span class="score-value">${p.score} pts</span>
@@ -1243,12 +1244,13 @@
         }
         function renderVoteButtons() {
             const container = document.getElementById('vote-controls');
+            if (!container) return;
             if (players.length === 0) {
-                container.innerHTML = `<button class="btn-action btn-next" onclick="nextPhrase()">Suivant</button>`;
-                ((container && container.style) ? container.style : {}).display = 'flex';
+                (container || {}).innerHTML = `<button class="btn-action btn-next" onclick="nextPhrase()">Suivant</button>`;
+                (container || {}).style.display = 'flex';
                 return;
             }
-            ((container && container.style) ? container.style : {}).display = 'grid';
+            (container || {}).style.display = 'grid';
             let html = players.map((p, index) => `
                 <button class="btn-vote" onclick="votePlayer(${index})">
                     <span>+1 Point pour ${p.name}</span>
@@ -1256,7 +1258,7 @@
                 </button>
             `).join('');
             html += `<button class="btn-vote btn-skip" onclick="nextPhrase()">Passer la manche</button>`;
-            container.innerHTML = html;
+            (container || {}).innerHTML = html;
         }
         function votePlayer(index) {
             triggerVibe(30);
@@ -1274,7 +1276,7 @@
                 const keys = Object.keys(phrases['soft']);
                 activeGame = keys[Math.floor(Math.random() * keys.length)];
                 activeTheme = Math.random() > 0.5 ? 'soft' : 'hard';
-                document.getElementById('game-title').innerText = `Chaos : ${gameTitles[activeGame]} ${activeTheme === 'hard' ? 'à°Å¸Å’Â¶ïÂ¸Â' : ''}`;
+                (document.getElementById('game-title') || {}).innerText = `Chaos : ${gameTitles[activeGame]} ${activeTheme === 'hard' ? 'à°Å¸Å’Â¶ïÂ¸Â' : ''}`;
             }
             if (!phrases[activeTheme] || !phrases[activeTheme][activeGame]) {
                 console.error("Missing phrases for", {activeTheme, activeGame, phrases});
@@ -1295,10 +1297,10 @@
             // Timer display logic
             if (activeGame === 'boire_7sec') {
                 const el_timer_container = document.getElementById('timer-container'); if(el_timer_container) el_timer_container.style.display = 'flex';
-                document.getElementById('timer-display').innerText = '7';
-                document.getElementById('timer-display').classList.remove('timer-flash');
+                (document.getElementById('timer-display') || {}).innerText = '7';
+                (document.getElementById('timer-display') || {}).classList.remove('timer-flash');
                 const el_btn_timer_start = document.getElementById('btn-timer-start'); if(el_btn_timer_start) el_btn_timer_start.style.display = 'block';
-                document.getElementById('btn-timer-start').innerText = 'Lancer le Chrono à¢ÂÂ±ïÂ¸Â';
+                (document.getElementById('btn-timer-start') || {}).innerText = 'Lancer le Chrono à¢ÂÂ±ïÂ¸Â';
                 document.body.classList.remove('timer-flash');
                 clearInterval(timerInterval);
             } else {
@@ -1445,7 +1447,7 @@ async function createRoom() {
     const el_lobby_setup = document.getElementById('lobby-setup'); if(el_lobby_setup) el_lobby_setup.style.display = 'none';
     const el_lobby_controls = document.getElementById('lobby-controls'); if(el_lobby_controls) el_lobby_controls.style.display = 'none';
     const el_room_waiting_area = document.getElementById('room-waiting-area'); if(el_room_waiting_area) el_room_waiting_area.style.display = 'block';
-    document.getElementById('room-code-display').innerText = myRoomId;
+    (document.getElementById('room-code-display') || {}).innerText = myRoomId;
     updateLobbyUI();
     await joinSupabaseChannel(myRoomId);
 }
@@ -1456,7 +1458,7 @@ async function joinRoom() {
         return;
     }
     const pseudo = pseudoInput.value.trim() || 'Anonyme';
-    const input = document.getElementById('room-code-input').value.toUpperCase().trim();
+    const input = (document.getElementById('room-code-input') || {}).value.toUpperCase().trim();
     if (input.length !== 4) {
         shakeInput('room-code-input');
         showToast('Code invalide (4 lettres)', 'warning');
@@ -1467,7 +1469,7 @@ async function joinRoom() {
     const el_lobby_setup = document.getElementById('lobby-setup'); if(el_lobby_setup) el_lobby_setup.style.display = 'none';
     const el_lobby_controls = document.getElementById('lobby-controls'); if(el_lobby_controls) el_lobby_controls.style.display = 'none';
     const el_room_waiting_area = document.getElementById('room-waiting-area'); if(el_room_waiting_area) el_room_waiting_area.style.display = 'block';
-    document.getElementById('room-code-display').innerText = myRoomId;
+    (document.getElementById('room-code-display') || {}).innerText = myRoomId;
     await joinSupabaseChannel(myRoomId);
     if (roomChannel) {
         roomChannel.send({
@@ -1526,18 +1528,18 @@ async function joinSupabaseChannel(roomId) {
             const data = payload.payload;
             const gameTitle = document.getElementById('game-title');
             if (data.currentGame === 'chaos') {
-                gameTitle.innerText = "Jeu Surprise ! à°Å¸Å’ÂªïÂ¸Â";
-                gameTitle.className = 'txt-boire';
+                (gameTitle || {}).innerText = "Jeu Surprise ! à°Å¸Å’ÂªïÂ¸Â";
+                (gameTitle || {}).className = 'txt-boire';
             } else {
-                gameTitle.innerText = gameTitles[data.currentGame] + (data.currentTheme === 'hard' ? ' à°Å¸Å’Â¶ïÂ¸Â' : '');
-                gameTitle.className = 'txt-' + data.currentGame.replace('boire_', 'boire'); 
+                (gameTitle || {}).innerText = gameTitles[data.currentGame] + (data.currentTheme === 'hard' ? ' à°Å¸Å’Â¶ïÂ¸Â' : '');
+                (gameTitle || {}).className = 'txt-' + data.currentGame.replace('boire_', 'boire'); 
             }
             const textElement = document.getElementById('game-text');
             const cardElement = document.getElementById('game-card');
             if (data.currentGame === 'boire_7sec') {
                 const el_timer_container = document.getElementById('timer-container'); if(el_timer_container) el_timer_container.style.display = 'flex';
-                document.getElementById('timer-display').innerText = '7';
-                document.getElementById('timer-display').classList.remove('timer-flash');
+                (document.getElementById('timer-display') || {}).innerText = '7';
+                (document.getElementById('timer-display') || {}).classList.remove('timer-flash');
                 document.body.classList.remove('timer-flash');
             } else {
                 const el_timer_container = document.getElementById('timer-container'); if(el_timer_container) el_timer_container.style.display = 'none';
@@ -1556,16 +1558,16 @@ async function joinSupabaseChannel(roomId) {
         if (!isRoomAdmin) {
             const data = payload.payload;
             const display = document.getElementById('timer-display');
-            display.innerText = data.timeLeft;
+            (display || {}).innerText = data.timeLeft;
             if (data.timeLeft === 0) {
                 document.body.classList.add('timer-flash');
-                display.classList.add('timer-flash');
-                display.innerText = "0 ! BOIS !";
+                (display || {}).classList.add('timer-flash');
+                (display || {}).innerText = "0 ! BOIS !";
                 triggerVibe([200, 100, 200]);
                 playSound('alarm');
             } else {
                 document.body.classList.remove('timer-flash');
-                display.classList.remove('timer-flash');
+                (display || {}).classList.remove('timer-flash');
                 playSound('tick');
             }
         }
@@ -1575,7 +1577,7 @@ async function joinSupabaseChannel(roomId) {
         if (data.drawerId !== myPlayerId) {
             const drawer = roomPlayers.find(p => p.id === data.drawerId);
             const drawerName = drawer ? drawer.name : "Quelqu'un";
-            document.getElementById('current-drawer-name').innerText = drawerName;
+            (document.getElementById('current-drawer-name') || {}).innerText = drawerName;
             switchView(currentViewId, 'guess-view');
         }
     });
@@ -1682,10 +1684,10 @@ function closeUGC() {
 }
 async function submitUGC() {
     triggerVibe(50);
-    const theme = document.getElementById('ugc-theme').value;
-    const game = document.getElementById('ugc-game').value;
-    const text = document.getElementById('ugc-text').value.trim();
-    const author = document.getElementById('ugc-author').value.trim() || 'Anonyme';
+    const theme = (document.getElementById('ugc-theme') || {}).value;
+    const game = (document.getElementById('ugc-game') || {}).value;
+    const text = (document.getElementById('ugc-text') || {}).value.trim();
+    const author = (document.getElementById('ugc-author') || {}).value.trim() || 'Anonyme';
     if(!text) {
         shakeInput('ugc-text');
         showToast("La phrase est vide !", "warning");
@@ -1703,7 +1705,7 @@ async function submitUGC() {
         if (error) throw error;
         playSound('coin');
         showToast("Merci ! Phrase envoyée 🚀", "success");
-        document.getElementById('ugc-text').value = '';
+        (document.getElementById('ugc-text') || {}).value = '';
         closeUGC();
     } catch (e) {
         showToast("Erreur d'envoi. Vérifie ta connexion.", "error");
@@ -1758,7 +1760,7 @@ let isEraserActive = false;
 function setBrushColor(color, el) {
     currentBrushColor = color;
     isEraserActive = false;
-    document.getElementById('btn-eraser').classList.remove('active');
+    (document.getElementById('btn-eraser') || {}).classList.remove('active');
     document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('active'));
     if (el) el.classList.add('active');
     if (drawingContext) {
@@ -1778,13 +1780,13 @@ function toggleEraser() {
     isEraserActive = !isEraserActive;
     const btn = document.getElementById('btn-eraser');
     if (isEraserActive) {
-        btn.classList.add('active');
+        (btn || {}).classList.add('active');
         if (drawingContext) {
             drawingContext.globalCompositeOperation = 'destination-out';
             drawingContext.lineWidth = currentBrushSize * 2; // Gomme un peu plus grosse
         }
     } else {
-        btn.classList.remove('active');
+        (btn || {}).classList.remove('active');
         if (drawingContext) {
             drawingContext.globalCompositeOperation = 'source-over';
             drawingContext.strokeStyle = currentBrushColor;
@@ -1899,7 +1901,7 @@ function startDrawMode() {
         payload: { drawerId: myPlayerId, prompt: word }
     });
     // Local switch for admin
-    document.getElementById('draw-prompt').innerText = "Dessine : " + word;
+    (document.getElementById('draw-prompt') || {}).innerText = "Dessine : " + word;
     switchView(currentViewId, 'draw-view', () => {
         setTimeout(initCanvas, 500);
     });
@@ -1961,13 +1963,13 @@ function loadQuizQuestion() {
     if (gameViewEl) gameViewEl.classList.add('bg-quiz-theme');
     if (voteControls) ((voteControls && voteControls.style) ? voteControls.style : {}).display = 'none';
     if (timerBar) timerBar.style.display = 'block';
-    if (optionsDiv) ((optionsDiv && optionsDiv.style) ? optionsDiv.style : {}).display = 'none';
-    if (inputZone) ((inputZone && inputZone.style) ? inputZone.style : {}).display = 'none';
-    if (validZone) ((validZone && validZone.style) ? validZone.style : {}).display = 'none';
-    if (waitMsg) ((waitMsg && waitMsg.style) ? waitMsg.style : {}).display = 'none';
-    if (spinBtn) ((spinBtn && spinBtn.style) ? spinBtn.style : {}).display = 'none';
+    if (optionsDiv) ((optionsDiv && (optionsDiv || {}).style) ? (optionsDiv || {}).style : {}).display = 'none';
+    if (inputZone) ((inputZone && (inputZone || {}).style) ? (inputZone || {}).style : {}).display = 'none';
+    if (validZone) ((validZone && (validZone || {}).style) ? (validZone || {}).style : {}).display = 'none';
+    if (waitMsg) ((waitMsg && (waitMsg || {}).style) ? (waitMsg || {}).style : {}).display = 'none';
+    if (spinBtn) ((spinBtn && (spinBtn || {}).style) ? (spinBtn || {}).style : {}).display = 'none';
     if (nextBtn) nextBtn.style.display = 'none';
-    if (timerProg) if(timerProg && timerProg.style) timerProg.style.width = '100%';
+    if (timerProg) if(timerProg && (timerProg || {}).style) (timerProg || {}).style.width = '100%';
     const ansInput = document.getElementById('quiz-answer-input');
     if (ansInput) ansInput.value = '';
     if (isRoomAdmin && roomChannel) {
@@ -1978,12 +1980,12 @@ function loadQuizQuestion() {
         });
     }
     if (currentQuizType === 'qcm' && optionsDiv) {
-        ((optionsDiv && optionsDiv.style) ? optionsDiv.style : {}).display = 'flex';
-        optionsDiv.innerHTML = qData.a.map((opt, i) => `
+        ((optionsDiv && (optionsDiv || {}).style) ? (optionsDiv || {}).style : {}).display = 'flex';
+        (optionsDiv || {}).innerHTML = qData.a.map((opt, i) => `
             <button class="btn-vote quiz-option-${i}" style="width: 100%; margin: 0; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);" onclick="checkQcmAnswer(${i})">${opt}</button>
         `).join('');
     } else if (inputZone) {
-        ((inputZone && inputZone.style) ? inputZone.style : {}).display = 'block';
+        ((inputZone && (inputZone || {}).style) ? (inputZone || {}).style : {}).display = 'block';
     }
     switchView(currentViewId, view);
     startQuizTimer();
@@ -1994,7 +1996,7 @@ function startQuizTimer() {
     clearInterval(quizTimerInterval);
     quizTimerInterval = setInterval(() => {
         timeLeft -= 0.1;
-        if (bar && bar.style) bar.style.width = (timeLeft / 15) * 100 + '%';
+        if (bar && (bar || {}).style) (bar || {}).style.width = (timeLeft / 15) * 100 + '%';
         if (timeLeft <= 0) {
             clearInterval(quizTimerInterval);
             handleQuizTimeout();
@@ -2007,7 +2009,7 @@ function handleQuizTimeout() {
             showValidationScreen();
         } else {
             const el_quiz_input_zone = document.getElementById('quiz-input-zone'); if(el_quiz_input_zone) el_quiz_input_zone.style.display = 'none';
-            document.getElementById('quiz-wait-message').innerText = "Temps écoulé ! En attente du verdict...";
+            (document.getElementById('quiz-wait-message') || {}).innerText = "Temps écoulé ! En attente du verdict...";
             const el_quiz_wait_message = document.getElementById('quiz-wait-message'); if(el_quiz_wait_message) el_quiz_wait_message.style.display = 'block';
         }
     } else {
@@ -2049,7 +2051,7 @@ function submitQuizAnswer() {
 }
 function showValidationScreen() {
     const qData = quizQuestions['expert'][currentQuizIndex];
-    document.getElementById('quiz-expected-text').innerText = qData.a;
+    (document.getElementById('quiz-expected-text') || {}).innerText = qData.a;
     const list = document.getElementById('quiz-answers-to-validate');
     list.innerHTML = quizAnswersReceived.length ? quizAnswersReceived.map(ans => `
         <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom:10px;">
